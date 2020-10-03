@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AspNetCore.Firebase.Authentication.Extensions;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,6 +51,8 @@ namespace TreeOfAKind.API
             
             services.AddMemoryCache();
 
+            services.AddFirebaseAuthentication(_configuration["FirebaseAuthentication:Issuer"],_configuration["FirebaseAuthentication:Audience"]);
+
             services.AddSwaggerDocumentation();
 
             services.AddProblemDetails(x =>
@@ -82,6 +85,8 @@ namespace TreeOfAKind.API
         {
             app.UseMiddleware<CorrelationMiddleware>();
 
+            app.UseAuthentication();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -92,6 +97,8 @@ namespace TreeOfAKind.API
             }
 
             app.UseRouting();
+            
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
