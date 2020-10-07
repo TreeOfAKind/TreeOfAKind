@@ -8,6 +8,7 @@ using Autofac.Features.Variance;
 using FluentValidation;
 using MediatR;
 using MediatR.Pipeline;
+using TreeOfAKind.Application.Configuration.Authorisation;
 using TreeOfAKind.Application.Configuration.Validation;
 
 namespace TreeOfAKind.Infrastructure.Processing
@@ -19,17 +20,19 @@ namespace TreeOfAKind.Infrastructure.Processing
             builder.RegisterSource(new ScopedContravariantRegistrationSource(
                 typeof(IRequestHandler<,>),
                 typeof(INotificationHandler<>),
-                typeof(IValidator<>)
+                typeof(IValidator<>),
+                typeof(IAuthorizer<>)
             ));
 
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
             var mediatrOpenTypes = new[]
             {
-            typeof(IRequestHandler<,>),
-            typeof(INotificationHandler<>),
-            typeof(IValidator<>),
-        };
+                typeof(IRequestHandler<,>),
+                typeof(INotificationHandler<>),
+                typeof(IValidator<>),
+                typeof(IAuthorizer<>)
+            };
 
             foreach (var mediatrOpenType in mediatrOpenTypes)
             {
@@ -50,6 +53,8 @@ namespace TreeOfAKind.Infrastructure.Processing
             });
 
             builder.RegisterGeneric(typeof(CommandValidationBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            ValidatorOptions.Global.LanguageManager.Enabled = false;
+            builder.RegisterGeneric(typeof(RequestAuthorizationBehavior<,>)).As(typeof(IPipelineBehavior<,>));
         }
 
         private class ScopedContravariantRegistrationSource : IRegistrationSource

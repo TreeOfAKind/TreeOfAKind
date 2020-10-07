@@ -20,6 +20,7 @@ using TreeOfAKind.Infrastructure;
 using TreeOfAKind.Infrastructure.Caching;
 using Serilog;
 using Serilog.Formatting.Compact;
+using TreeOfAKind.Application.Configuration.Authorisation;
 
 [assembly: UserSecretsId("54e8eb06-aaa1-4fff-9f05-3ced1cb623c2")]
 namespace TreeOfAKind.API
@@ -59,6 +60,7 @@ namespace TreeOfAKind.API
             {
                 x.Map<InvalidCommandException>(ex => new InvalidCommandProblemDetails(ex));
                 x.Map<BusinessRuleValidationException>(ex => new BusinessRuleValidationExceptionProblemDetails(ex));
+                x.Map<UnauthorizedException>(ex => new UnauthorizedProblemDetails(ex));
             });
             
 

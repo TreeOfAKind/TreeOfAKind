@@ -29,14 +29,14 @@ public class CommandValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
         {
             var errorBuilder = new StringBuilder();
 
-            errorBuilder.AppendLine("Invalid command, reason: ");
+            errorBuilder.AppendLine("Reason: ");
 
             foreach (var error in errors)
             {
                 errorBuilder.AppendLine(error.ErrorMessage);
             }
 
-            throw new InvalidCommandException(errorBuilder.ToString(), null);
+            throw new InvalidCommandException("Invalid command", errorBuilder.ToString());
         }
 
         return next();
