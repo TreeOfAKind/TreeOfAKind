@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NodaTime;
 using TreeOfAKind.API.Configuration;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.API.SeedWork;
@@ -21,6 +22,7 @@ using TreeOfAKind.Infrastructure.Caching;
 using Serilog;
 using Serilog.Formatting.Compact;
 using TreeOfAKind.Application.Configuration.Authorization;
+using NodaTime.Serialization.SystemTextJson;
 
 [assembly: UserSecretsId("54e8eb06-aaa1-4fff-9f05-3ced1cb623c2")]
 namespace TreeOfAKind.API

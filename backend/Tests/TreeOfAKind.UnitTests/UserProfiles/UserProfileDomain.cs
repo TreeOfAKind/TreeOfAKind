@@ -7,17 +7,16 @@ using Xunit;
 
 namespace TreeOfAKind.UnitTests.UserProfiles
 {
-    public class CreateUserProfile
+    public class CreateOrUpdateUserProfileDomain
     {
         private readonly IAuthUserIdUniquenessChecker _authUserIdUniquenessChecker;
 
         private string AuthId { get; set; } = "AuthId";
-        private static string Username => "Username";
         private static string FirstName => "Firstname";
         private static string LastName => "Lastname";
         private static DateTime BirthDate => new DateTime(1998, 02, 27);
 
-        public CreateUserProfile()
+        public CreateOrUpdateUserProfileDomain()
         {
             _authUserIdUniquenessChecker = Substitute.For<IAuthUserIdUniquenessChecker>();
         }

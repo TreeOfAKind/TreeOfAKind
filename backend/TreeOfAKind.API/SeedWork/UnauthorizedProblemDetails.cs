@@ -10,7 +10,7 @@ namespace TreeOfAKind.API.SeedWork
             this.Title = exception.Message;
             this.Status = StatusCodes.Status403Forbidden;
             this.Detail = exception.Details;
-            this.Type = "https://somedomain/validation-error";
+            this.Type =  "https://httpstatuses.com/" + this.Status;
         }
     }
 }
