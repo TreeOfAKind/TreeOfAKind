@@ -4,9 +4,7 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - treeofakind-test
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
