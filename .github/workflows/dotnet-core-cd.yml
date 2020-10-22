@@ -5,13 +5,12 @@ name: Build and deploy ASP.Net Core app to Azure Web App - treeofakind-test
 
 on:
   workflow_dispatch:
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
