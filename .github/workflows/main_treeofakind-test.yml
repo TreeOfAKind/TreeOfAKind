@@ -22,9 +22,11 @@ jobs:
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
+      working-directory: ./backend
 
     - name: dotnet publish
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      working-directory: ./backend
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
