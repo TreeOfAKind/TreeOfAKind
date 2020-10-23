@@ -22,17 +22,9 @@ namespace TreeOfAKind.API
 
         [HttpGet]
         [Route("{pingName}")]
-        [Authorize]
-        public async Task<IActionResult> Index([FromRoute]string pingName)
+        public IActionResult Index([FromRoute]string pingName)
         {
-            if (!_webHostEnvironment.IsDevelopment())
-            {
-                return await Task.FromResult(NotFound());
-            }
-
-            await _mediator.Send(new PingCommand(pingName));
-            
-            return await Task.FromResult(Ok());
+            return Ok(pingName ?? "Hello");
         }
     }
 }
