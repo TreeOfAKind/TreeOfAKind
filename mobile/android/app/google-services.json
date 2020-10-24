@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "379436452047",
+    "firebase_url": "https://treeofakind-aa7dd.firebaseio.com",
+    "project_id": "treeofakind-aa7dd",
+    "storage_bucket": "treeofakind-aa7dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379436452047:android:b646b91c2d77cd5bbf8fba",
+        "android_client_info": {
+          "package_name": "com.treeofakind.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379436452047-v619ftm371qsrok8occkk625icmcorcq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.treeofakind.mobile",
+            "certificate_hash": "ab2bbec592b722cbca31fddaa8dc01ebf68af19a"
+          }
+        },
+        {
+          "client_id": "379436452047-vcck4ca11lj4ir21t4ke5ukaepujq30e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7U_ogR4vRnXh46KT7CG_uxtg7D5rNQLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379436452047-vcck4ca11lj4ir21t4ke5ukaepujq30e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
