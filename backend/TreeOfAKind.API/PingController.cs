@@ -68,6 +68,7 @@ namespace TreeOfAKind.API
         /// <response code="200">Returns response object from request or if request doesnt specify one predefined response object</response>
         [HttpPost]
         [Route("pingQuery")]
+        [ProducesResponseType(typeof(PingQueryResponse), StatusCodes.Status200OK)]
         public IActionResult pingQuery([FromBody] PingQueryRequest request)
         {
             if (request.ErrorCode.HasValue)
