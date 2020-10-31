@@ -21,11 +21,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async onSubmit(){
-    let success = await this.authService.register(this.model.email, this.model.password);
-    if (success) {
-      this.router.navigate['/login'];
-    }
+  onSubmit(){
+    this.authService.register(this.model.email, this.model.password);
   }
 
 }

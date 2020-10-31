@@ -1,22 +1,21 @@
-<p>register works!</p>
+<div class="container">
+  <form (ngSubmit)="onSubmit()">
 
-
-<form (ngSubmit)="onSubmit()">
-
-    <div>
-        <label for="email">
-            Email
-        </label>
-        <input id="email" name="email" type="text" [(ngModel)]="model.email">
+    <div class="form-group">
+      <label for="email">
+        Email
+      </label>
+      <input id="email" name="email" class="form-control" type="text" [(ngModel)]="model.email">
     </div>
 
-    <div>
-        <label for="password">
-            Password
-        </label>
-        <input id="password" name="email" type="text" [(ngModel)]="model.password">
+    <div class="form-group">
+      <label for="password">
+        Password
+      </label>
+      <input id="password" name="email" class="form-control" type="password" [(ngModel)]="model.password">
     </div>
 
-    <button [routerLink]="['/login']" class="button" type="submit">Register</button>
+    <button class="btn btn-primary" type="submit">Sign up</button>
 
-</form>
+  </form>
+</div>
