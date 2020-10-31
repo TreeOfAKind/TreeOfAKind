@@ -56,6 +56,11 @@ export class AuthService {
     return user;
   }
 
+  isLoggedIn() {
+    const user = this.getUser();
+    return user != null;
+  }
+
   private setUserData(user) {
     this.user = { email: user.email };
     localStorage.setItem('user', JSON.stringify(this.user));
