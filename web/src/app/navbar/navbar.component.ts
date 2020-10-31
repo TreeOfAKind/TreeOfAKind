@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.email = this.authService.user.email;
+    this.email = this.authService.getUser().email;
   }
 
   toggleNavbar() {

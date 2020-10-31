@@ -1,4 +1,6 @@
+import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  model = {
+    email: '',
+    password: ''
+  }
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+    this.authService.login(this.model.email, this.model.password);
   }
 
 }
