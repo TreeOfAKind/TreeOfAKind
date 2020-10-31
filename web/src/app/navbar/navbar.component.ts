@@ -8,17 +8,28 @@ import { AuthService } from '../authentication/shared/auth.service';
 })
 export class NavbarComponent implements OnInit {
   navbarOpen: boolean = false;
-  public email: string = 'dupa';
 
   constructor(
     private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.email = this.authService.getUser().email;
+
   }
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
+  getUserEmail() {
+    return this.authService.getUser().email;
   }
 }

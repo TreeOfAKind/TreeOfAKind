@@ -42,13 +42,20 @@ export class AuthService {
   async login(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
+        this.setUserData(result.user);
         this.zone.run(() => {
           this.router.navigate(['']);
         });
-        this.setUserData(result.user);
       }).catch((error) => {
         window.alert(error.message)
       })
+  }
+
+  logout() {
+    this.afAuth.signOut().then(() => {
+      localStorage.removeItem('user');
+      this.router.navigate(['login']);
+    })
   }
 
   getUser() {
