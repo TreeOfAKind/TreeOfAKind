@@ -93,10 +93,9 @@ namespace TreeOfAKind.API
         {
             app.UseCors(cfg =>
             {
-                (env.IsProduction() ? cfg.WithOrigins() : cfg.AllowAnyOrigin()) // TODO: Add web domain
+                (env.IsProduction() ? cfg.WithOrigins().AllowCredentials() : cfg.AllowAnyOrigin()) // TODO: Add web domain
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials()
                     .SetPreflightMaxAge(TimeSpan.FromMinutes(60));
             });
 
