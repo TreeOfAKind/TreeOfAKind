@@ -24,14 +24,14 @@ using TreeOfAKind.Application.Configuration.Authorization;
 
 [assembly: UserSecretsId("54e8eb06-aaa1-4fff-9f05-3ced1cb623c2")]
 namespace TreeOfAKind.API
-{  
+{
     public class Startup
     {
-        private readonly IConfiguration _configuration;
-
         private const string TreesConnectionString = "TreesConnectionString";
 
         private static ILogger _logger;
+
+        private readonly IConfiguration _configuration;
 
         public Startup(IWebHostEnvironment env)
         {
@@ -49,10 +49,10 @@ namespace TreeOfAKind.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
+
             services.AddMemoryCache();
 
-            services.AddFirebaseAuthentication(_configuration["FirebaseAuthentication:Issuer"],_configuration["FirebaseAuthentication:Audience"]);
+            services.AddFirebaseAuthentication(_configuration["FirebaseAuthentication:Issuer"], _configuration["FirebaseAuthentication:Audience"]);
 
             services.AddSwaggerDocumentation();
 
@@ -62,7 +62,7 @@ namespace TreeOfAKind.API
                 x.Map<BusinessRuleValidationException>(ex => new BusinessRuleValidationExceptionProblemDetails(ex));
                 x.Map<UnauthorizedException>(ex => new UnauthorizedProblemDetails(ex));
             });
-            
+
 
             services.AddHttpContextAccessor();
             return InitializeAutofac(services);
@@ -91,6 +91,15 @@ namespace TreeOfAKind.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(cfg =>
+            {
+                (env.IsProduction() ? cfg.WithOrigins() : cfg.AllowAnyOrigin()) // TODO: Add web domain
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetPreflightMaxAge(TimeSpan.FromMinutes(60));
+            });
+
             app.UseMiddleware<CorrelationMiddleware>();
 
             app.UseAuthentication();
@@ -105,7 +114,7 @@ namespace TreeOfAKind.API
             }
 
             app.UseRouting();
-            
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
