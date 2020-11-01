@@ -1,5 +1,5 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
@@ -74,8 +74,8 @@ void main() {
         expect(find.text('test@gmail.com'), findsOneWidget);
       });
 
-      testWidgets('name', (tester) async {
-        when(user.name).thenReturn('Joe');
+      testWidgets('display name', (tester) async {
+        when(user.displayName).thenReturn('Joe');
         await tester.pumpWidget(
           BlocProvider.value(
             value: authenticationBloc,

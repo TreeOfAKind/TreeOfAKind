@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:pedantic/pedantic.dart';
 
@@ -44,7 +45,7 @@ class AuthenticationBloc
   AuthenticationState _mapAuthenticationUserChangedToState(
     AuthenticationUserChanged event,
   ) {
-    return event.user != User.empty
+    return event.user != null
         ? AuthenticationState.authenticated(event.user)
         : const AuthenticationState.unauthenticated();
   }

@@ -1,4 +1,5 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
@@ -39,11 +40,11 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Avatar(photo: user.photo),
+            Avatar(photo: user.photoURL),
             const SizedBox(height: 4.0),
             Text(user.email, style: textTheme.headline6),
             const SizedBox(height: 4.0),
-            Text(user.name ?? '', style: textTheme.headline5),
+            Text(user.displayName ?? '', style: textTheme.headline5),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,9 +9,9 @@ import 'package:mockito/mockito.dart';
 const _mockFirebaseUserUid = 'mock-uid';
 const _mockFirebaseUserEmail = 'mock-email';
 
-class MockFirebaseAuth extends Mock implements firebase_auth.FirebaseAuth {}
+class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
-class MockFirebaseUser extends Mock implements firebase_auth.User {
+class MockFirebaseUser extends Mock implements User {
   @override
   String get uid => _mockFirebaseUserUid;
 
@@ -61,15 +61,9 @@ void main() {
 
   const email = 'test@gmail.com';
   const password = 't0ps3cret42';
-  const user = User(
-    id: _mockFirebaseUserUid,
-    email: _mockFirebaseUserEmail,
-    name: null,
-    photo: null,
-  );
 
   group('AuthenticationRepository', () {
-    firebase_auth.FirebaseAuth firebaseAuth;
+    FirebaseAuth firebaseAuth;
     GoogleSignIn googleSignIn;
     AuthenticationRepository authenticationRepository;
 
@@ -243,28 +237,6 @@ void main() {
         expect(
           authenticationRepository.logOut(),
           throwsA(isA<LogOutFailure>()),
-        );
-      });
-    });
-
-    group('user', () {
-      test('emits User.empty when firebase user is null', () async {
-        when(firebaseAuth.authStateChanges()).thenAnswer(
-          (_) => Stream.value(null),
-        );
-        await expectLater(
-          authenticationRepository.user,
-          emitsInOrder(const <User>[User.empty]),
-        );
-      });
-
-      test('emits User when firebase user is not null', () async {
-        when(firebaseAuth.authStateChanges()).thenAnswer(
-          (_) => Stream.value(MockFirebaseUser()),
-        );
-        await expectLater(
-          authenticationRepository.user,
-          emitsInOrder(const <User>[user]),
         );
       });
     });
