@@ -8,12 +8,8 @@ namespace TreeOfAKind.Infrastructure.Domain
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<UsernameUniquenessChecker>()
-                .As<IUsernameUniquenessChecker>()
-                .InstancePerLifetimeScope();
-
             builder.RegisterType<AuthUserIdUniquenessChecker>()
-                .As<IUsernameUniquenessChecker>()
+                .As<IAuthUserIdUniquenessChecker>()
                 .InstancePerLifetimeScope();
         }
     }

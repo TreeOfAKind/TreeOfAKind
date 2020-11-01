@@ -10,7 +10,7 @@ using TreeOfAKind.Infrastructure.Database;
 namespace TreeOfAKind.Infrastructure.Migrations
 {
     [DbContext(typeof(TreesContext))]
-    [Migration("20201020211418_AddUserProfiles")]
+    [Migration("20201101173940_AddUserProfiles")]
     partial class AddUserProfiles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,13 +58,10 @@ namespace TreeOfAKind.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthUserId");
+                    b.HasIndex("AuthUserId")
+                        .IsUnique();
 
                     b.ToTable("UserProfiles");
                 });

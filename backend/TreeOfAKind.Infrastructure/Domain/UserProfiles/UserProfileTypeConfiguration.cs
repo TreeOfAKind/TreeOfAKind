@@ -15,13 +15,11 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 
             builder.HasKey(u => u.Id);
 
-            builder.HasIndex(u => u.AuthUserId);
+            builder.HasIndex(u => u.AuthUserId)
+                .IsUnique();
 
             builder.Property(u => u.AuthUserId)
                 .HasMaxLength(MaxFirebaseAuthIdLength);
-
-            builder.Property(u => u.Username)
-                .HasMaxLength(StringLengths.VeryShort);
 
             builder.Property(u => u.FirstName)
                 .HasMaxLength(StringLengths.VeryShort);

@@ -15,11 +15,6 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
             _dbContext = dbContext;
         }
 
-        public UserProfile? GetByUsername(string username)
-        {
-            return _dbContext.Users.FirstOrDefault(user => user.Username == username);
-        }
-
         public async Task<UserProfile?> GetByIdAsync(UserId id)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);

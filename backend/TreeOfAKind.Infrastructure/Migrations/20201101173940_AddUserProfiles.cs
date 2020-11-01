@@ -13,10 +13,9 @@ namespace TreeOfAKind.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     AuthUserId = table.Column<string>(maxLength: 128, nullable: false),
-                    BirthDate = table.Column<DateTime>(nullable: true),
                     FirstName = table.Column<string>(maxLength: 255, nullable: true),
                     LastName = table.Column<string>(maxLength: 255, nullable: true),
-                    Username = table.Column<string>(maxLength: 255, nullable: true)
+                    BirthDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,7 +25,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_AuthUserId",
                 table: "UserProfiles",
-                column: "AuthUserId");
+                column: "AuthUserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

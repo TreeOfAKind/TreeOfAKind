@@ -56,13 +56,10 @@ namespace TreeOfAKind.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthUserId");
+                    b.HasIndex("AuthUserId")
+                        .IsUnique();
 
                     b.ToTable("UserProfiles");
                 });
