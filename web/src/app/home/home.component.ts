@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HomeService } from './home.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  pingContent: string;
+  pingResult: string;
 
-  constructor() { }
+  constructor(
+    private service: HomeService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  pingClick() {
+    this.service.ping(this.pingContent).subscribe(result => this.pingResult = result);
   }
 
 }

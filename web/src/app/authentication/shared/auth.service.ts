@@ -2,14 +2,14 @@ import { Injectable, NgZone } from '@angular/core';
 import { Router } from  "@angular/router";
 import { AngularFireAuth } from  "@angular/fire/auth";
 import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
+import { User } from 'firebase';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  user = {
-    email: null
-  }
+  user: User;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -18,7 +18,7 @@ export class AuthService {
   ) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.user.email = user.email;
+        this.user = user;
         localStorage.setItem('user', JSON.stringify(this.user));
         JSON.parse(localStorage.getItem('user'));
       } else {
@@ -63,13 +63,17 @@ export class AuthService {
     return user;
   }
 
+  getToken(): Observable<string> {
+    return from(this.user.getIdToken());
+  }
+
   isLoggedIn() {
     const user = this.getUser();
     return user != null;
   }
 
   private setUserData(user) {
-    this.user = { email: user.email };
+    this.user = user;
     localStorage.setItem('user', JSON.stringify(this.user));
   }
 }
