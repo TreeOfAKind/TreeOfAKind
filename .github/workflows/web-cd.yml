@@ -1,0 +1,29 @@
+name: Build and Deploy to Firebase
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Initialize Node
+        uses: actions/setup-node@master
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./web
+      - name: Build
+        run: npm run build
+        working-directory: ./web
+      - name: Deploy
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_PATH: ./web
