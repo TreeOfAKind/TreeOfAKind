@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeOfAKind.Application.Configuration.Data;
 using TreeOfAKind.Domain.SeedWork;
+using TreeOfAKind.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.Domain;
+using TreeOfAKind.Infrastructure.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.SeedWork;
 
 namespace TreeOfAKind.Infrastructure.Database
@@ -17,6 +19,13 @@ namespace TreeOfAKind.Infrastructure.Database
             this._databaseConnectionString = databaseConnectionString;
         }
 
+        private static void RegisterRepositories(ContainerBuilder builder)
+        {
+            builder.RegisterType<UserProfileRepository>()
+                .As<IUserProfileRepository>()
+                .InstancePerLifetimeScope();
+        }
+
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<SqlConnectionFactory>()
@@ -28,6 +37,8 @@ namespace TreeOfAKind.Infrastructure.Database
                 .As<IUnitOfWork>()
                 .InstancePerLifetimeScope();
 
+            RegisterRepositories(builder);
+            
             builder.RegisterType<StronglyTypedIdValueConverterSelector>()
                 .As<IValueConverterSelector>()
                 .InstancePerLifetimeScope();
