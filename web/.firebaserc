@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "treeofakind-aa7dd": {
+      "hosting": {
+        "web": [
+          "treeofakind-aa7dd"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "treeofakind-aa7dd"
+  }
+}
