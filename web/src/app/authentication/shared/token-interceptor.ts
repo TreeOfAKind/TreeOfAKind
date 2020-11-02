@@ -17,7 +17,6 @@ export class TokenInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-
     return this.authService.getToken().pipe(
       take(1),
       switchMap(token => {

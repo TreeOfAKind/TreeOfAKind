@@ -8,7 +8,6 @@ import { HomeService } from './home.service';
 })
 export class HomeComponent implements OnInit {
   pingContent: string;
-  pingResult: string;
 
   constructor(
     private service: HomeService
@@ -18,7 +17,7 @@ export class HomeComponent implements OnInit {
   }
 
   pingClick() {
-    this.service.ping(this.pingContent).subscribe(result => this.pingResult = result);
+    this.service.ping(this.pingContent).subscribe();
   }
 
 }

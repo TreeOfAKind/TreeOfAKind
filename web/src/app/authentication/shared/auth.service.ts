@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from  "@angular/router";
 import { AngularFireAuth } from  "@angular/fire/auth";
-import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 import { User } from 'firebase';
 import { from, Observable } from 'rxjs';
 
@@ -31,7 +30,7 @@ export class AuthService {
 
   async register(email: string, password: string) {
     await this.afAuth.createUserWithEmailAndPassword(email, password)
-      .then(result => {
+      .then(() => {
         this.zone.run(() => this.router.navigate(['/login']));
       })
       .catch(error => {
