@@ -47,7 +47,7 @@ class AuthenticationRepository {
   }) async {
     assert(email != null && password != null);
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      var cred = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
