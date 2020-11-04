@@ -7,9 +7,9 @@ import 'package:tree_of_a_kind/features/cqrs/command_result.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_action.dart';
 
 class CqrsClient {
-  CqrsClient(this._apiUri, this._firebaseAuth)
+  CqrsClient(this._apiUri, {FirebaseAuth firebaseAuth})
       : assert(_apiUri != null),
-        assert(_firebaseAuth != null);
+        _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   final Uri _apiUri;
   final FirebaseAuth _firebaseAuth;
