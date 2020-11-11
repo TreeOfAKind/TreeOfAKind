@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using TreeOfAKind.API.SeedWork;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.Application.Ping;
 
@@ -92,12 +93,24 @@ namespace TreeOfAKind.API
                 SomeDateTime = DateTime.Now,
             });
         }
+        
 
+        /// <summary>
+        /// User must be authenticated. Returns user id from token prefixed with parameter from route.
+        /// </summary>
+        /// <param name="pingName">A</param>
+        /// <response code="200">Returns user id from token prefixed with parameter from route</response>
+        /// <response code="401">User is not authenticated</response>
         [HttpGet]
+        [Authorize]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("{pingName}")]
         public IActionResult Index([FromRoute]string pingName)
         {
-            return Ok(pingName ?? "Hello");
+            var userAuthId = Helpers.GetFirebaseUserAuthId(HttpContext);
+
+            return Ok(pingName + ":" + userAuthId);
         }
     }
 }

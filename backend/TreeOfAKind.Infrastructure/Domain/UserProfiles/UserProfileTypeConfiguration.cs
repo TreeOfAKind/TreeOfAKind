@@ -8,7 +8,6 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 {
     public class UserProfileTypeConfiguration : IEntityTypeConfiguration<UserProfile>
     {
-        private const int MaxFirebaseAuthIdLength = 128;
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
             builder.ToTable("UserProfiles");
@@ -19,13 +18,16 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
                 .IsUnique();
 
             builder.Property(u => u.AuthUserId)
-                .HasMaxLength(MaxFirebaseAuthIdLength);
+                .HasMaxLength(StringLengths.AuthIdLength);
 
             builder.Property(u => u.FirstName)
                 .HasMaxLength(StringLengths.VeryShort);
 
             builder.Property(u => u.LastName)
                 .HasMaxLength(StringLengths.VeryShort);
+
+            builder.Property(u => u.BirthDate)
+                .HasColumnType("date");
         }
     }
 }

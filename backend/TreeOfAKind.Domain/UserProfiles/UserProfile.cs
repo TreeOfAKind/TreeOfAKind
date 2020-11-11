@@ -41,8 +41,8 @@ namespace TreeOfAKind.Domain.UserProfiles
 
         public static UserProfile CreateUserProfile(
             string authUserId,
-            string firstName,
-            string lastName,
+            string? firstName,
+            string? lastName,
             DateTime? birthDate,
             IAuthUserIdUniquenessChecker authUserIdUniquenessChecker)
         {
@@ -50,6 +50,14 @@ namespace TreeOfAKind.Domain.UserProfiles
             CheckRule(new AuthUserIdMustBeUniqueRule(authUserId, authUserIdUniquenessChecker));
 
             return new UserProfile(authUserId, firstName, lastName, birthDate);
+        }
+
+        public void UpdateUserProfile(string? firstName, string? lastName, DateTime? birthDate)
+        {
+            AddDomainEvent(new UserProfileUpdatedEvent(Id));
+            FirstName = firstName;
+            LastName = lastName;
+            BirthDate = birthDate;
         }
     }
 }
