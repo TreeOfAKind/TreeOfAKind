@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Domain.Trees.Rules;
@@ -38,7 +37,7 @@ namespace TreeOfAKind.Domain.Trees
 
         public static Tree CreateNewTree(string name, UserProfile creator)
         {
-            CheckRule(new TreeNameMustNotBeTooLong(name));
+            CheckRule(new TreeNameMustNotBeTooLongRule(name));
 
             return new Tree(name, creator);
         }
@@ -47,6 +46,13 @@ namespace TreeOfAKind.Domain.Trees
         {
             _treeOwners.Add(userProfile); 
             AddDomainEvent(new TreeOwnerAddedEvent(this, userProfile));
+        }
+
+        public void RemoveTreeOwner(UserId id)
+        {
+            _treeOwners.RemoveAll(o => o.Id == id);
+            CheckRule(new TreeMustHaveAtLeasOneOwnerRule(_treeOwners));
+            AddDomainEvent(new TreeOwnerRemovedEvent(this, id));
         }
     }
 }

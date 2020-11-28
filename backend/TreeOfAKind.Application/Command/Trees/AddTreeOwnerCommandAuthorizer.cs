@@ -17,7 +17,7 @@ namespace TreeOfAKind.Application.Command.Trees
 
         public async Task<AuthorizationResult> AuthorizeAsync(TreeOperationCommand instance, CancellationToken cancellation = default)
         {
-            var user = await _userProfileRepository.GetByAuthUserIdAsync(instance.RequesterAuthUserId);
+            var user = await _userProfileRepository.GetByUserAuthIdAsync(instance.RequesterUserAuthId);
 
             return user?.OwnedTrees.Any(t => t.Id == instance.TreeId) == true
                 ? AuthorizationResult.Succeed()

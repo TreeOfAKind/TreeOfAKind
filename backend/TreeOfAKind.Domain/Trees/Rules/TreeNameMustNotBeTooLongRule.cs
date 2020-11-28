@@ -2,12 +2,12 @@
 
 namespace TreeOfAKind.Domain.Trees.Rules
 {
-    public class TreeNameMustNotBeTooLong : IBusinessRule
+    public class TreeNameMustNotBeTooLongRule : IBusinessRule
     {
         private const int NoLongerThan = 200;
         private readonly string _treeName;
 
-        public TreeNameMustNotBeTooLong(string treeName)
+        public TreeNameMustNotBeTooLongRule(string treeName)
         {
             _treeName = treeName;
         }

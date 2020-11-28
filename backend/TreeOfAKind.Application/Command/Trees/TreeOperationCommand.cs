@@ -5,12 +5,12 @@ namespace TreeOfAKind.Application.Command.Trees
 {
     public class TreeOperationCommand : CommandBase
     {
-        public string RequesterAuthUserId { get; }
+        public string RequesterUserAuthId { get; }
         public TreeId TreeId { get; }
 
-        public TreeOperationCommand(string requesterAuthUserId, TreeId treeId)
+        public TreeOperationCommand(string requesterUserAuthId, TreeId treeId)
         {
-            RequesterAuthUserId = requesterAuthUserId;
+            RequesterUserAuthId = requesterUserAuthId;
             TreeId = treeId;
         }
     }

@@ -3,16 +3,16 @@ using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Application.DomainServices
 {
-    public class AuthUserIdUniquenessChecker : IAuthUserIdUniquenessChecker
+    public class UserAuthIdUniquenessChecker : IUserAuthIdUniquenessChecker
     {
         private readonly IUserProfileRepository _userProfileRepository;
 
-        public AuthUserIdUniquenessChecker(IUserProfileRepository userProfileRepository)
+        public UserAuthIdUniquenessChecker(IUserProfileRepository userProfileRepository)
         {
             _userProfileRepository = userProfileRepository;
         }
 
-        public bool IsUnique(string authUserId) =>
-            _userProfileRepository.GetByAuthUserId(authUserId) is null;
+        public bool IsUnique(string userAuthId) =>
+            _userProfileRepository.GetByUserAuthId(userAuthId) is null;
     }
 }

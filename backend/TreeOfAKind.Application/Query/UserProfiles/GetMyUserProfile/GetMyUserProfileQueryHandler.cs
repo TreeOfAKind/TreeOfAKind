@@ -16,7 +16,7 @@ namespace TreeOfAKind.Application.Query.UserProfiles.GetMyUserProfile
 
         public async Task<UserProfileDto> Handle(GetMyUserProfileQuery request, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileRepository.GetByAuthUserIdAsync(request.AuthId);
+            var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.AuthId);
             if (userProfile is null) return null;
             return new UserProfileDto()
             {

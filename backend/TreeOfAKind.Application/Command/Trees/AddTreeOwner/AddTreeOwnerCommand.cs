@@ -8,8 +8,8 @@ namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
     {
         public MailAddress AddedPersonAddress { get; }
         
-        public AddTreeOwnerCommand(TreeId treeId, MailAddress addedPersonAddress, string requesterAuthUserId)
-            : base(requesterAuthUserId, treeId)
+        public AddTreeOwnerCommand(TreeId treeId, MailAddress addedPersonAddress, string requesterUserAuthId)
+            : base(requesterUserAuthId, treeId)
         {
             AddedPersonAddress = addedPersonAddress;
         }

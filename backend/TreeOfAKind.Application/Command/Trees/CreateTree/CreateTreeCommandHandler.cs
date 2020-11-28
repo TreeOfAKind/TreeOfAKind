@@ -12,29 +12,29 @@ namespace TreeOfAKind.Application.Command.Trees.CreateTree
     {
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly ITreeRepository _treeRepository;
-        private readonly IAuthUserIdUniquenessChecker _authUserIdUniquenessChecker;
+        private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateTreeCommandHandler(
             IUserProfileRepository userProfileRepository,
-            IAuthUserIdUniquenessChecker authUserIdUniquenessChecker,
+            IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker,
             IUnitOfWork unitOfWork,
             ITreeRepository treeRepository)
         {
             _userProfileRepository = userProfileRepository;
-            _authUserIdUniquenessChecker = authUserIdUniquenessChecker;
+            _userAuthIdUniquenessChecker = userAuthIdUniquenessChecker;
             _unitOfWork = unitOfWork;
             _treeRepository = treeRepository;
         }
 
         public async Task<TreeId> Handle(CreateTreeCommand request, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileRepository.GetByAuthUserIdAsync(request.AuthUserId);
+            var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.UserAuthId);
 
             if (userProfile is null)
             {
                 userProfile = UserProfile.CreateUserProfile(
-                    request.AuthUserId, null, null, null, _authUserIdUniquenessChecker);
+                    request.UserAuthId, null, null, null, _userAuthIdUniquenessChecker);
 
                 await _userProfileRepository.AddAsync(userProfile, cancellationToken);
             }

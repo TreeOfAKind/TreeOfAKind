@@ -5,7 +5,7 @@ namespace TreeOfAKind.Domain.Trees
 {
     public interface ITreeRepository
     {
-        Task<Tree> GetByIdAsync(TreeId id, CancellationToken cancellationToken = default!);
-        Task AddAsync(Tree id, CancellationToken cancellationToken = default!);
+        Task<Tree?> GetByIdAsync(TreeId id, CancellationToken cancellationToken = default!);
+        Task AddAsync(Tree tree, CancellationToken cancellationToken = default!);
     }
 }

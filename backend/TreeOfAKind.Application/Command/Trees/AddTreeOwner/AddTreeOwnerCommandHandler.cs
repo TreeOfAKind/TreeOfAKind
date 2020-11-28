@@ -14,15 +14,15 @@ namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
         private readonly ITreeRepository _treeRepository;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUserAuthIdProvider _userAuthIdProvider;
-        private readonly IAuthUserIdUniquenessChecker _authUserIdUniquenessChecker;
+        private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
 
         public AddTreeOwnerCommandHandler(ITreeRepository treeRepository, IUserProfileRepository userProfileRepository,
-            IUserAuthIdProvider userAuthIdProvider, IAuthUserIdUniquenessChecker authUserIdUniquenessChecker)
+            IUserAuthIdProvider userAuthIdProvider, IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker)
         {
             _treeRepository = treeRepository;
             _userProfileRepository = userProfileRepository;
             _userAuthIdProvider = userAuthIdProvider;
-            _authUserIdUniquenessChecker = authUserIdUniquenessChecker;
+            _userAuthIdUniquenessChecker = userAuthIdUniquenessChecker;
         }
 
         public async Task<Unit> Handle(AddTreeOwnerCommand request, CancellationToken cancellationToken)
@@ -30,17 +30,17 @@ namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
 
             var authId = await _userAuthIdProvider.GetUserAuthId(request.AddedPersonAddress);
-            var addedUserProfile = await _userProfileRepository.GetByAuthUserIdAsync(authId);
+            var addedUserProfile = await _userProfileRepository.GetByUserAuthIdAsync(authId);
 
             if (addedUserProfile is null)
             {
                 addedUserProfile = UserProfile.CreateUserProfile(
-                    authId, null, null, null, _authUserIdUniquenessChecker);
+                    authId, null, null, null, _userAuthIdUniquenessChecker);
 
                 await _userProfileRepository.AddAsync(addedUserProfile, cancellationToken);
             }
 
-            tree.AddTreeOwner(addedUserProfile);
+            tree!.AddTreeOwner(addedUserProfile);
             
             return Unit.Value;
         }

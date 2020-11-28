@@ -2,6 +2,9 @@
 using System.Configuration;
 using System.Linq;
 using AspNetCore.Firebase.Authentication.Extensions;
+using FirebaseAdmin;
+using FirebaseAdmin.Auth;
+using Google.Apis.Auth.OAuth2;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +63,11 @@ namespace TreeOfAKind.API
 
             services.AddFirebaseAuthentication(_configuration["FirebaseAuthentication:Issuer"], _configuration["FirebaseAuthentication:Audience"]);
 
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(_configuration["Firebase:GoogleCredentialFilePath"])
+            });
+
             services.AddSwaggerDocumentation();
 
             services.AddProblemDetails(x =>
@@ -117,7 +125,7 @@ namespace TreeOfAKind.API
             {
                 app.UseProblemDetails();
             }
-
+            
             app.UseRouting();
 
             app.UseAuthorization();

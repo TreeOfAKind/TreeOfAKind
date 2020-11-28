@@ -15,10 +15,10 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 
             builder.HasKey(u => u.Id);
 
-            builder.HasIndex(u => u.AuthUserId)
+            builder.HasIndex(u => u.UserAuthId)
                 .IsUnique();
 
-            builder.Property(u => u.AuthUserId)
+            builder.Property(u => u.UserAuthId)
                 .HasMaxLength(StringLengths.AuthIdLength);
 
             builder.Property(u => u.FirstName)

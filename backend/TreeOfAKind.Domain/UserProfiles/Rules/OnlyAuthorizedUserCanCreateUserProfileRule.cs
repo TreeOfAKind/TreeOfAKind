@@ -4,14 +4,14 @@ namespace TreeOfAKind.Domain.UserProfiles.Rules
 {
     public class OnlyAuthorizedUserCanCreateUserProfileRule : IBusinessRule
     {
-        private readonly string _authUserId;
-        public OnlyAuthorizedUserCanCreateUserProfileRule(string authUserId)
+        private readonly string _userAuthId;
+        public OnlyAuthorizedUserCanCreateUserProfileRule(string userAuthId)
         {
-            _authUserId = authUserId;
+            _userAuthId = userAuthId;
         }
 
         public bool IsBroken()
-            => _authUserId is null || _authUserId.Length <= 0;
+            => _userAuthId is null || _userAuthId.Length <= 0;
 
         public string Message => "Only authorized user can create user profile";
     }

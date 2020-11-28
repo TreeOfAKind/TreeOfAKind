@@ -14,11 +14,11 @@ namespace TreeOfAKind.Application.Command.Trees.CreateTree
                 .MaximumLength(StringLengths.VeryShort)
                 .WithMessage($"{nameof(CreateTreeCommand.TreeName)} is longer than maximum length {StringLengths.VeryShort}");
 
-            RuleFor(x => x.AuthUserId)
+            RuleFor(x => x.UserAuthId)
                 .NotNull()
                 .NotEmpty()
                 .MaximumLength(StringLengths.AuthIdLength)
-                .WithMessage($"{nameof(CreateTreeCommand.AuthUserId)} is invalid");
+                .WithMessage($"{nameof(CreateTreeCommand.UserAuthId)} is invalid");
         }
     }
 }
