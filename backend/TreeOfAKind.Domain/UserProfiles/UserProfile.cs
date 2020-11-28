@@ -1,20 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using TreeOfAKind.Domain.SeedWork;
+using TreeOfAKind.Domain.Trees;
 
 namespace TreeOfAKind.Domain.UserProfiles
 {
     public class UserProfile : Entity, IAggregateRoot
     {
         public UserId Id { get; private set; }
-
         public string AuthUserId { get; private set; }
         public string? FirstName { get; private set; }
-        
-        public string? LastName { get; private set; }
-
+        public string? LastName { get; private set; } 
         public DateTime? BirthDate { get; private set; }
+        public IReadOnlyCollection<Tree> OwnedTrees =>
+            _ownedTrees.AsReadOnly();
+        
+        private List<Tree> _ownedTrees = new List<Tree>();
 
 
 
