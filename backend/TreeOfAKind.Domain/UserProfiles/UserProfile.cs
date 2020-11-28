@@ -30,7 +30,7 @@ namespace TreeOfAKind.Domain.UserProfiles
 
         private UserProfile(string authUserId, string? firstName, string? lastName,DateTime? birthDate)
         {
-            Id = new UserId(new Guid());
+            Id = new UserId(Guid.NewGuid());
             AuthUserId = authUserId;
             FirstName = firstName;
             LastName = lastName;
