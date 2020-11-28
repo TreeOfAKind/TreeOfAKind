@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Infrastructure.Database;
 
 namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 {
@@ -10,7 +11,7 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
     {
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
-            builder.ToTable("UserProfiles");
+            builder.ToTable("UserProfiles", SchemaNames.Trees);
 
             builder.HasKey(u => u.Id);
 
