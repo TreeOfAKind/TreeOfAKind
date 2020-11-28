@@ -1,6 +1,6 @@
 ﻿using TreeOfAKind.Domain.SeedWork;
 
-namespace TreeOfAKind.Domain.UserProfiles
+namespace TreeOfAKind.Domain.UserProfiles.Rules
 {
     public class OnlyAuthorizedUserCanCreateUserProfileRule : IBusinessRule
     {

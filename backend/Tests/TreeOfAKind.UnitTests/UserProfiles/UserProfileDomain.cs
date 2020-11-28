@@ -3,6 +3,8 @@ using System.Linq;
 using NSubstitute;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Events;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 using Xunit;
 
 namespace TreeOfAKind.UnitTests.UserProfiles

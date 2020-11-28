@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Threading;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees;
+using TreeOfAKind.Domain.UserProfiles.Events;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Domain.UserProfiles
 {
@@ -18,10 +20,7 @@ namespace TreeOfAKind.Domain.UserProfiles
             _ownedTrees.AsReadOnly();
         
         private List<Tree> _ownedTrees = new List<Tree>();
-
-
-
-
+        
         private UserProfile()
         {
             Id = default!;

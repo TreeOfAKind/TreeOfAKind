@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using TreeOfAKind.Application.DomainServices;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Infrastructure.Domain
 {

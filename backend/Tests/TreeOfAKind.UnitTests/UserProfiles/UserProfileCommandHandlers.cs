@@ -5,6 +5,7 @@ using NSubstitute;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 using Xunit;
 
 namespace TreeOfAKind.UnitTests.UserProfiles

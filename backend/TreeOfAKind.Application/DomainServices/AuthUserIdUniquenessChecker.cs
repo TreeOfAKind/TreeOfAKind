@@ -1,4 +1,5 @@
 ﻿using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Application.DomainServices
 {

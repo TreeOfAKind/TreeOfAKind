@@ -29,7 +29,7 @@ namespace TreeOfAKind.Infrastructure.Processing
 
             builder.RegisterGenericDecorator(
                 typeof(UnitOfWorkCommandHandlerWithResultDecorator<,>),
-                typeof(ICommandHandler<,>));
+                typeof(IRequestHandler<,>));
 
             builder.RegisterType<CommandsDispatcher>()
                 .As<ICommandsDispatcher>()

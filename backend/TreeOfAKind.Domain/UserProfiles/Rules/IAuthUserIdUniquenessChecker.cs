@@ -1,4 +1,4 @@
-﻿namespace TreeOfAKind.Domain.UserProfiles
+﻿namespace TreeOfAKind.Domain.UserProfiles.Rules
 {
     public interface IAuthUserIdUniquenessChecker
     {

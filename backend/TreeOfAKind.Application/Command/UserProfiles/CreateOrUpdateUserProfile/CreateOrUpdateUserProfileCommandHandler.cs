@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
 {
