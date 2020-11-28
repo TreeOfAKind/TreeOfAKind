@@ -7,35 +7,12 @@ import 'package:tree_of_a_kind/features/home/home.dart';
 import 'package:tree_of_a_kind/features/login/login.dart';
 import 'package:tree_of_a_kind/resources/theme.dart';
 
-class App extends StatelessWidget {
-  const App({
-    Key key,
-    @required this.authenticationRepository,
-  })  : assert(authenticationRepository != null),
-        super(key: key);
-
-  final AuthenticationRepository authenticationRepository;
-
+class App extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AuthenticationBloc(
-          authenticationRepository: authenticationRepository,
-        ),
-        child: AppView(),
-      ),
-    );
-  }
+  _AppState createState() => _AppState();
 }
 
-class AppView extends StatefulWidget {
-  @override
-  _AppViewState createState() => _AppViewState();
-}
-
-class _AppViewState extends State<AppView> {
+class _AppState extends State<App> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState get _navigator => _navigatorKey.currentState;

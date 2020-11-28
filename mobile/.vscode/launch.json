@@ -8,7 +8,7 @@
             "name": "mobile",
             "request": "launch",
             "type": "dart",
-            "program": "lib/app/main.dart"
+            "program": "lib/main_dev.dart"
         }
     ]
 }

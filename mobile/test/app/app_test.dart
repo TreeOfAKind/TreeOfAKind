@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/app/app.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
@@ -29,28 +30,6 @@ class MockAuthenticationBloc extends MockBloc<AuthenticationState>
 
 void main() {
   group('App', () {
-    AuthenticationRepository authenticationRepository;
-
-    setUp(() {
-      authenticationRepository = MockAuthenticationRepository();
-      when(authenticationRepository.user).thenAnswer(
-        (_) => const Stream.empty(),
-      );
-    });
-
-    test('throws AssertionError when authenticationRepository is null', () {
-      expect(() => App(authenticationRepository: null), throwsAssertionError);
-    });
-
-    testWidgets('renders AppView', (tester) async {
-      await tester.pumpWidget(
-        App(authenticationRepository: authenticationRepository),
-      );
-      expect(find.byType(AppView), findsOneWidget);
-    });
-  });
-
-  group('AppView', () {
     AuthenticationBloc authenticationBloc;
     AuthenticationRepository authenticationRepository;
 
@@ -61,7 +40,7 @@ void main() {
 
     testWidgets('renders SplashPage by default', (tester) async {
       await tester.pumpWidget(
-        BlocProvider.value(value: authenticationBloc, child: AppView()),
+        BlocProvider.value(value: authenticationBloc, child: App()),
       );
       await tester.pumpAndSettle();
       expect(find.byType(SplashPage), findsOneWidget);
@@ -78,7 +57,7 @@ void main() {
           value: authenticationRepository,
           child: BlocProvider.value(
             value: authenticationBloc,
-            child: AppView(),
+            child: App(),
           ),
         ),
       );
@@ -97,7 +76,7 @@ void main() {
           value: authenticationRepository,
           child: BlocProvider.value(
             value: authenticationBloc,
-            child: AppView(),
+            child: App(),
           ),
         ),
       );
