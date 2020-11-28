@@ -40,14 +40,10 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
         working-directory: ./mobile
 
-      - name: Run analyzer
-        run: flutter analyze
-        working-directory: ./mobile
-
       - name: Build
-        run: flutter build appbundle mobile/lib/main_test.dart
+        run: flutter build appbundle lib/main_test.dart
         working-directory: ./mobile
 
-      - name: Run tests
+      - name: Test
         run: flutter test
         working-directory: ./mobile
