@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Infrastructure.Processing.Outbox;
@@ -11,16 +12,16 @@ using Serilog.Events;
 
 namespace TreeOfAKind.Infrastructure.Logging
 {
-    internal class LoggingCommandHandlerWithResultDecorator<T, TResult> : ICommandHandler<T, TResult> where T : ICommand<TResult>
+    internal class LoggingCommandHandlerWithResultDecorator<T, TResult> : IRequestHandler<T, TResult> where T : IRequest<TResult>
     {
         private readonly ILogger _logger;
         private readonly IExecutionContextAccessor _executionContextAccessor;
-        private readonly ICommandHandler<T, TResult> _decorated;
+        private readonly IRequestHandler<T, TResult> _decorated;
 
         public LoggingCommandHandlerWithResultDecorator(
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
-            ICommandHandler<T, TResult> decorated)
+            IRequestHandler<T, TResult> decorated)
         {
             _logger = logger;
             _executionContextAccessor = executionContextAccessor;
@@ -60,15 +61,19 @@ namespace TreeOfAKind.Infrastructure.Logging
 
         private class CommandLogEnricher : ILogEventEnricher
         {
-            private readonly ICommand<TResult> _command;
+            private readonly IRequest<TResult> _command;
 
-            public CommandLogEnricher(ICommand<TResult> command)
+            public CommandLogEnricher(IRequest<TResult> command)
             {
                 _command = command;
             }
             public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
             {
-                logEvent.AddOrUpdateProperty(new LogEventProperty("Context", new ScalarValue($"Command:{_command.Id.ToString()}")));
+                if (_command is ICommand<TResult> command)
+                {
+                    logEvent.AddOrUpdateProperty(new LogEventProperty("Context",
+                        new ScalarValue($"Command:{command.Id.ToString()}")));
+                }
             }
         }
 

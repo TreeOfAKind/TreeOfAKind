@@ -25,7 +25,7 @@ namespace TreeOfAKind.Infrastructure.Processing
 
             builder.RegisterGenericDecorator(
                 typeof(UnitOfWorkCommandHandlerDecorator<>),
-                typeof(ICommandHandler<>));
+                typeof(IRequestHandler<>));
 
             builder.RegisterGenericDecorator(
                 typeof(UnitOfWorkCommandHandlerWithResultDecorator<,>),
@@ -38,14 +38,10 @@ namespace TreeOfAKind.Infrastructure.Processing
             builder.RegisterType<CommandsScheduler>()
                 .As<ICommandsScheduler>()
                 .InstancePerLifetimeScope();
-
-            builder.RegisterGenericDecorator(
-                typeof(LoggingCommandHandlerDecorator<>),
-                typeof(ICommandHandler<>));
-
+            
             builder.RegisterGenericDecorator(
                 typeof(LoggingCommandHandlerWithResultDecorator<,>),
-                typeof(ICommandHandler<,>));
+                typeof(IRequestHandler<,>));
         }
     }
 }
