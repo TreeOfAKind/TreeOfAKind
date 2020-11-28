@@ -1,4 +1,4 @@
-name: Test and Build mobile
+name: Mobile test and build
 
 on:
   push:
@@ -34,15 +34,20 @@ jobs:
 
       - name: Download pub dependencies
         run: flutter pub get
+        working-directory: ./mobile
 
       - name: Run build_runner
         run: flutter pub run build_runner build --delete-conflicting-outputs
+        working-directory: ./mobile
 
       - name: Run analyzer
         run: flutter analyze
+        working-directory: ./mobile
 
       - name: Build
         run: flutter build appbundle mobile/lib/main_test.dart
+        working-directory: ./mobile
 
       - name: Run tests
         run: flutter test
+        working-directory: ./mobile
