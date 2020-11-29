@@ -18,7 +18,6 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
         public async Task<Tree?> GetByIdAsync(TreeId id, CancellationToken cancellationToken = default)
         {
             return await _treesContext.Trees
-                .Include(t => t.People)
                 .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
         }
 

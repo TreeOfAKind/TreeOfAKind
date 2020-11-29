@@ -65,7 +65,7 @@ namespace TreeOfAKind.API
 
             FirebaseApp.Create(new AppOptions()
             {
-                Credential = GoogleCredential.FromFile(_configuration["Firebase:GoogleCredentialFilePath"])
+                Credential = GoogleCredential.FromJson(_configuration["Firebase:GoogleCredentialsJson"])
             });
 
             services.AddSwaggerDocumentation();

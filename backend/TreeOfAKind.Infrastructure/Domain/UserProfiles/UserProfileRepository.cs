@@ -28,7 +28,7 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 
         public async Task<UserProfile?> GetByUserAuthIdAsync(string userAuthId)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(user => user.UserAuthId == userAuthId);
+            return await _dbContext.Users.Include("_ownedTrees").FirstOrDefaultAsync(user => user.UserAuthId == userAuthId);
         }
 
         public async Task AddAsync(UserProfile userProfile, CancellationToken cancellationToken = default)

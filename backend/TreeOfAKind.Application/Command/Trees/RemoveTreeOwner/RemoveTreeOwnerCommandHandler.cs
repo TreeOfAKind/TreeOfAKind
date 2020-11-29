@@ -8,7 +8,7 @@ using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.Command.Trees.RemoveTreeOwner
 {
-    public class RemoveTreeOwnerCommandHandler : ICommandHandler<RemoveTreeOwnerCommand>
+    public class RemoveTreeOwnerCommandHandler : ICommandHandler<RemoveTreeOwnerCommand, Unit>
     {
         
         private readonly ITreeRepository _treeRepository;

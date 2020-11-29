@@ -24,10 +24,6 @@ namespace TreeOfAKind.Infrastructure.Processing
                 typeof(INotificationHandler<>));
 
             builder.RegisterGenericDecorator(
-                typeof(UnitOfWorkCommandHandlerDecorator<>),
-                typeof(IRequestHandler<>));
-
-            builder.RegisterGenericDecorator(
                 typeof(UnitOfWorkCommandHandlerWithResultDecorator<,>),
                 typeof(IRequestHandler<,>));
 

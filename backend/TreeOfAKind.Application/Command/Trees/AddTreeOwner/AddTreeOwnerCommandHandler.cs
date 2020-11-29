@@ -9,7 +9,7 @@ using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
 {
-    public class AddTreeOwnerCommandHandler : ICommandHandler<AddTreeOwnerCommand>
+    public class AddTreeOwnerCommandHandler : ICommandHandler<AddTreeOwnerCommand, Unit>
     {
         private readonly ITreeRepository _treeRepository;
         private readonly IUserProfileRepository _userProfileRepository;

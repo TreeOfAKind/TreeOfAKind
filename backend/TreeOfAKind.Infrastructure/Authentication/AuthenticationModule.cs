@@ -16,7 +16,8 @@ namespace TreeOfAKind.Infrastructure.Authentication
         {
             if (_userAuthIdProvider is {})
             {
-                builder.RegisterInstance(_userAuthIdProvider);
+                builder.RegisterInstance(_userAuthIdProvider)
+                    .As<IUserAuthIdProvider>();
             }
             else
             {
