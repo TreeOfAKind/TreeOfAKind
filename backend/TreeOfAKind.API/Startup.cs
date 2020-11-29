@@ -93,7 +93,7 @@ namespace TreeOfAKind.API
                 executionContextAccessor);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TreesContext context)
         {
             app.UseCors(cfg =>
             {
@@ -123,6 +123,8 @@ namespace TreeOfAKind.API
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.UseSwaggerDocumentation();
+            
+            context.Database.Migrate();
         }
 
         private static ILogger ConfigureLogger()
