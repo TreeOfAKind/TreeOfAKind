@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tree_of_a_kind/app/dependencies_factory.dart';
-import 'package:tree_of_a_kind/app/dependencies_injector.dart';
-import 'package:tree_of_a_kind/contracts/contracts.dart';
 
 import 'app/app.dart';
 import 'app/config.dart';
+import 'app/dependencies_factory.dart';
+import 'app/dependencies_injector.dart';
+import 'contracts/ping/contracts.dart';
 
 Future<void> mainCommon(Config config) async {
   WidgetsFlutterBinding.ensureInitialized();
