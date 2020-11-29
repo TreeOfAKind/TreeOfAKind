@@ -2,9 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeOfAKind.Application.Configuration.Data;
+using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Domain.SeedWork;
+using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.Domain;
+using TreeOfAKind.Infrastructure.Domain.Trees;
 using TreeOfAKind.Infrastructure.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.SeedWork;
 
@@ -23,6 +26,14 @@ namespace TreeOfAKind.Infrastructure.Database
         {
             builder.RegisterType<UserProfileRepository>()
                 .As<IUserProfileRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TreeRepository>()
+                .As<ITreeRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TreeQueryRepository>()
+                .As<ITreeQueryRepository>()
                 .InstancePerLifetimeScope();
         }
 

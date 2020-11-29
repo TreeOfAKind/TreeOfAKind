@@ -22,7 +22,7 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
             CancellationToken cancellationToken = default!)
         {
             var a = await _treesContext.Users
-                .Include(u => u.OwnedTrees)
+                .Include("_ownedTrees")
                 .FirstOrDefaultAsync(u => u.UserAuthId == userAuthId, cancellationToken);
 
             return a.OwnedTrees.ToList();

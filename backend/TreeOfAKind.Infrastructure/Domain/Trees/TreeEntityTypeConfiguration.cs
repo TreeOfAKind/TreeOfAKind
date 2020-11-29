@@ -23,11 +23,20 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
             builder.Property(t => t.Name)
                 .HasMaxLength(StringLengths.VeryShort);
 
-            builder.HasMany<UserProfile>(treeOwners)
+            builder.HasMany(treeOwners)
                 .WithMany(ownedTrees);
 
-            builder.HasMany<Person>(people)
-                .WithOne(p => p.Tree);
+            builder.OwnsMany<Person>(people, b =>
+            {
+                b.ToTable("People", SchemaNames.Trees);
+
+                b.HasKey(p => p.Id);
+
+                b.WithOwner(p => p.Tree);
+            });
+
+            builder.Ignore(t => t.TreeOwners);
+            builder.Ignore(t => t.People);
 
         }
     }

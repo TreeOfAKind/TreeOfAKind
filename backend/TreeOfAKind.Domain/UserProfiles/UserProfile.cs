@@ -17,7 +17,7 @@ namespace TreeOfAKind.Domain.UserProfiles
         public string? LastName { get; private set; } 
         public DateTime? BirthDate { get; private set; }
         public IReadOnlyCollection<Tree> OwnedTrees =>
-            _ownedTrees.AsReadOnly();
+            _ownedTrees;
         
         private List<Tree> _ownedTrees = new List<Tree>();
         

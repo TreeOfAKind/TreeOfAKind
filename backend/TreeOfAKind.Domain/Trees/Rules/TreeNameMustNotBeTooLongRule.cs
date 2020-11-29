@@ -4,8 +4,8 @@ namespace TreeOfAKind.Domain.Trees.Rules
 {
     public class TreeNameMustNotBeTooLongRule : IBusinessRule
     {
-        private const int NoLongerThan = 200;
         private readonly string _treeName;
+        private const int NoLongerThan = 255;
 
         public TreeNameMustNotBeTooLongRule(string treeName)
         {
@@ -13,9 +13,7 @@ namespace TreeOfAKind.Domain.Trees.Rules
         }
 
         public bool IsBroken()
-        {
-            throw new System.NotImplementedException();
-        }
+            => _treeName?.Length > NoLongerThan;
 
         public string Message => $"Tree name must be shorter than {NoLongerThan}";
     }

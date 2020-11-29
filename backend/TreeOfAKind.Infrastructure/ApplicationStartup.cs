@@ -21,6 +21,8 @@ using TreeOfAKind.Infrastructure.Processing.Outbox;
 using TreeOfAKind.Infrastructure.Quartz;
 using TreeOfAKind.Infrastructure.SeedWork;
 using Serilog;
+using TreeOfAKind.Application.Services;
+using TreeOfAKind.Infrastructure.Authentication;
 
 namespace TreeOfAKind.Infrastructure
 {
@@ -34,11 +36,12 @@ namespace TreeOfAKind.Infrastructure
             EmailsSettings emailsSettings,
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
+            IUserAuthIdProvider userAuthIdProvider,
             bool runQuartz = true)
         {
             if (runQuartz)
             {
-                StartQuartz(connectionString, emailsSettings, logger, executionContextAccessor);
+                StartQuartz(connectionString, emailsSettings, logger, executionContextAccessor, userAuthIdProvider);
             }
 
             services.AddSingleton(cacheStore);
@@ -49,7 +52,8 @@ namespace TreeOfAKind.Infrastructure
                 emailSender, 
                 emailsSettings,
                 logger,
-                executionContextAccessor);
+                executionContextAccessor,
+                userAuthIdProvider);
 
             return serviceProvider;
         }
@@ -60,7 +64,8 @@ namespace TreeOfAKind.Infrastructure
             IEmailSender emailSender,
             EmailsSettings emailsSettings,
             ILogger logger,
-            IExecutionContextAccessor executionContextAccessor)
+            IExecutionContextAccessor executionContextAccessor,
+            IUserAuthIdProvider userAuthIdProvider)
         {
             var container = new ContainerBuilder();
 
@@ -70,7 +75,8 @@ namespace TreeOfAKind.Infrastructure
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new DomainModule());
-            
+            container.RegisterModule(new AuthenticationModule(userAuthIdProvider));
+
             if (emailSender != null)
             {
                 container.RegisterModule(new EmailModule(emailSender, emailsSettings));
@@ -99,7 +105,8 @@ namespace TreeOfAKind.Infrastructure
             string connectionString, 
             EmailsSettings emailsSettings,
             ILogger logger,
-            IExecutionContextAccessor executionContextAccessor)
+            IExecutionContextAccessor executionContextAccessor,
+            IUserAuthIdProvider userAuthIdProvider)
         {
             var schedulerFactory = new StdSchedulerFactory();
             var scheduler = schedulerFactory.GetScheduler().GetAwaiter().GetResult();
@@ -112,6 +119,7 @@ namespace TreeOfAKind.Infrastructure
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new EmailModule(emailsSettings));
             container.RegisterModule(new ProcessingModule());
+            container.RegisterModule(new AuthenticationModule(userAuthIdProvider));
 
             container.RegisterInstance(executionContextAccessor);
             container.Register(c =>

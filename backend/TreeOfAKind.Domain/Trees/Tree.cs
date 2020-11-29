@@ -12,9 +12,9 @@ namespace TreeOfAKind.Domain.Trees
         public TreeId Id { get; private set; }
         public string Name { get; private set; }
         public IReadOnlyCollection<UserProfile> TreeOwners =>
-            _treeOwners.AsReadOnly();
+            _treeOwners;
         public IReadOnlyCollection<Person> People =>
-            _people.AsReadOnly();
+            _people;
 
         private readonly List<UserProfile> _treeOwners 
             = new List<UserProfile>();

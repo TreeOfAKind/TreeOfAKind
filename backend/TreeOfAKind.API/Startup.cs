@@ -100,7 +100,8 @@ namespace TreeOfAKind.API
                 null,
                 emailsSettings,
                 _logger,
-                executionContextAccessor);
+                executionContextAccessor,
+                null);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TreesContext context)
