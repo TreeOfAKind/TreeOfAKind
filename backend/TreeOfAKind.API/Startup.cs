@@ -50,6 +50,8 @@ namespace TreeOfAKind.API
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry();
+
             services.AddControllers();
 
             services.AddMemoryCache();
@@ -91,7 +93,7 @@ namespace TreeOfAKind.API
                 executionContextAccessor);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TreesContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(cfg =>
             {
@@ -121,8 +123,6 @@ namespace TreeOfAKind.API
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.UseSwaggerDocumentation();
-            
-            context.Database.Migrate();
         }
 
         private static ILogger ConfigureLogger()
