@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 2;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static List<Widget> _widgetOptions(
     User user,
     TextTheme textTheme,
@@ -59,7 +60,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final user = context.bloc<AuthenticationBloc>().state.user;
+    final user = context.watch<AuthenticationBloc>().state.user;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             key: const Key('homePage_logout_iconButton'),
             icon: const Icon(Icons.exit_to_app),
             onPressed: () => context
-                .bloc<AuthenticationBloc>()
+                .watch<AuthenticationBloc>()
                 .add(AuthenticationLogoutRequested()),
           )
         ],
