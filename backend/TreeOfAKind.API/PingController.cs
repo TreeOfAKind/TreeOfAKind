@@ -107,7 +107,7 @@ namespace TreeOfAKind.API
         [Route("deploymentservice")]
         public IActionResult Index()
         {
-            return Ok(_configuration["deployment:service"]);
+            return Ok(_configuration["TreesConnectionString"]);
         }
     }
 }
