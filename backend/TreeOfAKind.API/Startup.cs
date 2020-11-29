@@ -5,6 +5,7 @@ using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
@@ -21,6 +22,7 @@ using TreeOfAKind.Infrastructure.Caching;
 using Serilog;
 using Serilog.Formatting.Compact;
 using TreeOfAKind.Application.Configuration.Authorization;
+using TreeOfAKind.Infrastructure.Database;
 
 [assembly: UserSecretsId("54e8eb06-aaa1-4fff-9f05-3ced1cb623c2")]
 namespace TreeOfAKind.API
@@ -89,7 +91,7 @@ namespace TreeOfAKind.API
                 executionContextAccessor);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TreesContext context)
         {
             app.UseCors(cfg =>
             {
@@ -119,6 +121,8 @@ namespace TreeOfAKind.API
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.UseSwaggerDocumentation();
+            
+            context.Database.Migrate();
         }
 
         private static ILogger ConfigureLogger()
