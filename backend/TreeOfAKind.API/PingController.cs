@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using TreeOfAKind.API.SeedWork;
 using TreeOfAKind.Application.Configuration.Validation;
@@ -32,11 +33,13 @@ namespace TreeOfAKind.API
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMediator _mediator;
+        private readonly IConfiguration _configuration;
 
-        public PingController(IWebHostEnvironment webHostEnvironment, IMediator mediator)
+        public PingController(IWebHostEnvironment webHostEnvironment, IMediator mediator, IConfiguration configuration)
         {
             this._webHostEnvironment = webHostEnvironment;
             this._mediator = mediator;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -96,21 +99,15 @@ namespace TreeOfAKind.API
         
 
         /// <summary>
-        /// User must be authenticated. Returns user id from token prefixed with parameter from route.
+        /// Returns name of deployment service
         /// </summary>
-        /// <param name="pingName">A</param>
-        /// <response code="200">Returns user id from token prefixed with parameter from route</response>
-        /// <response code="401">User is not authenticated</response>
+        /// <response code="200">Name of deployment service.</response>
         [HttpGet]
-        [Authorize]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [Route("{pingName}")]
-        public IActionResult Index([FromRoute]string pingName)
+        [Route("deploymentservice")]
+        public IActionResult Index()
         {
-            var userAuthId = Helpers.GetFirebaseUserAuthId(HttpContext);
-
-            return Ok(pingName + ":" + userAuthId);
+            return Ok(_configuration["deployment:service"]);
         }
     }
 }
