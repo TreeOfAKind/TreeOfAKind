@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using AspNetCore.Firebase.Authentication.Extensions;
 using Hellang.Middleware.ProblemDetails;
@@ -45,6 +46,7 @@ namespace TreeOfAKind.API
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
                 .AddJsonFile($"hosting.{env.EnvironmentName}.json")
                 .AddUserSecrets<Startup>()
+                .AddEnvironmentVariables()
                 .Build();
         }
 
