@@ -1,0 +1,28 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="firstName">
+        First name
+      </label>
+      <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="model.firstName">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">
+        Last name
+      </label>
+      <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="model.lastName">
+    </div>
+
+    <div class="form-group">
+      <label for="birthDate">
+        Birth date
+      </label>
+      <input id="birthDate" name="birthDate" class="form-control" type="date" [(ngModel)]="model.birthDate">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+  </form>
+</div>
