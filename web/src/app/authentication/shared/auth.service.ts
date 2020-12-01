@@ -20,7 +20,7 @@ export class AuthService {
     await this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
         this.setUserData(result.user);
-        this.zone.run(() => this.router.navigate(['/login']));
+        this.zone.run(() => this.router.navigate(['/user-profile']));
       })
       .catch(error => {
         window.alert(error.message);
