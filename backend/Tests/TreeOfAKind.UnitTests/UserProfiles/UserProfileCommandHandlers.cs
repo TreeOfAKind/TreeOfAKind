@@ -42,7 +42,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         public async Task CreateOrUpdateUserProfile_ProfileDoesntExist_HandlerCreatesProfile()
         {
             _userProfileRepository
-                .GetByUserAuthIdAsync(Arg.Any<string>())
+                .GetByUserAuthIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult<UserProfile>(null));
             
             _unitOfWork
@@ -56,7 +56,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             await _createOrUpdateUserProfileCommandHandler.Handle(CreateCommand(), CancellationToken.None);
 
             await _unitOfWork.Received().CommitAsync(Arg.Any<CancellationToken>());
-            await _userProfileRepository.Received().GetByUserAuthIdAsync(AuthId);
+            await _userProfileRepository.Received().GetByUserAuthIdAsync(AuthId, Arg.Any<CancellationToken>());
             await _userProfileRepository.Received().AddAsync(Arg.Any<UserProfile>());
 
         }
@@ -76,7 +76,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
                 _userAuthIdUniquenessChecker);
 
             _userProfileRepository
-                .GetByUserAuthIdAsync(Arg.Any<string>())
+                .GetByUserAuthIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult<UserProfile>(userProfile));
             
             _unitOfWork
@@ -88,7 +88,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             await _createOrUpdateUserProfileCommandHandler.Handle(CreateCommand(), CancellationToken.None);
 
             await _unitOfWork.Received().CommitAsync(Arg.Any<CancellationToken>());
-            await _userProfileRepository.Received().GetByUserAuthIdAsync(AuthId);
+            await _userProfileRepository.Received().GetByUserAuthIdAsync(AuthId, Arg.Any<CancellationToken>());
             await _userProfileRepository.DidNotReceive().AddAsync(Arg.Any<UserProfile>());
             
             Assert.Equal(FirstName, userProfile.FirstName);

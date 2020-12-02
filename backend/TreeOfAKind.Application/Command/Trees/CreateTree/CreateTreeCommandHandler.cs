@@ -29,7 +29,7 @@ namespace TreeOfAKind.Application.Command.Trees.CreateTree
 
         public async Task<TreeId> Handle(CreateTreeCommand request, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.UserAuthId);
+            var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.UserAuthId, cancellationToken);
 
             if (userProfile is null)
             {
@@ -39,7 +39,7 @@ namespace TreeOfAKind.Application.Command.Trees.CreateTree
                 await _userProfileRepository.AddAsync(userProfile, cancellationToken);
             }
 
-            var createdTree = Tree.CreateNewTree(request.TreeName, userProfile);
+            var createdTree = Tree.CreateNewTree(request.TreeName, userProfile.Id);
 
             await _treeRepository.AddAsync(createdTree, cancellationToken);
 

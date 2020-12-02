@@ -30,7 +30,7 @@ namespace TreeOfAKind.API.UserProfiles
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /UserProfile/CreateUserProfile
+        ///     POST
         ///     {
         ///        "firstName": "Bartosz",
         ///        "lastName": "Chrostowski",

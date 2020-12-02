@@ -2,10 +2,10 @@
 
 namespace TreeOfAKind.Domain.UserProfiles.Rules
 {
-    public class OnlyAuthorizedUserCanCreateUserProfileRule : IBusinessRule
+    public class UserMustBeRegistered : IBusinessRule
     {
         private readonly string _userAuthId;
-        public OnlyAuthorizedUserCanCreateUserProfileRule(string userAuthId)
+        public UserMustBeRegistered(string userAuthId)
         {
             _userAuthId = userAuthId;
         }
@@ -13,6 +13,6 @@ namespace TreeOfAKind.Domain.UserProfiles.Rules
         public bool IsBroken()
             => _userAuthId is null || _userAuthId.Length <= 0;
 
-        public string Message => "Only authorized user can create user profile";
+        public string Message => "Only registered person can have a user profile.";
     }
 }

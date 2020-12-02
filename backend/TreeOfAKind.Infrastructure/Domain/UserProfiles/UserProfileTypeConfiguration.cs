@@ -29,8 +29,6 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 
             builder.Property(u => u.BirthDate)
                 .HasColumnType("date");
-
-            builder.Ignore(u => u.OwnedTrees);
         }
     }
 }

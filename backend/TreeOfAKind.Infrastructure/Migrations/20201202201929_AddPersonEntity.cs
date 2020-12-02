@@ -44,24 +44,17 @@ namespace TreeOfAKind.Infrastructure.Migrations
                 schema: "trees",
                 columns: table => new
                 {
-                    _ownedTreesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    _treeOwnersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TreeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TreeUserProfile", x => new { x._ownedTreesId, x._treeOwnersId });
+                    table.PrimaryKey("PK_TreeUserProfile", x => new { x.TreeId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_TreeUserProfile_Trees__ownedTreesId",
-                        column: x => x._ownedTreesId,
+                        name: "FK_TreeUserProfile_Trees_TreeId",
+                        column: x => x.TreeId,
                         principalSchema: "trees",
                         principalTable: "Trees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TreeUserProfile_UserProfiles__treeOwnersId",
-                        column: x => x._treeOwnersId,
-                        principalSchema: "trees",
-                        principalTable: "UserProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -71,12 +64,6 @@ namespace TreeOfAKind.Infrastructure.Migrations
                 schema: "trees",
                 table: "People",
                 column: "TreeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TreeUserProfile__treeOwnersId",
-                schema: "trees",
-                table: "TreeUserProfile",
-                column: "_treeOwnersId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

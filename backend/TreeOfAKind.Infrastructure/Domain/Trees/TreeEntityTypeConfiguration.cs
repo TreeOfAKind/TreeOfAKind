@@ -11,9 +11,6 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
 {
     public class TreeEntityTypeConfiguration : IEntityTypeConfiguration<Tree>
     {
-        internal const string treeOwners = "_treeOwners";
-        internal const string ownedTrees = "_ownedTrees";
-        internal const string people = "_people";
         public void Configure(EntityTypeBuilder<Tree> builder)
         {
             builder.ToTable("Trees", SchemaNames.Trees);
@@ -23,10 +20,13 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
             builder.Property(t => t.Name)
                 .HasMaxLength(StringLengths.VeryShort);
 
-            builder.HasMany(treeOwners)
-                .WithMany(ownedTrees);
+            builder.OwnsMany(t => t.TreeOwners, b =>
+            {
+                b.ToTable("TreeUserProfile", SchemaNames.Trees);
+                b.HasKey(to => new {to.TreeId, to.UserId});
+            });
 
-            builder.OwnsMany<Person>(people, b =>
+            builder.OwnsMany<Person>(t => t.People, b =>
             {
                 b.ToTable("People", SchemaNames.Trees);
 
@@ -34,10 +34,6 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
 
                 b.WithOwner(p => p.Tree);
             });
-
-            builder.Ignore(t => t.TreeOwners);
-            builder.Ignore(t => t.People);
-
         }
     }
 }

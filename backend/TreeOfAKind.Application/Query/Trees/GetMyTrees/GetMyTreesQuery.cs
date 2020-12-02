@@ -2,7 +2,7 @@
 
 namespace TreeOfAKind.Application.Query.Trees.GetMyTrees
 {
-    public class GetMyTreesQuery : IQuery<TreeListDto>
+    public class GetMyTreesQuery : IQuery<TreesListDto>
     {
         public string UserAuthId { get; }
 

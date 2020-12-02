@@ -24,7 +24,7 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
 
         public async Task<UserId> Handle(CreateOrUpdateUserProfileCommand request, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.UserAuthId);
+            var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.UserAuthId, cancellationToken);
 
             if (userProfile is null)
             {

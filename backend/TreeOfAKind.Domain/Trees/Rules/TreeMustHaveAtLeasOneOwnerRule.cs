@@ -7,9 +7,9 @@ namespace TreeOfAKind.Domain.Trees.Rules
 {
     public class TreeMustHaveAtLeasOneOwnerRule : IBusinessRule
     {
-        public List<UserProfile> TreeOwners { get; }
+        public List<TreeUserProfile> TreeOwners { get; }
 
-        public TreeMustHaveAtLeasOneOwnerRule(List<UserProfile> treeOwners)
+        public TreeMustHaveAtLeasOneOwnerRule(List<TreeUserProfile> treeOwners)
         {
             TreeOwners = treeOwners;
         }

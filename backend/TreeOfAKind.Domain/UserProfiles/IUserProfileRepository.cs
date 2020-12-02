@@ -7,7 +7,7 @@ namespace TreeOfAKind.Domain.UserProfiles
     {
         Task<UserProfile?> GetByIdAsync(UserId id);
         UserProfile? GetByUserAuthId(string userAuthId);
-        Task<UserProfile?> GetByUserAuthIdAsync(string userAuthId);
+        Task<UserProfile?> GetByUserAuthIdAsync(string userAuthId, CancellationToken cancellationToken);
 
         Task AddAsync(UserProfile userProfile, CancellationToken cancellationToken = default!);
 

@@ -5,9 +5,9 @@ namespace TreeOfAKind.Domain.Trees
 {
     public class TreeOwnerRemovedEvent : DomainEventBase
     {
-        private Tree Tree { get; }
+        private TreeId Tree { get; }
         public UserId Id { get; }
-        public TreeOwnerRemovedEvent(Tree tree, UserId id)
+        public TreeOwnerRemovedEvent(TreeId tree, UserId id)
         {
             Tree = tree;
             Id = id;

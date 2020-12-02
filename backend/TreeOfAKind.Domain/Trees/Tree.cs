@@ -11,13 +11,13 @@ namespace TreeOfAKind.Domain.Trees
     {
         public TreeId Id { get; private set; }
         public string Name { get; private set; }
-        public IReadOnlyCollection<UserProfile> TreeOwners =>
+        public IReadOnlyCollection<TreeUserProfile> TreeOwners =>
             _treeOwners;
         public IReadOnlyCollection<Person> People =>
             _people;
 
-        private readonly List<UserProfile> _treeOwners 
-            = new List<UserProfile>();
+        private readonly List<TreeUserProfile> _treeOwners 
+            = new List<TreeUserProfile>();
 
         private readonly List<Person> _people
             = new List<Person>();
@@ -28,31 +28,31 @@ namespace TreeOfAKind.Domain.Trees
 			Id = default!;
 			Name = default!;
         }
-        private Tree(string name, UserProfile creator)
+        private Tree(string name, UserId creator)
         {
             this.Id = new TreeId(Guid.NewGuid());
             this.Name = name;
-            _treeOwners.Add(creator);
+            _treeOwners.Add(new TreeUserProfile(creator, Id));
         }
 
-        public static Tree CreateNewTree(string name, UserProfile creator)
+        public static Tree CreateNewTree(string name, UserId creator)
         {
             CheckRule(new TreeNameMustNotBeTooLongRule(name));
 
             return new Tree(name, creator);
         }
 
-        public void AddTreeOwner(UserProfile userProfile)
+        public void AddTreeOwner(UserId userId)
         {
-            _treeOwners.Add(userProfile); 
-            AddDomainEvent(new TreeOwnerAddedEvent(this, userProfile));
+            _treeOwners.Add(new TreeUserProfile(userId, Id)); 
+            AddDomainEvent(new TreeOwnerAddedEvent(Id, userId));
         }
 
-        public void RemoveTreeOwner(UserId id)
+        public void RemoveTreeOwner(UserId userId)
         {
-            _treeOwners.RemoveAll(o => o.Id == id);
+            _treeOwners.RemoveAll(o => o.UserId == userId);
             CheckRule(new TreeMustHaveAtLeasOneOwnerRule(_treeOwners));
-            AddDomainEvent(new TreeOwnerRemovedEvent(this, id));
+            AddDomainEvent(new TreeOwnerRemovedEvent(Id, userId));
         }
     }
 }

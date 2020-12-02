@@ -106,24 +106,9 @@ namespace TreeOfAKind.Infrastructure.Migrations
                     b.ToTable("OutboxMessages", "app");
                 });
 
-            modelBuilder.Entity("TreeUserProfile", b =>
-                {
-                    b.Property<Guid>("_ownedTreesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("_treeOwnersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("_ownedTreesId", "_treeOwnersId");
-
-                    b.HasIndex("_treeOwnersId");
-
-                    b.ToTable("TreeUserProfile");
-                });
-
             modelBuilder.Entity("TreeOfAKind.Domain.Trees.Tree", b =>
                 {
-                    b.OwnsMany("TreeOfAKind.Domain.Trees.People.Person", "_people", b1 =>
+                    b.OwnsMany("TreeOfAKind.Domain.Trees.People.Person", "People", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uniqueidentifier");
@@ -143,22 +128,25 @@ namespace TreeOfAKind.Infrastructure.Migrations
                             b1.Navigation("Tree");
                         });
 
-                    b.Navigation("_people");
-                });
+                    b.OwnsMany("TreeOfAKind.Domain.Trees.TreeUserProfile", "TreeOwners", b1 =>
+                        {
+                            b1.Property<Guid>("TreeId")
+                                .HasColumnType("uniqueidentifier");
 
-            modelBuilder.Entity("TreeUserProfile", b =>
-                {
-                    b.HasOne("TreeOfAKind.Domain.Trees.Tree", null)
-                        .WithMany()
-                        .HasForeignKey("_ownedTreesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("TreeOfAKind.Domain.UserProfiles.UserProfile", null)
-                        .WithMany()
-                        .HasForeignKey("_treeOwnersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b1.HasKey("TreeId", "UserId");
+
+                            b1.ToTable("TreeUserProfile", "trees");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TreeId");
+                        });
+
+                    b.Navigation("People");
+
+                    b.Navigation("TreeOwners");
                 });
 #pragma warning restore 612, 618
         }

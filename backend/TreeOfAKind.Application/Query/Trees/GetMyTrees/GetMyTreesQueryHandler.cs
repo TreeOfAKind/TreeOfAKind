@@ -5,7 +5,7 @@ using TreeOfAKind.Application.Configuration.Queries;
 
 namespace TreeOfAKind.Application.Query.Trees.GetMyTrees
 {
-    public class GetMyTreesQueryHandler : IQueryHandler<GetMyTreesQuery, TreeListDto>
+    public class GetMyTreesQueryHandler : IQueryHandler<GetMyTreesQuery, TreesListDto>
     {
         private readonly ITreeQueryRepository _treesContext;
 
@@ -14,13 +14,13 @@ namespace TreeOfAKind.Application.Query.Trees.GetMyTrees
             _treesContext = treesContext;
         }
 
-        public async Task<TreeListDto> Handle(GetMyTreesQuery request, CancellationToken cancellationToken)
+        public async Task<TreesListDto> Handle(GetMyTreesQuery request, CancellationToken cancellationToken)
         {
             var trees = await _treesContext.GetUsersTreesByAuthId(request.UserAuthId);
 
             var items = trees.Select(t => new TreeItemDto {Id = t.Id.Value, TreeName = t.Name});
 
-            return new TreeListDto(){Trees = items.ToList()};
+            return new TreesListDto(){Trees = items.ToList()};
         }
     }
 }

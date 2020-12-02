@@ -63,7 +63,8 @@ namespace TreeOfAKind.IntegrationTests
             const string sql = "DELETE FROM app.InternalCommands " +
                                "DELETE FROM app.OutboxMessages " +
                                "DELETE FROM trees.Trees " +
-                               "DELETE FROM trees.UserProfiles ";
+                               "DELETE FROM trees.UserProfiles " +
+                               "DELETE FROM trees.TreeUserProfile";
 
             connection.ExecuteScalar(sql);
         }

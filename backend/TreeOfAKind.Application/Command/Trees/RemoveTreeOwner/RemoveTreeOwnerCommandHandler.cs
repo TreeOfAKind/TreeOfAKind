@@ -10,10 +10,13 @@ namespace TreeOfAKind.Application.Command.Trees.RemoveTreeOwner
 {
     public class RemoveTreeOwnerCommandHandler : ICommandHandler<RemoveTreeOwnerCommand, Unit>
     {
-        
         private readonly ITreeRepository _treeRepository;
-        private readonly IUserProfileRepository _userProfileRepository;
-        
+
+        public RemoveTreeOwnerCommandHandler(ITreeRepository treeRepository)
+        {
+            _treeRepository = treeRepository;
+        }
+
         public async Task<Unit> Handle(RemoveTreeOwnerCommand request, CancellationToken cancellationToken)
         {
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);

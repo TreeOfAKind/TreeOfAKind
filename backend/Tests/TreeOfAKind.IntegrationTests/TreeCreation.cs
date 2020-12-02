@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using TreeOfAKind.Application.Command.Trees.AddTreeOwner;
 using TreeOfAKind.Application.Command.Trees.CreateTree;
+using TreeOfAKind.Application.Command.Trees.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Validation;
@@ -76,8 +77,11 @@ namespace TreeOfAKind.IntegrationTests
                 .GetUserAuthId(Arg.Any<MailAddress>(), Arg.Any<CancellationToken>())
                 .Returns(AuthId + "2");
 
-            await CommandsExecutor.Execute((
-                new AddTreeOwnerCommand(treeId, new MailAddress("example@example.com"), AuthId)));
+            await CommandsExecutor.Execute(
+                new AddTreeOwnerCommand(treeId, new MailAddress("example@example.com"), AuthId));
+            
+            await CommandsExecutor.Execute(
+                new RemoveTreeOwnerCommand(AuthId + "2", treeId, userId));
         }
     }
 }

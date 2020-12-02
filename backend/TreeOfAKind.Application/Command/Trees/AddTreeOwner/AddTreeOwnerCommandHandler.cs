@@ -30,7 +30,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
 
             var authId = await _userAuthIdProvider.GetUserAuthId(request.AddedPersonAddress);
-            var addedUserProfile = await _userProfileRepository.GetByUserAuthIdAsync(authId);
+            var addedUserProfile = await _userProfileRepository.GetByUserAuthIdAsync(authId, cancellationToken);
 
             if (addedUserProfile is null)
             {
@@ -40,7 +40,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
                 await _userProfileRepository.AddAsync(addedUserProfile, cancellationToken);
             }
 
-            tree!.AddTreeOwner(addedUserProfile);
+            tree!.AddTreeOwner(addedUserProfile.Id);
             
             return Unit.Value;
         }

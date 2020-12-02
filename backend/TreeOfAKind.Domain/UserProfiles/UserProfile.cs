@@ -16,10 +16,6 @@ namespace TreeOfAKind.Domain.UserProfiles
         public string? FirstName { get; private set; }
         public string? LastName { get; private set; } 
         public DateTime? BirthDate { get; private set; }
-        public IReadOnlyCollection<Tree> OwnedTrees =>
-            _ownedTrees;
-        
-        private List<Tree> _ownedTrees = new List<Tree>();
         
         private UserProfile()
         {
@@ -48,7 +44,7 @@ namespace TreeOfAKind.Domain.UserProfiles
             DateTime? birthDate,
             IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker)
         {
-            CheckRule(new OnlyAuthorizedUserCanCreateUserProfileRule(userAuthId));
+            CheckRule(new UserMustBeRegistered(userAuthId));
             CheckRule(new UserAuthIdMustBeUniqueRule(userAuthId, userAuthIdUniquenessChecker));
 
             return new UserProfile(userAuthId, firstName, lastName, birthDate);
