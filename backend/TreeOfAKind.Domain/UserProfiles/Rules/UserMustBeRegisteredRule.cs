@@ -2,10 +2,10 @@
 
 namespace TreeOfAKind.Domain.UserProfiles.Rules
 {
-    public class UserMustBeRegistered : IBusinessRule
+    public class UserMustBeRegisteredRule : IBusinessRule
     {
         private readonly string _userAuthId;
-        public UserMustBeRegistered(string userAuthId)
+        public UserMustBeRegisteredRule(string userAuthId)
         {
             _userAuthId = userAuthId;
         }

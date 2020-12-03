@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using TreeOfAKind.Domain.SeedWork;
+using TreeOfAKind.Domain.Trees.Events;
 using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Domain.Trees.Rules;
 using TreeOfAKind.Domain.UserProfiles;
@@ -15,6 +17,8 @@ namespace TreeOfAKind.Domain.Trees
             _treeOwners;
         public IReadOnlyCollection<Person> People =>
             _people;
+        public TreeRelations TreeRelations { get; private set; }
+
 
         private readonly List<TreeUserProfile> _treeOwners 
             = new List<TreeUserProfile>();
@@ -27,12 +31,18 @@ namespace TreeOfAKind.Domain.Trees
         {
 			Id = default!;
 			Name = default!;
+            TreeRelations = default!;
         }
+
         private Tree(string name, UserId creator)
         {
-            this.Id = new TreeId(Guid.NewGuid());
-            this.Name = name;
+            Id = new TreeId(Guid.NewGuid());
+            Name = name;
+            TreeRelations = new TreeRelations(Id);
+
             _treeOwners.Add(new TreeUserProfile(creator, Id));
+            
+            AddDomainEvent(new TreeCreatedEvent(Id));
         }
 
         public static Tree CreateNewTree(string name, UserId creator)
@@ -54,5 +64,43 @@ namespace TreeOfAKind.Domain.Trees
             CheckRule(new TreeMustHaveAtLeasOneOwnerRule(_treeOwners));
             AddDomainEvent(new TreeOwnerRemovedEvent(Id, userId));
         }
+
+        public Person AddPersonToTree(
+            string? name,
+            string? surname,
+            Gender gender,
+            DateTime? birthDate,
+            DateTime? deathDate,
+            string? description,
+            string? biography)
+        {
+            var person = Person.CreateNewPerson(
+                this,
+                name,
+                surname,
+                gender,
+                birthDate,
+                deathDate,
+                description,
+                biography);
+            
+            _people.Add(person);
+
+            return person;
+        }
+
+        public void AddRelation(PersonId from, PersonId to, RelationType relationType)
+        {
+            CheckRule(new TreeMustContainPersonRule(People, from));
+            CheckRule(new TreeMustContainPersonRule(People, to));
+            
+            TreeRelations.AddRelation(from,to,relationType);
+        }
+        
+        public void RemoveRelation(PersonId first, PersonId second)
+        {
+            TreeRelations.RemoveRelation(first, second);
+        }
+        
     }
 }

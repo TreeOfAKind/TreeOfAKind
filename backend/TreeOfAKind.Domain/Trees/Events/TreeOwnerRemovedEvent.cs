@@ -1,7 +1,7 @@
 ﻿using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
 
-namespace TreeOfAKind.Domain.Trees
+namespace TreeOfAKind.Domain.Trees.Events
 {
     public class TreeOwnerRemovedEvent : DomainEventBase
     {
