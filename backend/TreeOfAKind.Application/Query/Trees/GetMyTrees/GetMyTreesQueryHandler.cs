@@ -16,7 +16,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetMyTrees
 
         public async Task<TreesListDto> Handle(GetMyTreesQuery request, CancellationToken cancellationToken)
         {
-            var trees = await _treesContext.GetUsersTreesByAuthId(request.UserAuthId);
+            var trees = await _treesContext.GetUsersTreesByAuthId(request.UserAuthId, cancellationToken);
 
             var items = trees.Select(t => new TreeItemDto {Id = t.Id.Value, TreeName = t.Name});
 

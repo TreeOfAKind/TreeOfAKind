@@ -29,6 +29,7 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
 
             return await _treesContext.Trees
                 .Where(t => t.TreeOwners.Any(o => o.UserId == user.Id))
+                .OrderBy(t => t.Name)
                 .ToListAsync(cancellationToken);
         }
     }
