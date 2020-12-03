@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tree_of_a_kind/app/config.dart';
+import 'package:tree_of_a_kind/contracts/user_profile/user_profile_repository.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_client.dart';
 
 import 'simple_bloc_observer.dart';
@@ -16,6 +17,7 @@ abstract class DependenciesFactory {
   CqrsClient cqrsClient(Uri apiUri, {FirebaseAuth firebaseAuth});
 
   AuthenticationRepository authenticationRepository();
+  UserProfileRepository userProfileRepository(CqrsClient cqrs);
 }
 
 class AppDependenciesFactory extends DependenciesFactory {
@@ -23,6 +25,11 @@ class AppDependenciesFactory extends DependenciesFactory {
   AuthenticationRepository authenticationRepository(
       {FirebaseAuth firebaseAuth}) {
     return AuthenticationRepository(firebaseAuth: firebaseAuth);
+  }
+
+  @override
+  UserProfileRepository userProfileRepository(CqrsClient cqrs) {
+    return UserProfileRepository(cqrs);
   }
 
   @override

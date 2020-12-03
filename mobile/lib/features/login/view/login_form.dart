@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/login/login.dart';
 import 'package:tree_of_a_kind/features/sign_up/sign_up.dart';
 import 'package:formz/formz.dart';
@@ -93,7 +94,7 @@ class _LoginButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
+            ? const LoadingIndicator()
             : RaisedButton(
                 key: const Key('loginForm_continue_raisedButton'),
                 child: const Text('LOGIN'),

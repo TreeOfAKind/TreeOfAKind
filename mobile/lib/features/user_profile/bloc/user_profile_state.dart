@@ -8,15 +8,10 @@ class LoadingState extends UserProfileState {
   const LoadingState();
 }
 
-class UnchangedData extends UserProfileState {
-  UnchangedData(this.userProfile);
+class PresentingData extends UserProfileState {
+  PresentingData(this.hasChanged, this.userProfile);
 
-  final UserProfileDTO userProfile;
-}
-
-class ChangedData extends UserProfileState {
-  ChangedData(this.userProfile);
-
+  final bool hasChanged;
   final UserProfileDTO userProfile;
 }
 

@@ -64,10 +64,12 @@ class CqrsClient {
 
     final token = await _firebaseAuth.currentUser.getIdToken();
 
-    Map<String, String> headers = {'Content-Type': 'application/json'};
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
 
     if (token != null) {
-      headers[HttpHeaders.authorizationHeader] = token;
+      headers[HttpHeaders.authorizationHeader] = "Bearer $token";
     }
 
     return http.post(_apiUri.resolve(cqrsAction.endpointRoute),

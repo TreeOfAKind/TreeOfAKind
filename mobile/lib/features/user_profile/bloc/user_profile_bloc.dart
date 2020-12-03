@@ -12,10 +12,9 @@ part 'user_profile_event.dart';
 part 'user_profile_state.dart';
 
 class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
-  UserProfileBloc({@required this.user, @required this.userProfileRepository})
+  UserProfileBloc({@required this.userProfileRepository})
       : super(LoadingState());
 
-  final User user;
   final UserProfileRepository userProfileRepository;
   UserProfileDTO _userProfile;
 
@@ -26,8 +25,9 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     if (event is FetchUserProfile) {
       yield* _handleFetchUserProfile();
     } else if (event is UserProfileFieldChanged) {
+      yield PresentingData(
+          !_areEqual(_userProfile, event.userProfile), event.userProfile);
       _userProfile = event.userProfile;
-      yield ChangedData(_userProfile);
     } else if (event is SaveButtonClicked) {
       yield* _handleSaveButtonClicked();
     } else {
@@ -42,7 +42,7 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else {
-      yield UnchangedData(_userProfile);
+      yield PresentingData(false, _userProfile);
     }
   }
 
@@ -55,7 +55,14 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else {
-      yield UnchangedData(_userProfile);
+      yield PresentingData(false, _userProfile);
     }
+  }
+
+  bool _areEqual(UserProfileDTO first, UserProfileDTO second) {
+    return first.id == second.id &&
+        first.firstName == second.firstName &&
+        first.lastName == second.lastName &&
+        first.birthDate == second.birthDate;
   }
 }

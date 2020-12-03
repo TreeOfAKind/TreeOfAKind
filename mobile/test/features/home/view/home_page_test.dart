@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
 import 'package:tree_of_a_kind/features/home/home.dart';
-import 'package:tree_of_a_kind/features/home/widgets/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -50,17 +49,17 @@ void main() {
     });
 
     group('renders', () {
-      testWidgets('avatar widget', (tester) async {
-        await tester.pumpWidget(
-          BlocProvider.value(
-            value: authenticationBloc,
-            child: MaterialApp(
-              home: HomePage(),
-            ),
-          ),
-        );
-        expect(find.byType(Avatar), findsOneWidget);
-      });
+      // testWidgets('avatar widget', (tester) async {
+      //   await tester.pumpWidget(
+      //     BlocProvider.value(
+      //       value: authenticationBloc,
+      //       child: MaterialApp(
+      //         home: HomePage(),
+      //       ),
+      //     ),
+      //   );
+      //   expect(find.byType(Avatar), findsOneWidget);
+      // });
 
       testWidgets('email address', (tester) async {
         await tester.pumpWidget(
