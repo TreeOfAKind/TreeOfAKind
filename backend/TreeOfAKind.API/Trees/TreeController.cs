@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Threading.Tasks;
 using Google.Apis.Upload;
 using MediatR;
@@ -18,20 +16,6 @@ using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.API.Trees
 {
-    public class CreateTreeRequest
-    {
-        [Required]
-        public string TreeName { get; set; }
-    }
-    
-    public class AddTreeOwnerRequest
-    {
-        [Required]
-        public Guid TreeId { get; set; } 
-        [Required]
-        public string InvitedUserEmail { get; set; }
-    }
-    
     [Route("api/[controller]/[action]")]
     public class TreeController : Controller
     {
@@ -43,7 +27,7 @@ namespace TreeOfAKind.API.Trees
         }
 
         /// <summary>
-        /// Gets users trees.
+        /// Gets user's trees.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -54,8 +38,8 @@ namespace TreeOfAKind.API.Trees
         ///
         /// Gets trees of authenticated user.
         /// </remarks>
-        /// <returns>List of users trees</returns>
-        /// <response code="201">Returns uuid of created tree</response>
+        /// <returns>List of user's trees</returns>
+        /// <response code="200">List of user's trees</response>
         /// <response code="401">User is not authenticated</response>
         [HttpPost]
         [Authorize]
@@ -131,9 +115,9 @@ namespace TreeOfAKind.API.Trees
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            var result = await _mediator.Send(new AddTreeOwnerCommand(new TreeId(request.TreeId),
+            await _mediator.Send(new AddTreeOwnerCommand(new TreeId(request.TreeId),
                 new MailAddress(request.InvitedUserEmail), authId));
-
+            
             return Ok();
         }
 
@@ -165,18 +149,10 @@ namespace TreeOfAKind.API.Trees
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            var result = await _mediator.Send(new RemoveTreeOwnerCommand(authId, new TreeId(request.TreeId),
+            await _mediator.Send(new RemoveTreeOwnerCommand(authId, new TreeId(request.TreeId),
                 new UserId(request.RemovedUserId)));
 
             return Ok();
         }
-    }
-
-    public class RemoveTreeOwnerRequest
-    {
-        [Required]
-        public Guid TreeId { get; set; } 
-        [Required]
-        public Guid RemovedUserId { get; set; }
     }
 }

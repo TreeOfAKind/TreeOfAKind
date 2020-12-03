@@ -6,6 +6,7 @@ namespace TreeOfAKind.Application.Command.Trees.RemoveTreeOwner
     public class RemoveTreeOwnerCommand : TreeOperationCommand
     {
         public UserId UserToRemoveId { get; }
+
         public RemoveTreeOwnerCommand(string requesterUserAuthId, TreeId treeId, UserId userToRemoveId)
             : base(requesterUserAuthId, treeId)
         {
