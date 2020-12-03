@@ -5,13 +5,14 @@ using NSubstitute;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 using Xunit;
 
 namespace TreeOfAKind.UnitTests.UserProfiles
 {
     public class UserProfileCommandHandlers
     {
-        private readonly IAuthUserIdUniquenessChecker _authUserIdUniquenessChecker;
+        private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly CreateOrUpdateUserProfileCommandHandler _createOrUpdateUserProfileCommandHandler;
@@ -23,12 +24,12 @@ namespace TreeOfAKind.UnitTests.UserProfiles
 
         public UserProfileCommandHandlers()
         {
-            _authUserIdUniquenessChecker = Substitute.For<IAuthUserIdUniquenessChecker>();
+            _userAuthIdUniquenessChecker = Substitute.For<IUserAuthIdUniquenessChecker>();
             _userProfileRepository = Substitute.For<IUserProfileRepository>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
 
             _createOrUpdateUserProfileCommandHandler =
-                new CreateOrUpdateUserProfileCommandHandler(_userProfileRepository, _authUserIdUniquenessChecker,
+                new CreateOrUpdateUserProfileCommandHandler(_userProfileRepository, _userAuthIdUniquenessChecker,
                     _unitOfWork);
         }
 
@@ -41,21 +42,21 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         public async Task CreateOrUpdateUserProfile_ProfileDoesntExist_HandlerCreatesProfile()
         {
             _userProfileRepository
-                .GetByAuthUserIdAsync(Arg.Any<string>())
+                .GetByUserAuthIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult<UserProfile>(null));
             
             _unitOfWork
                 .CommitAsync(Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult(1));
 
-            _authUserIdUniquenessChecker
+            _userAuthIdUniquenessChecker
                 .IsUnique(Arg.Any<string>())
                 .Returns(true);
 
             await _createOrUpdateUserProfileCommandHandler.Handle(CreateCommand(), CancellationToken.None);
 
             await _unitOfWork.Received().CommitAsync(Arg.Any<CancellationToken>());
-            await _userProfileRepository.Received().GetByAuthUserIdAsync(AuthId);
+            await _userProfileRepository.Received().GetByUserAuthIdAsync(AuthId, Arg.Any<CancellationToken>());
             await _userProfileRepository.Received().AddAsync(Arg.Any<UserProfile>());
 
         }
@@ -63,7 +64,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         [Fact]
         public async Task CreateOrUpdateUserProfile_ProfileDoesExist_HandlerUpdates()
         {
-            _authUserIdUniquenessChecker
+            _userAuthIdUniquenessChecker
                 .IsUnique(Arg.Any<string>())
                 .Returns(true);
 
@@ -72,10 +73,10 @@ namespace TreeOfAKind.UnitTests.UserProfiles
                 "pre",
                 "preLastName",
                 null,
-                _authUserIdUniquenessChecker);
+                _userAuthIdUniquenessChecker);
 
             _userProfileRepository
-                .GetByAuthUserIdAsync(Arg.Any<string>())
+                .GetByUserAuthIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult<UserProfile>(userProfile));
             
             _unitOfWork
@@ -87,7 +88,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             await _createOrUpdateUserProfileCommandHandler.Handle(CreateCommand(), CancellationToken.None);
 
             await _unitOfWork.Received().CommitAsync(Arg.Any<CancellationToken>());
-            await _userProfileRepository.Received().GetByAuthUserIdAsync(AuthId);
+            await _userProfileRepository.Received().GetByUserAuthIdAsync(AuthId, Arg.Any<CancellationToken>());
             await _userProfileRepository.DidNotReceive().AddAsync(Arg.Any<UserProfile>());
             
             Assert.Equal(FirstName, userProfile.FirstName);

@@ -6,14 +6,14 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
 {
     public class CreateOrUpdateUserProfileCommand : CommandBase<UserId>
     {
-        public string AuthUserId { get; }
+        public string UserAuthId { get; }
         public string? FirstName { get; }
         public string? LastName { get; }
         public DateTime? BirthDate { get; }
 
-        public CreateOrUpdateUserProfileCommand(string authUserId, string? firstName, string? lastName, DateTime? birthDate)
+        public CreateOrUpdateUserProfileCommand(string userAuthId, string? firstName, string? lastName, DateTime? birthDate)
         {
-            AuthUserId = authUserId;
+            UserAuthId = userAuthId;
             FirstName = firstName;
             LastName = lastName;
             BirthDate = birthDate;

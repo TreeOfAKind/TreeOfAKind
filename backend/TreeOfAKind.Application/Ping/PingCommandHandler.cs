@@ -5,7 +5,7 @@ using TreeOfAKind.Application.Configuration.Commands;
 
 namespace TreeOfAKind.Application.Ping
 {
-    public class PingCommandHandler : ICommandHandler<PingCommand>
+    public class PingCommandHandler : ICommandHandler<PingCommand, Unit>
     {
         public async Task<Unit> Handle(PingCommand request, CancellationToken cancellationToken)
         {

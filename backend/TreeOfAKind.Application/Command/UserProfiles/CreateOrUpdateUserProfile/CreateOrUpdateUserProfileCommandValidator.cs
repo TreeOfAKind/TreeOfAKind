@@ -15,9 +15,11 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
                 .MaximumLength(StringLengths.VeryShort)
                 .WithMessage($"LastName is longer than maximum length {StringLengths.VeryShort}");
             
-            RuleFor(x => x.AuthUserId)
+            RuleFor(x => x.UserAuthId)
+                .NotNull()
+                .NotEmpty()
                 .MaximumLength(StringLengths.AuthIdLength)
-                .WithMessage($"AuthUserId is invalid");
+                .WithMessage($"UserAuthId is invalid");
         }
     }
 }

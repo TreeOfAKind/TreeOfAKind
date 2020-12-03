@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using TreeOfAKind.Application.DomainServices;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Infrastructure.Domain
 {
@@ -8,8 +9,8 @@ namespace TreeOfAKind.Infrastructure.Domain
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<AuthUserIdUniquenessChecker>()
-                .As<IAuthUserIdUniquenessChecker>()
+            builder.RegisterType<UserAuthIdUniquenessChecker>()
+                .As<IUserAuthIdUniquenessChecker>()
                 .InstancePerLifetimeScope();
         }
     }

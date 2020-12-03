@@ -24,11 +24,10 @@ namespace TreeOfAKind.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("_name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("Name");
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -39,11 +38,6 @@ namespace TreeOfAKind.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AuthUserId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("date");
@@ -56,9 +50,14 @@ namespace TreeOfAKind.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("UserAuthId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthUserId")
+                    b.HasIndex("UserAuthId")
                         .IsUnique();
 
                     b.ToTable("UserProfiles", "trees");
@@ -105,6 +104,49 @@ namespace TreeOfAKind.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OutboxMessages", "app");
+                });
+
+            modelBuilder.Entity("TreeOfAKind.Domain.Trees.Tree", b =>
+                {
+                    b.OwnsMany("TreeOfAKind.Domain.Trees.People.Person", "People", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("TreeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("TreeId");
+
+                            b1.ToTable("People", "trees");
+
+                            b1.WithOwner("Tree")
+                                .HasForeignKey("TreeId");
+
+                            b1.Navigation("Tree");
+                        });
+
+                    b.OwnsMany("TreeOfAKind.Domain.Trees.TreeUserProfile", "TreeOwners", b1 =>
+                        {
+                            b1.Property<Guid>("TreeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("TreeId", "UserId");
+
+                            b1.ToTable("TreeUserProfile", "trees");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TreeId");
+                        });
+
+                    b.Navigation("People");
+
+                    b.Navigation("TreeOwners");
                 });
 #pragma warning restore 612, 618
         }

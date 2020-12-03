@@ -3,13 +3,15 @@ using System.Linq;
 using NSubstitute;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Events;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 using Xunit;
 
 namespace TreeOfAKind.UnitTests.UserProfiles
 {
     public class CreateOrUpdateUserProfileDomain
     {
-        private readonly IAuthUserIdUniquenessChecker _authUserIdUniquenessChecker;
+        private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
 
         private string AuthId { get; set; } = "AuthId";
         private static string FirstName => "Firstname";
@@ -18,12 +20,12 @@ namespace TreeOfAKind.UnitTests.UserProfiles
 
         public CreateOrUpdateUserProfileDomain()
         {
-            _authUserIdUniquenessChecker = Substitute.For<IAuthUserIdUniquenessChecker>();
+            _userAuthIdUniquenessChecker = Substitute.For<IUserAuthIdUniquenessChecker>();
         }
 
         private UserProfile CreateValidUserProfile()
         {
-            _authUserIdUniquenessChecker.IsUnique(Arg.Any<string>()).Returns(true);
+            _userAuthIdUniquenessChecker.IsUnique(Arg.Any<string>()).Returns(true);
             return CreateUserProfileFromProperties();
         }
 
@@ -34,7 +36,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
                 FirstName,
                 LastName,
                 BirthDate,
-                _authUserIdUniquenessChecker
+                _userAuthIdUniquenessChecker
                 );
         }
 
@@ -42,7 +44,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         public void CreateUserProfile_ValidData_AuthIdAndUsernameUniquenessChecked()
         {
             var u = CreateValidUserProfile();
-            _authUserIdUniquenessChecker.Received().IsUnique(AuthId);
+            _userAuthIdUniquenessChecker.Received().IsUnique(AuthId);
         }
 
         [Fact]
@@ -50,7 +52,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         {
             var u = CreateValidUserProfile();
                         
-            Assert.Equal(u.AuthUserId, AuthId);
+            Assert.Equal(u.UserAuthId, AuthId);
             Assert.Equal(u.FirstName, FirstName);
             Assert.Equal(u.LastName, u.LastName);
             Assert.Equal(u.BirthDate, BirthDate);
@@ -71,7 +73,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         [Fact]
         public void CreateUserProfile_NonUniqueAuthId_ThrowsBusinessRuleValidationException()
         {
-            _authUserIdUniquenessChecker.IsUnique(Arg.Any<string>()).Returns(false);
+            _userAuthIdUniquenessChecker.IsUnique(Arg.Any<string>()).Returns(false);
             Assert.Throws<BusinessRuleValidationException>(() => _ = this.CreateUserProfileFromProperties());
         }
 

@@ -30,7 +30,7 @@ namespace TreeOfAKind.API.UserProfiles
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /UserProfile/CreateUserProfile
+        ///     POST
         ///     {
         ///        "firstName": "Bartosz",
         ///        "lastName": "Chrostowski",
@@ -52,11 +52,11 @@ namespace TreeOfAKind.API.UserProfiles
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateOrUpdateUserProfile([FromBody] CreateOrUpdateUserProfileRequest request)
         {
-            var authUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userAuthId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var userId = await _mediator.Send(
                 new CreateOrUpdateUserProfileCommand(
-                    authUserId,
+                    userAuthId,
                     request.FirstName,
                     request.LastName,
                     request.BirthDate));

@@ -3,27 +3,28 @@ using System.Threading.Tasks;
 using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
 
 namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
 {
     public class CreateOrUpdateUserProfileCommandHandler : ICommandHandler<CreateOrUpdateUserProfileCommand, UserId>
     {
         private readonly IUserProfileRepository _userProfileRepository;
-        private readonly IAuthUserIdUniquenessChecker _authUserIdUniquenessChecker;
+        private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateOrUpdateUserProfileCommandHandler(IUserProfileRepository userProfileRepository, 
-            IAuthUserIdUniquenessChecker authUserIdUniquenessChecker,
+            IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker,
             IUnitOfWork unitOfWork)
         {
             _userProfileRepository = userProfileRepository;
-            _authUserIdUniquenessChecker = authUserIdUniquenessChecker;
+            _userAuthIdUniquenessChecker = userAuthIdUniquenessChecker;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<UserId> Handle(CreateOrUpdateUserProfileCommand request, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileRepository.GetByAuthUserIdAsync(request.AuthUserId);
+            var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.UserAuthId, cancellationToken);
 
             if (userProfile is null)
             {
@@ -41,11 +42,11 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
         private async Task<UserProfile> CreateNewUserProfile(CreateOrUpdateUserProfileCommand request, CancellationToken cancellationToken)
         {
             var newUserProfile = UserProfile.CreateUserProfile(
-                request.AuthUserId,
+                request.UserAuthId,
                 request.FirstName,
                 request.LastName,
                 request.BirthDate,
-                _authUserIdUniquenessChecker
+                _userAuthIdUniquenessChecker
             );
 
             await _userProfileRepository.AddAsync(newUserProfile, cancellationToken);
