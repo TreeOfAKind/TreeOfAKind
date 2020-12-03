@@ -16,6 +16,23 @@ class UserProfileView extends StatelessWidget {
   final UserProfileDTO userProfile;
   final bool canSave;
 
+  Future<void> _selectDate(BuildContext context, UserProfileBloc bloc) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: userProfile.birthDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.input,
+      helpText: 'Select your birthdate',
+    );
+
+    bloc.add(UserProfileFieldChanged(UserProfileDTO(
+        id: userProfile.id,
+        firstName: userProfile.firstName,
+        lastName: userProfile.lastName,
+        birthDate: picked)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -58,6 +75,15 @@ class UserProfileView extends StatelessWidget {
               helperText: '',
             ),
           ),
+          const SizedBox(height: 8.0),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('birthdate:'),
+            const SizedBox(width: 20.0),
+            RaisedButton(
+                onPressed: () => _selectDate(context, bloc),
+                child:
+                    Text("${userProfile.birthDate.toLocal()}".split(' ')[0])),
+          ]),
           const SizedBox(height: 8.0),
           RaisedButton(
             child: const Text('SAVE'),
