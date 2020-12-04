@@ -43,7 +43,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
                 name: "Gender",
                 schema: "trees",
                 table: "People",
-                type: "nvarchar(max)",
+                type: "nvarchar(128)",
+                maxLength: 128,
                 nullable: false,
                 defaultValue: "");
 
@@ -72,7 +73,7 @@ namespace TreeOfAKind.Infrastructure.Migrations
                 {
                     From = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     To = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RelationType = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RelationType = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     TreeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

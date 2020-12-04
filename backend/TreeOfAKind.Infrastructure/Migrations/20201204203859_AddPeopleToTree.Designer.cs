@@ -10,7 +10,7 @@ using TreeOfAKind.Infrastructure.Database;
 namespace TreeOfAKind.Infrastructure.Migrations
 {
     [DbContext(typeof(TreesContext))]
-    [Migration("20201204184823_AddPeopleToTree")]
+    [Migration("20201204203859_AddPeopleToTree")]
     partial class AddPeopleToTree
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,7 +133,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
 
                             b1.Property<string>("Gender")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
@@ -181,7 +182,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
                                         .HasColumnType("uniqueidentifier");
 
                                     b2.Property<string>("RelationType")
-                                        .HasColumnType("nvarchar(450)");
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
 
                                     b2.Property<Guid>("TreeId")
                                         .HasColumnType("uniqueidentifier");

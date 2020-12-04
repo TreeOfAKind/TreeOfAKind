@@ -131,7 +131,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
 
                             b1.Property<string>("Gender")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
@@ -179,7 +180,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
                                         .HasColumnType("uniqueidentifier");
 
                                     b2.Property<string>("RelationType")
-                                        .HasColumnType("nvarchar(450)");
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
 
                                     b2.Property<Guid>("TreeId")
                                         .HasColumnType("uniqueidentifier");

@@ -53,7 +53,8 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                     .HasColumnType("date");
 
                 b.Property(p => p.Gender)
-                    .HasConversion<string>();
+                    .HasConversion<string>()
+                    .HasMaxLength(StringLengths.VeryShort);
             });
 
             builder.OwnsOne(t => t.TreeRelations, b =>
@@ -68,7 +69,8 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                     b.HasKey(r => new {r.From, r.To, r.RelationType});
 
                     b.Property(r => r.RelationType)
-                        .HasConversion<string>();
+                        .HasConversion<string>()
+                        .HasMaxLength(StringLengths.VeryShort);
                 });
             });
         }
