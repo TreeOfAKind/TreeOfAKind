@@ -12,6 +12,8 @@ class UserProfileView extends StatelessWidget {
       @required this.userProfile,
       @required this.canSave});
 
+  final _formKey = GlobalKey<FormState>();
+
   final User user;
   final UserProfileDTO userProfile;
   final bool canSave;
@@ -35,74 +37,68 @@ class UserProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     // ignore: close_sinks
     final bloc = BlocProvider.of<UserProfileBloc>(context);
 
     return Align(
       alignment: const Alignment(0, -1 / 3),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Avatar(photo: user.photoURL),
-          const SizedBox(height: 4.0),
-          Text(user.email, style: textTheme.headline6),
-          const SizedBox(height: 8.0),
-          TextFormField(
-            initialValue: userProfile.firstName,
-            onChanged: (firstName) => bloc.add(UserProfileFieldChanged(
-                UserProfileDTO(
-                    id: userProfile.id,
-                    firstName: firstName,
-                    lastName: userProfile.lastName,
-                    birthDate: userProfile.birthDate))),
-            decoration: const InputDecoration(
-              labelText: 'firstname',
-              helperText: '',
+      child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            Avatar(photo: user.photoURL),
+            const SizedBox(height: 4.0),
+            Text(user.email, style: theme.textTheme.headline6),
+            const SizedBox(height: 8.0),
+            TextFormField(
+              initialValue: userProfile.firstName,
+              onChanged: (firstName) => bloc.add(UserProfileFieldChanged(
+                  UserProfileDTO(
+                      id: userProfile.id,
+                      firstName: firstName,
+                      lastName: userProfile.lastName,
+                      birthDate: userProfile.birthDate))),
+              decoration: const InputDecoration(
+                labelText: 'firstname',
+              ),
             ),
-          ),
-          const SizedBox(height: 4.0),
-          TextFormField(
-            initialValue: userProfile.lastName,
-            onChanged: (lastName) => bloc.add(UserProfileFieldChanged(
-                UserProfileDTO(
-                    id: userProfile.id,
-                    firstName: userProfile.firstName,
-                    lastName: lastName,
-                    birthDate: userProfile.birthDate))),
-            decoration: const InputDecoration(
-              labelText: 'lastname',
-              helperText: '',
+            const SizedBox(height: 8.0),
+            TextFormField(
+              initialValue: userProfile.lastName,
+              onChanged: (lastName) => bloc.add(UserProfileFieldChanged(
+                  UserProfileDTO(
+                      id: userProfile.id,
+                      firstName: userProfile.firstName,
+                      lastName: lastName,
+                      birthDate: userProfile.birthDate))),
+              decoration: const InputDecoration(
+                labelText: 'lastname',
+              ),
             ),
-          ),
-          const SizedBox(height: 8.0),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('birthdate:'),
-            const SizedBox(width: 20.0),
+            const SizedBox(height: 8.0),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Text(
+                'birthdate:',
+                style: theme.textTheme.bodyText1,
+              ),
+              const SizedBox(width: 20.0),
+              RaisedButton(
+                  onPressed: () => _selectDate(context, bloc),
+                  child:
+                      Text("${userProfile.birthDate.toLocal()}".split(' ')[0])),
+            ]),
+            const SizedBox(height: 8.0),
             RaisedButton(
-                onPressed: () => _selectDate(context, bloc),
-                child:
-                    Text("${userProfile.birthDate.toLocal()}".split(' ')[0])),
-          ]),
-          const SizedBox(height: 8.0),
-          RaisedButton(
-            child: const Text('SAVE'),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
+              child: const Text('SAVE'),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              color: theme.accentColor,
+              disabledColor: theme.disabledColor,
+              onPressed: () =>
+                  canSave ? bloc.add(SaveButtonClicked(userProfile)) : null,
             ),
-            color: const Color(0xFFFFD600),
-            onPressed: () =>
-                canSave ? bloc.add(SaveButtonClicked(userProfile)) : null,
-          ),
-        ],
-      ),
+          ])),
     );
-  }
-}
-
-class UserProfileTextField<T> extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

@@ -31,7 +31,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return BlocBuilder<UserProfileBloc, UserProfileState>(
       builder: (context, state) {
         if (state is LoadingState) {
-          return LoadingIndicator();
+          return Center(child: LoadingIndicator());
         } else if (state is UnknownErrorState) {
           return GenericError();
         } else if (state is PresentingData) {
@@ -40,7 +40,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               userProfile: state.userProfile,
               canSave: state.hasChanged);
         } else {
-          return GenericError();
+          return Container();
         }
       },
     );
