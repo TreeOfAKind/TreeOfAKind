@@ -6,6 +6,7 @@ import 'package:tree_of_a_kind/features/authentication/authentication.dart';
 import 'package:tree_of_a_kind/features/home/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tree_of_a_kind/features/user_profile/view/avatar.dart';
 
 class MockAuthenticationBloc extends MockBloc<AuthenticationState>
     implements AuthenticationBloc {}
@@ -19,6 +20,7 @@ class MockUser extends Mock implements User {
 void main() {
   const logoutButtonKey = Key('homePage_logout_iconButton');
   group('HomePage', () {
+    // ignore: close_sinks
     AuthenticationBloc authenticationBloc;
     User user;
 
