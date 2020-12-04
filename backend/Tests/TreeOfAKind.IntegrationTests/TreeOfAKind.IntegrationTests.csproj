@@ -18,4 +18,10 @@
       <ProjectReference Include="..\..\TreeOfAKind.API\TreeOfAKind.API.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="xunit.runner.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>

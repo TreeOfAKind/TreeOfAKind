@@ -22,7 +22,7 @@ namespace TreeOfAKind.IntegrationTests
     public class TreeCreation : IClassFixture<ApplicationFixture>
     {
         protected const string TreeName = nameof(TreeCreation) + "Moje super drzewko";
-        protected const string AuthId = nameof(TreeCreation);
+        protected string AuthId { get; }
         protected const string Name = "Bartek";
         protected const string Surname = "Chrostowski";
         protected readonly DateTime BirthDate = new DateTime(1998, 02, 27);
@@ -31,6 +31,7 @@ namespace TreeOfAKind.IntegrationTests
         public TreeCreation(ApplicationFixture applicationFixture)
         {
             _applicationFixture = applicationFixture;
+            AuthId = Guid.NewGuid().ToString();
         }
 
         [Fact]
