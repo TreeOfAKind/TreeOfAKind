@@ -26,8 +26,6 @@ class DependenciesInjector extends StatelessWidget {
 
     final authenticationRepository =
         _dependenciesFactory.authenticationRepository();
-    final userProfileRepository =
-        _dependenciesFactory.userProfileRepository(cqrsClient);
 
     return MultiProvider(
         providers: [

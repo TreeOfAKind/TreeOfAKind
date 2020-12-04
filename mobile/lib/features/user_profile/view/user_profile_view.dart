@@ -51,6 +51,7 @@ class UserProfileView extends StatelessWidget {
             Text(user.email, style: theme.textTheme.headline6),
             const SizedBox(height: 8.0),
             TextFormField(
+              key: Key('userProfile_firstname_textFormField'),
               initialValue: userProfile.firstName,
               onChanged: (firstName) => bloc.add(UserProfileFieldChanged(
                   UserProfileDTO(
@@ -64,6 +65,7 @@ class UserProfileView extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             TextFormField(
+              key: Key('userProfile_lastname_textFormField'),
               initialValue: userProfile.lastName,
               onChanged: (lastName) => bloc.add(UserProfileFieldChanged(
                   UserProfileDTO(
@@ -83,12 +85,14 @@ class UserProfileView extends StatelessWidget {
               ),
               const SizedBox(width: 20.0),
               RaisedButton(
+                  key: Key('userProfile_birthdate_raisedButton'),
                   onPressed: () => _selectDate(context, bloc),
                   child:
                       Text("${userProfile.birthDate.toLocal()}".split(' ')[0])),
             ]),
             const SizedBox(height: 8.0),
             RaisedButton(
+              key: Key('userProfile_save_raisedButton'),
               child: const Text('SAVE'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),

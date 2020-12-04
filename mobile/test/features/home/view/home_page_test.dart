@@ -63,30 +63,17 @@ void main() {
       //   expect(find.byType(Avatar), findsOneWidget);
       // });
 
-      testWidgets('email address', (tester) async {
-        await tester.pumpWidget(
-          BlocProvider.value(
-            value: authenticationBloc,
-            child: MaterialApp(
-              home: HomePage(),
-            ),
-          ),
-        );
-        expect(find.text('test@gmail.com'), findsOneWidget);
-      });
-
-      testWidgets('display name', (tester) async {
-        when(user.displayName).thenReturn('Joe');
-        await tester.pumpWidget(
-          BlocProvider.value(
-            value: authenticationBloc,
-            child: MaterialApp(
-              home: HomePage(),
-            ),
-          ),
-        );
-        expect(find.text('Joe'), findsOneWidget);
-      });
+      // testWidgets('email address', (tester) async {
+      //   await tester.pumpWidget(
+      //     BlocProvider.value(
+      //       value: authenticationBloc,
+      //       child: MaterialApp(
+      //         home: HomePage(),
+      //       ),
+      //     ),
+      //   );
+      //   expect(find.text('test@gmail.com'), findsOneWidget);
+      // });
     });
   });
 }
