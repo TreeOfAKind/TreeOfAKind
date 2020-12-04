@@ -93,7 +93,7 @@ namespace TreeOfAKind.API.People
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            var result = await _mediator.Send(
+            await _mediator.Send(
                 new RemovePersonCommand(authId, new TreeId(request.TreeId), new PersonId(request.PersonId)));
 
             return Ok();
@@ -131,7 +131,7 @@ namespace TreeOfAKind.API.People
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            var result = await _mediator.Send(
+            await _mediator.Send(
                 new AddRelationCommand(authId, new TreeId(request.TreeId), new PersonId(request.From),
                     new PersonId(request.To), request.RelationType));
 
@@ -169,7 +169,7 @@ namespace TreeOfAKind.API.People
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            var result = await _mediator.Send(
+            await _mediator.Send(
                 new RemoveRelationCommand(authId, new TreeId(request.TreeId), new PersonId(request.FirstPersonId),
                     new PersonId(request.SecondPersonId)));
 
