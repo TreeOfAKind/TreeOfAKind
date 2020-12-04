@@ -11,8 +11,9 @@ namespace TreeOfAKind.Domain.Trees
         public PersonId To { get; private set; }
         public RelationType RelationType { get; private set; }
 
-        public Relation()
+        private Relation()
         {
+            TreeId = default!;
             From = default!;
             To = default!;
             RelationType = default!;
@@ -20,6 +21,7 @@ namespace TreeOfAKind.Domain.Trees
 
         public Relation(PersonId from, PersonId to, RelationType relationType)
         {
+            TreeId = default!;
             CheckRule(new CannotBeInRelationWithOneselfRule(from,to));
             From = from;
             To = to;
