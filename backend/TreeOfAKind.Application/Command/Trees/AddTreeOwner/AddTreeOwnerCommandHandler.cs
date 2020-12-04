@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using TreeOfAKind.Application.Configuration.Commands;
@@ -29,7 +30,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
         {
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
 
-            var authId = await _userAuthIdProvider.GetUserAuthId(request.AddedPersonAddress);
+            var authId = await _userAuthIdProvider.GetUserAuthId(new MailAddress(request.AddedPersonMailAddress), cancellationToken);
             var addedUserProfile = await _userProfileRepository.GetByUserAuthIdAsync(authId, cancellationToken);
 
             if (addedUserProfile is null)
@@ -41,7 +42,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
             }
 
             tree!.AddTreeOwner(addedUserProfile.Id);
-            
+
             return Unit.Value;
         }
     }

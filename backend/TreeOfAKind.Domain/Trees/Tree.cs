@@ -20,13 +20,13 @@ namespace TreeOfAKind.Domain.Trees
         public TreeRelations TreeRelations { get; private set; }
 
 
-        private readonly List<TreeUserProfile> _treeOwners 
+        private readonly List<TreeUserProfile> _treeOwners
             = new List<TreeUserProfile>();
 
         private readonly List<Person> _people
             = new List<Person>();
 
-        
+
         private Tree()
         {
 			Id = default!;
@@ -38,10 +38,10 @@ namespace TreeOfAKind.Domain.Trees
         {
             Id = new TreeId(Guid.NewGuid());
             Name = name;
-            TreeRelations = new TreeRelations(Id);
+            TreeRelations = new TreeRelations();
 
             _treeOwners.Add(new TreeUserProfile(creator, Id));
-            
+
             AddDomainEvent(new TreeCreatedEvent(Id));
         }
 
@@ -54,7 +54,7 @@ namespace TreeOfAKind.Domain.Trees
 
         public void AddTreeOwner(UserId userId)
         {
-            _treeOwners.Add(new TreeUserProfile(userId, Id)); 
+            _treeOwners.Add(new TreeUserProfile(userId, Id));
             AddDomainEvent(new TreeOwnerAddedEvent(Id, userId));
         }
 
@@ -65,7 +65,7 @@ namespace TreeOfAKind.Domain.Trees
             AddDomainEvent(new TreeOwnerRemovedEvent(Id, userId));
         }
 
-        public Person AddPersonToTree(
+        public Person AddPerson(
             string? name,
             string? surname,
             Gender gender,
@@ -83,7 +83,7 @@ namespace TreeOfAKind.Domain.Trees
                 deathDate,
                 description,
                 biography);
-            
+
             _people.Add(person);
 
             return person;
@@ -93,14 +93,20 @@ namespace TreeOfAKind.Domain.Trees
         {
             CheckRule(new TreeMustContainPersonRule(People, from));
             CheckRule(new TreeMustContainPersonRule(People, to));
-            
+
             TreeRelations.AddRelation(from,to,relationType);
         }
-        
+
         public void RemoveRelation(PersonId first, PersonId second)
         {
             TreeRelations.RemoveRelation(first, second);
         }
-        
+
+        public void RemovePerson(PersonId personId)
+        {
+            TreeRelations.RemoveAllPersonRelations(personId);
+            _people.RemoveAll(p => p.Id == personId);
+        }
+
     }
 }

@@ -5,12 +5,12 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Domain.Trees.Rules
 {
-    public class ThereIsNoPreviousRelationBetweenRule : IBusinessRule
+    public class ThereIsNoExistingRelationBetweenRule : IBusinessRule
     {
         public IReadOnlyCollection<Relation> Relations { get; }
         public PersonId From { get; }
         public PersonId To { get; }
-        public ThereIsNoPreviousRelationBetweenRule(IReadOnlyCollection<Relation> relations, PersonId from, PersonId to)
+        public ThereIsNoExistingRelationBetweenRule(IReadOnlyCollection<Relation> relations, PersonId from, PersonId to)
         {
             Relations = relations;
             From = from;

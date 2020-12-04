@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.0.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.1" />
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="FirebaseAdmin" Version="2.0.0" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Text.Json.Serialization;
 using AspNetCore.Firebase.Authentication.Extensions;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
@@ -57,7 +58,10 @@ namespace TreeOfAKind.API
         {
             services.AddApplicationInsightsTelemetry();
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opts =>
+            {
+                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
             services.AddMemoryCache();
 
@@ -126,7 +130,7 @@ namespace TreeOfAKind.API
             {
                 app.UseProblemDetails();
             }
-            
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -134,7 +138,7 @@ namespace TreeOfAKind.API
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.UseSwaggerDocumentation();
-            
+
             context.Database.Migrate();
         }
 

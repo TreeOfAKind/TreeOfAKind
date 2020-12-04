@@ -18,7 +18,7 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
             builder.HasKey(t => t.Id);
 
             builder.Property(t => t.Name)
-                .HasMaxLength(StringLengths.VeryShort);
+                .HasMaxLength(StringLengths.Short);
 
             builder.OwnsMany(t => t.TreeOwners, b =>
             {
@@ -26,13 +26,50 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                 b.HasKey(to => new {to.TreeId, to.UserId});
             });
 
-            builder.OwnsMany<Person>(t => t.People, b =>
+            builder.OwnsMany(t => t.People, b =>
             {
                 b.ToTable("People", SchemaNames.Trees);
 
                 b.HasKey(p => p.Id);
 
                 b.WithOwner(p => p.Tree);
+
+                b.Property(p => p.Name)
+                    .HasMaxLength(StringLengths.VeryShort);
+
+                b.Property(p => p.Surname)
+                    .HasMaxLength(StringLengths.VeryShort);
+
+                b.Property(p => p.Description)
+                    .HasMaxLength(StringLengths.Short);
+
+                b.Property(p => p.Biography)
+                    .HasMaxLength(StringLengths.VeryLong);
+
+                b.Property(p => p.BirthDate)
+                    .HasColumnType("date");
+
+                b.Property(p => p.DeathDate)
+                    .HasColumnType("date");
+
+                b.Property(p => p.Gender)
+                    .HasConversion<string>();
+            });
+
+            builder.OwnsOne(t => t.TreeRelations, b =>
+            {
+                b.OwnsMany(r => r.Relations, b =>
+                {
+                    b.ToTable("TreeRelations", SchemaNames.Trees);
+
+                    b.WithOwner()
+                        .HasForeignKey(r => r.TreeId);
+
+                    b.HasKey(r => new {r.From, r.To, r.RelationType});
+
+                    b.Property(r => r.RelationType)
+                        .HasConversion<string>();
+                });
             });
         }
     }

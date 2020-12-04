@@ -21,7 +21,7 @@ namespace TreeOfAKind.UnitTests.Trees
 
         public TreeRelationsDomain()
         {
-            TreeRelations = new TreeRelations(null!);
+            TreeRelations = new TreeRelations();
         }
 
         [Theory]
@@ -33,46 +33,46 @@ namespace TreeOfAKind.UnitTests.Trees
         {
             TreeRelations.AddRelation(PersonId1,PersonId2, first);
             TreeRelations.AddRelation(PersonId2,PersonId3, second);
-            
+
             Assert.Throws<BusinessRuleValidationException>(() =>
                 TreeRelations.AddRelation(PersonId3,PersonId1, third));
         }
-        
+
         [Fact]
         public void AddRelation_AddCycleOfTwo_ThrowsException()
         {
             TreeRelations.AddRelation(PersonId1,PersonId2, RelationType.Mother);
-            
+
             Assert.Throws<BusinessRuleValidationException>(() =>
                 TreeRelations.AddRelation(PersonId2,PersonId1, RelationType.Father));
         }
-        
+
         [Fact]
         public void AddRelation_ValidData_AddsRelations()
         {
             TreeRelations.AddRelation(PersonId1,PersonId2, RelationType.Father);
             TreeRelations.AddRelation(PersonId2,PersonId3, RelationType.Father);
             TreeRelations.AddRelation(PersonId3,PersonId1, RelationType.Spouse);
-            
+
             Assert.Contains(new Relation(PersonId3, PersonId1, RelationType.Spouse), TreeRelations.Relations);
             Assert.Contains(new Relation(PersonId1, PersonId3, RelationType.Spouse), TreeRelations.Relations);
             Assert.Equal(4, TreeRelations.Relations.Count);
         }
-        
+
         [Fact]
         public void AddRelation_RelationToOneself_ThrowsException()
         {
             Assert.Throws<BusinessRuleValidationException>(() =>
                 TreeRelations.AddRelation(PersonId1, PersonId1, RelationType.Father));
         }
-        
+
         [Fact]
         public void RemoveRelation_ValidData_RemovesSymmetric()
         {
             TreeRelations.AddRelation(PersonId1,PersonId2, RelationType.Father);
             TreeRelations.AddRelation(PersonId2,PersonId3, RelationType.Father);
             TreeRelations.AddRelation(PersonId3,PersonId1, RelationType.Spouse);
-            
+
             TreeRelations.RemoveRelation(PersonId1, PersonId3);
             Assert.DoesNotContain(new Relation(PersonId3, PersonId1, RelationType.Spouse), TreeRelations.Relations);
             Assert.DoesNotContain(new Relation(PersonId1, PersonId3, RelationType.Spouse), TreeRelations.Relations);

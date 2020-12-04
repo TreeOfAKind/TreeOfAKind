@@ -1,9 +1,10 @@
-﻿using TreeOfAKind.Domain.Trees;
+﻿using MediatR;
+using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.Command.Trees.RemoveTreeOwner
 {
-    public class RemoveTreeOwnerCommand : TreeOperationCommand
+    public class RemoveTreeOwnerCommand : TreeOperationCommandBase
     {
         public UserId UserToRemoveId { get; }
 

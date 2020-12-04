@@ -8,6 +8,7 @@ using Autofac.Features.Variance;
 using FluentValidation;
 using MediatR;
 using MediatR.Pipeline;
+using TreeOfAKind.Application.Command.Trees;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
 
@@ -39,9 +40,16 @@ namespace TreeOfAKind.Infrastructure.Processing
                 builder
                     .RegisterAssemblyTypes(Assemblies.Application, ThisAssembly)
                     .AsClosedTypesOf(mediatrOpenType)
-                    .FindConstructorsWith(new AllConstructorFinder())
-                    .AsImplementedInterfaces();
+                    .AsImplementedInterfaces()
+                    .FindConstructorsWith(new AllConstructorFinder());
+
             }
+
+            builder.RegisterGeneric(typeof(TreeOperationCommandAuthorizer<>))
+                .As(typeof(IAuthorizer<>));
+
+            builder.RegisterGeneric(typeof(TreeOperationCommandValidator<>))
+                .As(typeof(IValidator<>));
 
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));

@@ -9,7 +9,7 @@ using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.Command.Trees
 {
-    public class TreeOperationCommandAuthorizer : IAuthorizer<TreeOperationCommand>
+    public class TreeOperationCommandAuthorizer<TResponse> : IAuthorizer<TreeOperationCommandBase<TResponse>>
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
@@ -18,7 +18,7 @@ namespace TreeOfAKind.Application.Command.Trees
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task<AuthorizationResult> AuthorizeAsync(TreeOperationCommand instance, CancellationToken cancellation = default)
+        public async Task<AuthorizationResult> AuthorizeAsync(TreeOperationCommandBase<TResponse> instance, CancellationToken cancellation = default)
         {
             var connection = _sqlConnectionFactory.GetOpenConnection();
             const string sql =

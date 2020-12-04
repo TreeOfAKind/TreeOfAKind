@@ -5,10 +5,10 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Domain.Trees.Rules
 {
-    public class ThereIdNoCyclesInRelationsRule : IBusinessRule
+    public class ThereAreNoCyclesInRelationsRule : IBusinessRule
     {
         public IReadOnlyCollection<Relation> Relations { get; }
-        public ThereIdNoCyclesInRelationsRule(IReadOnlyCollection<Relation> relations)
+        public ThereAreNoCyclesInRelationsRule(IReadOnlyCollection<Relation> relations)
         {
             Relations = relations;
         }

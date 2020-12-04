@@ -11,8 +11,8 @@ namespace TreeOfAKind.Application.Command.Trees.CreateTree
             RuleFor(x => x.TreeName)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(StringLengths.VeryShort)
-                .WithMessage($"{nameof(CreateTreeCommand.TreeName)} is longer than maximum length {StringLengths.VeryShort}");
+                .MaximumLength(StringLengths.Short)
+                .WithMessage($"{nameof(CreateTreeCommand.TreeName)} is longer than maximum length {StringLengths.Short}");
 
             RuleFor(x => x.UserAuthId)
                 .NotNull()

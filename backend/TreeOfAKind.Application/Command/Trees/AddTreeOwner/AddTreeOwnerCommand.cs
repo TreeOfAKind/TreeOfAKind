@@ -1,17 +1,18 @@
 ﻿using System.Net.Mail;
+using MediatR;
 using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Domain.Trees;
 
 namespace TreeOfAKind.Application.Command.Trees.AddTreeOwner
 {
-    public class AddTreeOwnerCommand : TreeOperationCommand
+    public class AddTreeOwnerCommand : TreeOperationCommandBase
     {
-        public MailAddress AddedPersonAddress { get; }
-        
-        public AddTreeOwnerCommand(TreeId treeId, MailAddress addedPersonAddress, string requesterUserAuthId)
+        public string AddedPersonMailAddress { get; }
+
+        public AddTreeOwnerCommand(string requesterUserAuthId, TreeId treeId, string addedPersonMailAddress)
             : base(requesterUserAuthId, treeId)
         {
-            AddedPersonAddress = addedPersonAddress;
+            AddedPersonMailAddress = addedPersonMailAddress;
         }
     }
 }

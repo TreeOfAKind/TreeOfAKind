@@ -11,6 +11,7 @@ using TreeOfAKind.Application.Command.Trees.CreateTree;
 using TreeOfAKind.Application.Command.Trees.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Application.Configuration;
+using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Infrastructure.Processing;
@@ -52,11 +53,28 @@ namespace TreeOfAKind.IntegrationTests
         }
 
         [Fact]
+        public async Task AddOwner_NotOwnerAdding_ThrowsUnauthorized()
+        {
+            var userId = await CommandsExecutor.Execute(
+                new CreateOrUpdateUserProfileCommand(AuthId, Name, Surname, BirthDate));
+
+            var treeId = await CommandsExecutor.Execute(
+                new CreateTreeCommand(TreeName, AuthId));
+
+            _applicationFixture.UserAuthIdProvider
+                .GetUserAuthId(Arg.Any<MailAddress>(), Arg.Any<CancellationToken>())
+                .Returns(AuthId + "2");
+
+            await Assert.ThrowsAsync<UnauthorizedException>(async () => await CommandsExecutor.Execute(
+                new AddTreeOwnerCommand(AuthId + "2", treeId, "example@example.com")));
+        }
+
+        [Fact]
         public async Task CreateProfile_TooLongName_ThrowsException()
         {
             await Assert.ThrowsAsync<InvalidCommandException>(async () =>
                 await CommandsExecutor.Execute(
-                    new CreateOrUpdateUserProfileCommand(AuthId, new string('a', StringLengths.VeryShort + 1), Surname,
+                    new CreateOrUpdateUserProfileCommand(AuthId, new string('a', StringLengths.Short + 1), Surname,
                         BirthDate)));
         }
 
@@ -68,7 +86,7 @@ namespace TreeOfAKind.IntegrationTests
 
             var treeId = await CommandsExecutor.Execute(
                 new CreateTreeCommand(TreeName, AuthId));
-            
+
             var userId2 = await CommandsExecutor.Execute(
                 new CreateOrUpdateUserProfileCommand(AuthId + "2", Name + "2", Surname + "2", BirthDate));
 
@@ -78,8 +96,8 @@ namespace TreeOfAKind.IntegrationTests
                 .Returns(AuthId + "2");
 
             await CommandsExecutor.Execute(
-                new AddTreeOwnerCommand(treeId, new MailAddress("example@example.com"), AuthId));
-            
+                new AddTreeOwnerCommand(AuthId, treeId, "example@example.com"));
+
             await CommandsExecutor.Execute(
                 new RemoveTreeOwnerCommand(AuthId + "2", treeId, userId));
         }

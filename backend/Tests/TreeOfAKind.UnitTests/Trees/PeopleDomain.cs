@@ -20,13 +20,16 @@ namespace TreeOfAKind.UnitTests.Trees
 
         private static Gender Gender
             => Gender.Female;
+
         private static DateTime BirthDate
             => new DateTime(1900, 1, 12);
+
         private static DateTime DeathDate
-            => new DateTime(1990, 3,12);
+            => new DateTime(1990, 3, 12);
 
         private static string? Description
             => "This is some description";
+
         private static string? Biography
             => "This is long biography: Lorem ipsum dolor " +
                "sit amet, consectetur adipiscing elit. Maecenas dolor est, " +
@@ -47,13 +50,12 @@ namespace TreeOfAKind.UnitTests.Trees
         {
             OwnerId = new UserId(Guid.NewGuid());
             Tree = Tree.CreateNewTree("Some tree", OwnerId);
-            
         }
 
         [Fact]
         public void AddPersonToTree_ValidData_PersonIsAdded()
         {
-            Tree.AddPersonToTree(
+            Tree.AddPerson(
                 Name,
                 Surname,
                 Gender,
@@ -61,14 +63,15 @@ namespace TreeOfAKind.UnitTests.Trees
                 DeathDate,
                 Description,
                 Biography);
-            
+
             Assert.Single(Tree.People);
         }
+
         [Fact]
         public void AddPersonToTree_NoNameNorSurnameProvided_ThrowsException()
         {
             Assert.Throws<BusinessRuleValidationException>(() =>
-                Tree.AddPersonToTree(
+                Tree.AddPerson(
                     "",
                     null,
                     Gender,
@@ -81,17 +84,16 @@ namespace TreeOfAKind.UnitTests.Trees
         [Fact]
         public void AddPersonToTree_BirthDateAfterDeathDate_ThrowsException()
         {
-            Assert.Throws<BusinessRuleValidationException>(() => 
-                    Tree.AddPersonToTree(
-                        Name,
-                        Surname,
-                        Gender,
-                        DeathDate.AddDays(1),
-                        DeathDate,
-                        Description,
-                        Biography)
+            Assert.Throws<BusinessRuleValidationException>(() =>
+                Tree.AddPerson(
+                    Name,
+                    Surname,
+                    Gender,
+                    DeathDate.AddDays(1),
+                    DeathDate,
+                    Description,
+                    Biography)
             );
         }
-        
     }
 }

@@ -83,7 +83,7 @@ namespace TreeOfAKind.API.Trees
             var authId = HttpContext.GetFirebaseUserAuthId();
 
             var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId));
-            
+
             return Created(string.Empty,new IdDto{ Id = result.Value});
         }
 
@@ -115,9 +115,9 @@ namespace TreeOfAKind.API.Trees
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            await _mediator.Send(new AddTreeOwnerCommand(new TreeId(request.TreeId),
-                new MailAddress(request.InvitedUserEmail), authId));
-            
+            await _mediator.Send(new AddTreeOwnerCommand(authId, new TreeId(request.TreeId),
+                request.InvitedUserEmail));
+
             return Ok();
         }
 

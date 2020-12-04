@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeOfAKind.Infrastructure.Database;
 
 namespace TreeOfAKind.Infrastructure.Migrations
 {
     [DbContext(typeof(TreesContext))]
-    partial class TreesContextModelSnapshot : ModelSnapshot
+    [Migration("20201204184823_AddPeopleToTree")]
+    partial class AddPeopleToTree
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

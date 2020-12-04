@@ -6,6 +6,7 @@ namespace TreeOfAKind.Domain.Trees
 {
     public class Relation : ValueObject
     {
+        public TreeId TreeId { get; private set; }
         public PersonId From { get; private set; }
         public PersonId To { get; private set; }
         public RelationType RelationType { get; private set; }

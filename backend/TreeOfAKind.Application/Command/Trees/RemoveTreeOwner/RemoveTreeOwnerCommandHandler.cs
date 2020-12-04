@@ -21,7 +21,7 @@ namespace TreeOfAKind.Application.Command.Trees.RemoveTreeOwner
         {
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
             tree!.RemoveTreeOwner(request.UserToRemoveId);
-            
+
             return Unit.Value;
         }
     }
