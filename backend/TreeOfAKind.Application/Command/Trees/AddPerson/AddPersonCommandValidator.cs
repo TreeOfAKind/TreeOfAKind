@@ -5,6 +5,17 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
 {
     public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
     {
+        public class RelationValidator : AbstractValidator<AddPersonCommand.Relation>
+        {
+            public RelationValidator()
+            {
+                RuleFor(x => x.RelationType)
+                    .NotEmpty();
+
+                RuleFor(x => x.SecondPersonId)
+                    .NotEmpty();
+            }
+        }
         public AddPersonCommandValidator()
         {
             RuleFor(x => x.Name)
@@ -18,6 +29,9 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
 
             RuleFor(x => x.Biography)
                 .MaximumLength(StringLengths.VeryLong);
+
+            RuleForEach(x => x.Relations)
+                .SetValidator(new RelationValidator());
         }
     }
 }

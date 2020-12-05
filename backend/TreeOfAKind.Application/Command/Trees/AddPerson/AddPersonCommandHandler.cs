@@ -20,7 +20,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
         {
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
 
-            var personId = tree!.AddPerson(
+            var person = tree!.AddPerson(
                 request.Name,
                 request.Surname,
                 request.Gender,
@@ -29,7 +29,16 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
                 request.Description,
                 request.Biography);
 
-            return personId.Id;
+            foreach (var relation in request.Relations)
+            {
+                var (from, to) = relation.RelationDirection == RelationDirection.FromAddedPerson
+                    ? (person.Id, relation.SecondPersonId)
+                    : (relation.SecondPersonId, person.Id);
+
+                tree.AddRelation(from,to,relation.RelationType);
+            }
+
+            return person.Id;
         }
     }
 }

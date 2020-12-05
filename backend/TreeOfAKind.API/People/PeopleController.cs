@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -38,9 +40,28 @@ namespace TreeOfAKind.API.People
         ///          "gender": "Male",
         ///          "birthDate": "1998-12-04",
         ///          "description": "Some guy",
-        ///          "biography": "Loves his job 😍💕 at 🍑♻"
+        ///          "biography": "Loves his job 😍💕 at 🍑♻",
+        ///          "relations": [
+        ///             {
+        ///                 "secondPerson": "72bef03b-62c2-4829-9917-bed803397de5",
+        ///                 "direction": "FromAddedPerson",
+        ///                 "relationType": "Father"
+        ///             }
+        ///          ]
         ///     }
         ///
+        /// Direction specifies direction of a relation eg.
+        ///
+        /// for `direction = FromAddedPerson` and `relationType = Father`
+        /// newly added person will be a father of a person with id specified
+        /// in `secondPerson` property.
+        ///
+        /// similarly
+        ///
+        /// for `direction = ToAddedPerson` and `relationType = Father`
+        /// newly added person will be a child of a person with id specified
+        /// in `secondPerson` property (`secondPerson` will be father of newly
+        /// added person)
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Uuid of created person</returns>
@@ -58,9 +79,14 @@ namespace TreeOfAKind.API.People
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
+            var relations = request.Relations?.Select(r =>
+                new AddPersonCommand.Relation(new PersonId(r.SecondPerson), r.Direction,
+                    r.RelationType));
+
             var result = await _mediator.Send(
                 new AddPersonCommand(authId, new TreeId(request.TreeId), request.Name, request.Surname, request.Gender,
-                    request.BirthDate, request.DeathDate, request.Description, request.Biography));
+                    request.BirthDate, request.DeathDate, request.Description, request.Biography, relations));
+
 
             return Created(string.Empty, new IdDto {Id = result.Value});
         }

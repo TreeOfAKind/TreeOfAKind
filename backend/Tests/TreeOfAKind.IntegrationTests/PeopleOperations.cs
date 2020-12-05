@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TreeOfAKind.Application.Command.Trees.AddPerson;
 using TreeOfAKind.Application.Command.Trees.AddRelation;
@@ -52,6 +53,7 @@ namespace TreeOfAKind.IntegrationTests
                     "Queen",
                     "Some biography"));
 
+
             var princeId = await CommandsExecutor.Execute(
                 new AddPersonCommand(
                     AuthId,
@@ -62,10 +64,11 @@ namespace TreeOfAKind.IntegrationTests
                     new DateTime(1921, 5, 10),
                     null,
                     "Prince",
-                    "Some biography of Filip"));
-
-            await CommandsExecutor.Execute(
-                new AddRelationCommand(AuthId, treeId, princeId, queenId, RelationType.Spouse));
+                    "Some biography of Filip",
+                    new List<AddPersonCommand.Relation>
+                    {
+                        new AddPersonCommand.Relation(queenId, RelationDirection.FromAddedPerson, RelationType.Spouse)
+                    }));
         }
     }
 }
