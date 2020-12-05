@@ -27,7 +27,7 @@ namespace TreeOfAKind.IntegrationTests
 
         protected async Task<TreeId> CreateTree()
         {
-            var userId = await CommandsExecutor.Execute(
+            await CommandsExecutor.Execute(
                 new CreateOrUpdateUserProfileCommand(AuthId, Name, Surname, BirthDate));
 
             return await CommandsExecutor.Execute(

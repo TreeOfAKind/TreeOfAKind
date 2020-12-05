@@ -44,7 +44,7 @@ namespace TreeOfAKind.Infrastructure.FileStorage
 
                 var blobClient = blobContainerClient.GetBlobClient(blobName);
 
-                var response = await blobClient.UploadAsync(
+                await blobClient.UploadAsync(
                     stream,
                     headers,
                     conditions: BlobRequestConditions,

@@ -189,7 +189,7 @@ namespace TreeOfAKind.API.Trees
 
             var image = request.Image;
             var uri = await _mediator.Send(new AddOrChangeTreePhotoCommand(authId, new TreeId(request.TreeId),
-                new Document(request.Image.OpenReadStream(), request.Image.ContentType)));
+                new Document(image.OpenReadStream(), image.ContentType)));
 
             return Created(string.Empty, new UriDto {Uri = uri});
         }
