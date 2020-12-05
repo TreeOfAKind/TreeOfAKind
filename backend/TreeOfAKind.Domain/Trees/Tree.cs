@@ -13,6 +13,7 @@ namespace TreeOfAKind.Domain.Trees
     {
         public TreeId Id { get; private set; }
         public string Name { get; private set; }
+        public Uri? Photo { get; set; }
         public IReadOnlyCollection<TreeUserProfile> TreeOwners =>
             _treeOwners;
         public IReadOnlyCollection<Person> People =>
@@ -108,5 +109,14 @@ namespace TreeOfAKind.Domain.Trees
             _people.RemoveAll(p => p.Id == personId);
         }
 
+        public void AddOrChangeTreePhoto(Uri fileUri)
+        {
+            Photo = fileUri;
+        }
+
+        public void RemoveTreePhoto()
+        {
+            Photo = null!;
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetMyTrees
         {
             var trees = await _treesContext.GetUsersTreesByAuthId(request.UserAuthId, cancellationToken);
 
-            var items = trees.Select(t => new TreeItemDto {Id = t.Id.Value, TreeName = t.Name});
+            var items = trees.Select(t => new TreeItemDto {Id = t.Id.Value, TreeName = t.Name, PhotoUri = t.Photo});
 
             return new TreesListDto(){Trees = items.ToList()};
         }
