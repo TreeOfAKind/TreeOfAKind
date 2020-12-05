@@ -11,6 +11,7 @@ using MediatR.Pipeline;
 using TreeOfAKind.Application.Command.Trees;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
+using TreeOfAKind.Application.Query.Trees;
 
 namespace TreeOfAKind.Infrastructure.Processing
 {
@@ -48,8 +49,15 @@ namespace TreeOfAKind.Infrastructure.Processing
             builder.RegisterGeneric(typeof(TreeOperationCommandAuthorizer<>))
                 .As(typeof(IAuthorizer<>));
 
+            builder.RegisterGeneric(typeof(TreeQueryAuthorizer<>))
+                .As(typeof(IAuthorizer<>));
+
             builder.RegisterGeneric(typeof(TreeOperationCommandValidator<>))
                 .As(typeof(IValidator<>));
+
+            builder.RegisterGeneric(typeof(TreeQueryValidator<>))
+                .As(typeof(IValidator<>));
+
 
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));

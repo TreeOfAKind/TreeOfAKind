@@ -5,7 +5,6 @@
         Unknown,
         Father,
         Mother,
-        Parent,
         Spouse,
     }
 }

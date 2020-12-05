@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TreeOfAKind.Application.Command.Trees.AddPerson;
 using TreeOfAKind.Application.Command.Trees.AddRelation;
 using TreeOfAKind.Application.Command.Trees.CreateTree;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
+using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Infrastructure.Processing;
@@ -69,6 +71,18 @@ namespace TreeOfAKind.IntegrationTests
                     {
                         new AddPersonCommand.Relation(queenId, RelationDirection.FromAddedPerson, RelationType.Spouse)
                     }));
+
+            var tree = await QueriesExecutor.Execute(
+                new GetTreeQuery(AuthId, treeId));
+
+            Assert.Equal(2, tree.People.Count);
+            Assert.Equal(1, tree.People.FirstOrDefault()?.Spouses.Count);
+            Assert.Equal(0, tree.People.FirstOrDefault()?.Fathers.Count);
+            Assert.Equal(0, tree.People.FirstOrDefault()?.Mothers.Count);
+
+            Assert.Equal(TreeName, tree.TreeName);
+            Assert.Equal(treeId.Value, tree.TreeId);
         }
+
     }
 }

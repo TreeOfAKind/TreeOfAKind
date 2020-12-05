@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
@@ -27,10 +28,10 @@ namespace TreeOfAKind.UnitTests.Trees
         private static DateTime DeathDate
             => new DateTime(1990, 3, 12);
 
-        private static string? Description
+        private static string Description
             => "This is some description";
 
-        private static string? Biography
+        private static string Biography
             => "This is long biography: Lorem ipsum dolor " +
                "sit amet, consectetur adipiscing elit. Maecenas dolor est, " +
                "laoreet a convallis et, lacinia nec odio. Proin vel " +
@@ -55,7 +56,7 @@ namespace TreeOfAKind.UnitTests.Trees
         [Fact]
         public void AddPersonToTree_ValidData_PersonIsAdded()
         {
-            Tree.AddPerson(
+            var person = Tree.AddPerson(
                 Name,
                 Surname,
                 Gender,
@@ -65,6 +66,7 @@ namespace TreeOfAKind.UnitTests.Trees
                 Biography);
 
             Assert.Single(Tree.People);
+            Assert.Equal(person, Tree.People.FirstOrDefault());
         }
 
         [Fact]

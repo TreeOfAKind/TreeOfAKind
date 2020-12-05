@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using NSubstitute.Exceptions;
 using TreeOfAKind.Application.Command.Trees.AddTreeOwner;
 using TreeOfAKind.Application.Command.Trees.CreateTree;
 using TreeOfAKind.Application.Command.Trees.RemoveTreeOwner;
@@ -14,6 +15,8 @@ using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
+using TreeOfAKind.Application.Query.Trees.GetTree;
+using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Infrastructure.Processing;
 using Xunit;
 

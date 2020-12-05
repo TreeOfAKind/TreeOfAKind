@@ -27,8 +27,7 @@ namespace TreeOfAKind.UnitTests.Trees
         [Theory]
         [InlineData(RelationType.Father, RelationType.Father, RelationType.Father)]
         [InlineData(RelationType.Mother, RelationType.Mother, RelationType.Mother)]
-        [InlineData(RelationType.Parent, RelationType.Parent, RelationType.Parent)]
-        [InlineData(RelationType.Mother, RelationType.Father, RelationType.Parent)]
+        [InlineData(RelationType.Mother, RelationType.Father, RelationType.Mother)]
         public void AddRelation_AddCycle_ThrowsException(RelationType first, RelationType second, RelationType third)
         {
             TreeRelations.AddRelation(PersonId1,PersonId2, first);
