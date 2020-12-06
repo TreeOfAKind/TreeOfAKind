@@ -10,7 +10,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
             public RelationValidator()
             {
                 RuleFor(x => x.RelationType)
-                    .NotEmpty();
+                    .NotNull();
 
                 RuleFor(x => x.SecondPersonId)
                     .NotEmpty();
