@@ -24,7 +24,6 @@ namespace TreeOfAKind.Domain.Trees.Rules
             var childParent =
                 Relations
                     .Where(r =>
-                        r.RelationType == RelationType.Parent ||
                         r.RelationType == RelationType.Father ||
                         r.RelationType == RelationType.Mother)
                     .Select(r => (r.From, r.To))
@@ -35,20 +34,20 @@ namespace TreeOfAKind.Domain.Trees.Rules
             HashSet<PersonId> heads = new HashSet<PersonId>();
 
             while (allIds.Any())
-            { 
+            {
                 var head = allIds.First();
-                
-                Queue<PersonId> queue = new Queue<PersonId>();          
+
+                Queue<PersonId> queue = new Queue<PersonId>();
                 queue.Enqueue(head);
 
                 while (queue.Any())
                 {
                     var elem = queue.Dequeue();
-                    
+
                     if (heads.Contains(elem)) continue;
 
                     if (!allIds.Remove(elem)) return true;
-                    
+
                     if(!childParent.ContainsKey(elem)) continue;
 
                     foreach (var parent in childParent[elem] ?? Enumerable.Empty<PersonId>())
@@ -56,7 +55,7 @@ namespace TreeOfAKind.Domain.Trees.Rules
                         queue.Enqueue(parent);
                     }
                 }
-                
+
                 heads.Add(head);
             }
 

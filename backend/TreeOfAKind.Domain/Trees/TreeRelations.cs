@@ -19,9 +19,15 @@ namespace TreeOfAKind.Domain.Trees
 
         public void AddRelation(PersonId from, PersonId to, RelationType relationType)
         {
+            var relation = new Relation(from, to, relationType);
+            if (_relations.Contains(relation)) return;
+
             CheckRule(new ThereIsNoExistingRelationBetweenRule(Relations, from, to));
-            _relations.Add(new Relation(from,to,relationType));
+            CheckRule(new ThereAreOnlyOneParentOfEachGender(Relations, from, to, relationType));
+
+            _relations.Add(relation);
             if (relationType == RelationType.Spouse) _relations.Add(new Relation(to,from,relationType));
+
             CheckRule(new ThereAreNoCyclesInRelationsRule(Relations));
         }
 
