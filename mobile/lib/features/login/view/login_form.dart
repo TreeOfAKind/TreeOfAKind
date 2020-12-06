@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/login/login.dart';
 import 'package:tree_of_a_kind/features/sign_up/sign_up.dart';
 import 'package:formz/formz.dart';
@@ -51,7 +52,7 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_emailInput_textField'),
-          onChanged: (email) => context.bloc<LoginCubit>().emailChanged(email),
+          onChanged: (email) => context.read<LoginCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'email',
@@ -73,7 +74,7 @@ class _PasswordInput extends StatelessWidget {
         return TextField(
           key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
-              context.bloc<LoginCubit>().passwordChanged(password),
+              context.read<LoginCubit>().passwordChanged(password),
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'password',
@@ -93,7 +94,7 @@ class _LoginButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
+            ? const LoadingIndicator()
             : RaisedButton(
                 key: const Key('loginForm_continue_raisedButton'),
                 child: const Text('LOGIN'),
@@ -102,7 +103,7 @@ class _LoginButton extends StatelessWidget {
                 ),
                 color: const Color(0xFFFFD600),
                 onPressed: state.status.isValidated
-                    ? () => context.bloc<LoginCubit>().logInWithCredentials()
+                    ? () => context.read<LoginCubit>().logInWithCredentials()
                     : null,
               );
       },
