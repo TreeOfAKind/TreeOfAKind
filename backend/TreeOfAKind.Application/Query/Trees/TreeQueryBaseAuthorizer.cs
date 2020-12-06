@@ -8,11 +8,11 @@ using TreeOfAKind.Application.Query.Trees.GetTree;
 
 namespace TreeOfAKind.Application.Query.Trees
 {
-    public class TreeQueryAuthorizer<TResult> : IAuthorizer<TreeQueryBase<TResult>>
+    public class TreeQueryBaseAuthorizer<TResult> : IAuthorizer<TreeQueryBase<TResult>>
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public TreeQueryAuthorizer(ISqlConnectionFactory sqlConnectionFactory)
+        public TreeQueryBaseAuthorizer(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }

@@ -49,13 +49,13 @@ namespace TreeOfAKind.Infrastructure.Processing
             builder.RegisterGeneric(typeof(TreeOperationCommandAuthorizer<>))
                 .As(typeof(IAuthorizer<>));
 
-            builder.RegisterGeneric(typeof(TreeQueryAuthorizer<>))
+            builder.RegisterGeneric(typeof(TreeQueryBaseAuthorizer<>))
                 .As(typeof(IAuthorizer<>));
 
             builder.RegisterGeneric(typeof(TreeOperationCommandValidator<>))
                 .As(typeof(IValidator<>));
 
-            builder.RegisterGeneric(typeof(TreeQueryValidator<>))
+            builder.RegisterGeneric(typeof(TreeQueryBaseValidator<>))
                 .As(typeof(IValidator<>));
 
 
