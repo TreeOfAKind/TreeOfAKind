@@ -20,6 +20,10 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
             builder.Property(t => t.Name)
                 .HasMaxLength(StringLengths.Short);
 
+            builder.Property(t => t.Photo)
+                .HasConversion<string?>()
+                .HasMaxLength(StringLengths.Short);
+
             builder.OwnsMany(t => t.TreeOwners, b =>
             {
                 b.ToTable("TreeUserProfile", SchemaNames.Trees);

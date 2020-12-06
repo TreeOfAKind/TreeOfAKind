@@ -30,6 +30,7 @@ using Serilog.Formatting.Json;
 using Serilog.Sinks.Datadog.Logs;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Infrastructure.Database;
+using TreeOfAKind.Infrastructure.FileStorage;
 
 [assembly: UserSecretsId("54e8eb06-aaa1-4fff-9f05-3ced1cb623c2")]
 namespace TreeOfAKind.API
@@ -98,13 +99,17 @@ namespace TreeOfAKind.API
             var children = this._configuration.GetSection("Caching").GetChildren();
             var cachingConfiguration = children.ToDictionary(child => child.Key, child => TimeSpan.Parse(child.Value));
             var emailsSettings = _configuration.GetSection("EmailsSettings").Get<EmailsSettings>();
+            var azureBlobStorageSettings =
+                _configuration.GetSection("AzureBlobStorageSettings").Get<AzureBlobStorageSettings>();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
             return ApplicationStartup.Initialize(
                 services,
                 this._configuration[TreesConnectionString],
                 new MemoryCacheStore(memoryCache, cachingConfiguration),
                 null,
+                null,
                 emailsSettings,
+                azureBlobStorageSettings,
                 _logger,
                 executionContextAccessor,
                 null);

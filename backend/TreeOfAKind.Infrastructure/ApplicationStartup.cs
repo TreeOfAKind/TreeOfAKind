@@ -22,7 +22,9 @@ using TreeOfAKind.Infrastructure.Quartz;
 using TreeOfAKind.Infrastructure.SeedWork;
 using Serilog;
 using TreeOfAKind.Application.Services;
+using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Infrastructure.Authentication;
+using TreeOfAKind.Infrastructure.FileStorage;
 
 namespace TreeOfAKind.Infrastructure
 {
@@ -33,7 +35,9 @@ namespace TreeOfAKind.Infrastructure
             string connectionString,
             ICacheStore cacheStore,
             IEmailSender emailSender,
+            IFileSaver fileSaver,
             EmailsSettings emailsSettings,
+            AzureBlobStorageSettings azureBlobStorageSettings,
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
             IUserAuthIdProvider userAuthIdProvider,
@@ -41,16 +45,18 @@ namespace TreeOfAKind.Infrastructure
         {
             if (runQuartz)
             {
-                StartQuartz(connectionString, emailsSettings, logger, executionContextAccessor, userAuthIdProvider);
+                StartQuartz(connectionString, emailsSettings, azureBlobStorageSettings, logger, executionContextAccessor, userAuthIdProvider);
             }
 
             services.AddSingleton(cacheStore);
 
             var serviceProvider = CreateAutofacServiceProvider(
-                services, 
-                connectionString, 
-                emailSender, 
+                services,
+                connectionString,
+                emailSender,
+                fileSaver,
                 emailsSettings,
+                azureBlobStorageSettings,
                 logger,
                 executionContextAccessor,
                 userAuthIdProvider);
@@ -62,7 +68,9 @@ namespace TreeOfAKind.Infrastructure
             IServiceCollection services,
             string connectionString,
             IEmailSender emailSender,
+            IFileSaver fileSaver,
             EmailsSettings emailsSettings,
+            AzureBlobStorageSettings azureBlobStorageSettings,
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
             IUserAuthIdProvider userAuthIdProvider)
@@ -76,6 +84,7 @@ namespace TreeOfAKind.Infrastructure
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new DomainModule());
             container.RegisterModule(new AuthenticationModule(userAuthIdProvider));
+            container.RegisterModule(new AzureBlobStorageModule(azureBlobStorageSettings, fileSaver));
 
             if (emailSender != null)
             {
@@ -85,7 +94,7 @@ namespace TreeOfAKind.Infrastructure
             {
                 container.RegisterModule(new EmailModule(emailsSettings));
             }
-            
+
             container.RegisterModule(new ProcessingModule());
 
             container.RegisterInstance(executionContextAccessor);
@@ -102,8 +111,9 @@ namespace TreeOfAKind.Infrastructure
         }
 
         private static void StartQuartz(
-            string connectionString, 
+            string connectionString,
             EmailsSettings emailsSettings,
+            AzureBlobStorageSettings blobStorageSettings,
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
             IUserAuthIdProvider userAuthIdProvider)
@@ -120,6 +130,7 @@ namespace TreeOfAKind.Infrastructure
             container.RegisterModule(new EmailModule(emailsSettings));
             container.RegisterModule(new ProcessingModule());
             container.RegisterModule(new AuthenticationModule(userAuthIdProvider));
+            container.RegisterModule(new AzureBlobStorageModule(blobStorageSettings));
 
             container.RegisterInstance(executionContextAccessor);
             container.Register(c =>

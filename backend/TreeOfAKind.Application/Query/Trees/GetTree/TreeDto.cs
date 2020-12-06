@@ -49,12 +49,14 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
     {
         public Guid TreeId { get; set; }
         public string TreeName { get; set; }
+        public Uri PhotoUri { get; set; }
         public List<PersonDto> People { get; set; } = new List<PersonDto>();
 
         public TreeDto(Tree tree)
         {
             TreeId = tree.Id.Value;
             TreeName = tree.Name;
+            PhotoUri = tree.Photo;
             People = tree.People.Select(p => new PersonDto(p, tree.TreeRelations)).ToList();
         }
     }

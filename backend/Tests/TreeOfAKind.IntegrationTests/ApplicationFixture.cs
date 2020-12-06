@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -12,6 +14,7 @@ using TreeOfAKind.Application.Configuration.Emails;
 using TreeOfAKind.Application.Services;
 using TreeOfAKind.Infrastructure;
 using TreeOfAKind.Infrastructure.Emails;
+using TreeOfAKind.Infrastructure.FileStorage;
 
 namespace TreeOfAKind.IntegrationTests
 {
@@ -19,7 +22,11 @@ namespace TreeOfAKind.IntegrationTests
     {
         public string ConnectionString { get; }
         public EmailsSettings EmailsSettings { get; }
+
+        public AzureBlobStorageSettings AzureBlobStorageSettings { get; }
         public IEmailSender EmailSender { get; }
+
+        public IFileSaver FileSaver { get; }
         public IExecutionContextAccessor ExecutionContext { get; }
         public IUserAuthIdProvider UserAuthIdProvider { get; }
 
@@ -40,7 +47,18 @@ namespace TreeOfAKind.IntegrationTests
 
             EmailsSettings = new EmailsSettings {FromAddressEmail = "from@mail.com"};
 
+            AzureBlobStorageSettings = new AzureBlobStorageSettings
+            {
+                ConnectionString = "someConnectionString",
+                Metadata = new Dictionary<string, string>
+                {
+                    {"IntegrationTesting", "true"}
+                }
+            };
+
             EmailSender = Substitute.For<IEmailSender>();
+
+            FileSaver = Substitute.For<IFileSaver>();
 
             UserAuthIdProvider = Substitute.For<IUserAuthIdProvider>();
 
@@ -51,7 +69,9 @@ namespace TreeOfAKind.IntegrationTests
                 ConnectionString,
                 new CacheStore(),
                 EmailSender,
+                FileSaver,
                 EmailsSettings,
+                AzureBlobStorageSettings,
                 Logger.None,
                 ExecutionContext,
                 UserAuthIdProvider,

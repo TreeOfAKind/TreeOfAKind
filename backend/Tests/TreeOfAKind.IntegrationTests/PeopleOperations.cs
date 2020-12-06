@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TreeOfAKind.Application.Command.Trees.AddOrChangeTreePhoto;
 using TreeOfAKind.Application.Command.Trees.AddPerson;
 using TreeOfAKind.Application.Command.Trees.AddRelation;
 using TreeOfAKind.Application.Command.Trees.CreateTree;
@@ -16,28 +18,10 @@ using Xunit;
 
 namespace TreeOfAKind.IntegrationTests
 {
-    public class PeopleOperations : IClassFixture<ApplicationFixture>
+    public class PeopleOperations : TreeIntegrationTestsBase
     {
-        protected const string TreeName = nameof(PeopleOperations) + "Moje super drzewko";
-        protected string AuthId { get; }
-        protected const string Name = "Bartek";
-        protected const string Surname = "Chrostowski";
-        protected readonly DateTime BirthDate = new DateTime(1998, 02, 27);
-        private readonly ApplicationFixture _applicationFixture;
-
-        public PeopleOperations(ApplicationFixture applicationFixture)
+        public PeopleOperations(ApplicationFixture applicationFixture) : base(applicationFixture)
         {
-            _applicationFixture = applicationFixture;
-            AuthId = Guid.NewGuid().ToString();
-        }
-
-        private async Task<TreeId> CreateTree()
-        {
-            var userId = await CommandsExecutor.Execute(
-                new CreateOrUpdateUserProfileCommand(AuthId, Name, Surname, BirthDate));
-
-            return await CommandsExecutor.Execute(
-                new CreateTreeCommand(TreeName, AuthId));
         }
 
         [Fact]
