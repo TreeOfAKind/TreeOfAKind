@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tree_of_a_kind/contracts/user_profile/user_profile_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
-import 'package:tree_of_a_kind/features/home/home.dart';
+import 'package:tree_of_a_kind/features/user_profile/bloc/user_profile_bloc.dart';
+import 'package:tree_of_a_kind/features/user_profile/view/user_profile_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -16,10 +18,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions(
+
+  List<Widget> _widgetOptions(
     User user,
     TextTheme textTheme,
   ) {
@@ -34,18 +37,12 @@ class _HomePageState extends State<HomePage> {
         'Index 1: Family',
         style: optionStyle,
       )),
-      Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Avatar(photo: user.photoURL),
-            const SizedBox(height: 4.0),
-            Text(user.email, style: textTheme.headline6),
-            const SizedBox(height: 4.0),
-            Text(user.displayName ?? '', style: textTheme.headline5),
-          ],
-        ),
+      BlocProvider<UserProfileBloc>(
+        create: (context) => UserProfileBloc(
+            userProfileRepository:
+                RepositoryProvider.of<UserProfileRepository>(context))
+          ..add(const FetchUserProfile()),
+        child: UserProfilePage(),
       ),
     ];
   }
@@ -59,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final user = context.bloc<AuthenticationBloc>().state.user;
+    final user = BlocProvider.of<AuthenticationBloc>(context).state.user;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -68,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             key: const Key('homePage_logout_iconButton'),
             icon: const Icon(Icons.exit_to_app),
             onPressed: () => context
-                .bloc<AuthenticationBloc>()
+                .read<AuthenticationBloc>()
                 .add(AuthenticationLogoutRequested()),
           )
         ],

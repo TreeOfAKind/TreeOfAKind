@@ -2,8 +2,10 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:tree_of_a_kind/contracts/user_profile/user_profile_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/bloc/authentication_bloc.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_client.dart';
+import 'package:tree_of_a_kind/features/user_profile/bloc/user_profile_bloc.dart';
 
 import 'config.dart';
 import 'dependencies_factory.dart';
@@ -33,14 +35,16 @@ class DependenciesInjector extends StatelessWidget {
         child: MultiRepositoryProvider(
           providers: [
             RepositoryProvider<AuthenticationRepository>.value(
-                value: authenticationRepository)
+                value: authenticationRepository),
+            RepositoryProvider<UserProfileRepository>.value(
+                value: _dependenciesFactory.userProfileRepository(cqrsClient))
           ],
           child: MultiBlocProvider(
             providers: [
               BlocProvider<AuthenticationBloc>.value(
                 value: AuthenticationBloc(
                     authenticationRepository: authenticationRepository),
-              )
+              ),
             ],
             child: _child,
           ),
