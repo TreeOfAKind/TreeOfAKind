@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,10 +16,11 @@ namespace TreeOfAKind.Infrastructure.FileStorage
     public class AzureBlobStorageService : IFileSaver
     {
         private readonly ILogger _logger;
-        private readonly string _blobContainerName;
+        private readonly IDictionary<string, string> _metadata;
         private readonly BlobServiceClient _blobServiceClient;
 
         private const string Wildcard = "*";
+
 
         private static readonly BlobRequestConditions BlobRequestConditions
             = new BlobRequestConditions {IfNoneMatch = new ETag(Wildcard)};
@@ -27,12 +29,12 @@ namespace TreeOfAKind.Infrastructure.FileStorage
         {
             _logger = logger;
             var connectionString = settings.ConnectionString;
-            _blobContainerName = settings.BlobContainerName;
+            _metadata = settings.Metadata;
 
             _blobServiceClient = new BlobServiceClient(connectionString);
         }
 
-        public async Task<Uri> UploadFile(string contentType, Stream stream,
+        public async Task<Uri> UploadFile(string containerName, string contentType, Stream stream,
             CancellationToken cancellationToken = default!)
         {
             try
@@ -40,7 +42,8 @@ namespace TreeOfAKind.Infrastructure.FileStorage
                 var headers = new BlobHttpHeaders {ContentType = contentType};
                 var blobName = Guid.NewGuid() + MimeTypeMap.GetExtension(contentType);
 
-                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(_blobContainerName);
+                var blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+                await blobContainerClient.CreateIfNotExistsAsync(PublicAccessType.Blob, _metadata , cancellationToken);
 
                 var blobClient = blobContainerClient.GetBlobClient(blobName);
 

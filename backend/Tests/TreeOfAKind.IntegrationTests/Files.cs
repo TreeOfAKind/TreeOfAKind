@@ -27,7 +27,7 @@ namespace TreeOfAKind.IntegrationTests
             var file = new Document(Stream.Null, "image/png");
 
             _applicationFixture.FileSaver
-                .UploadFile(Arg.Any<string>(), Arg.Any<Stream>(), Arg.Any<CancellationToken>())
+                .UploadFile(Arg.Any<string>(),Arg.Any<string>(), Arg.Any<Stream>(), Arg.Any<CancellationToken>())
                 .Returns(_uriExample);
 
             return await CommandsExecutor.Execute(

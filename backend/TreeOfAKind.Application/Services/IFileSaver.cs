@@ -7,6 +7,6 @@ namespace TreeOfAKind.Application.Services
 {
     public interface IFileSaver
     {
-        public Task<Uri> UploadFile(string contentType, Stream stream, CancellationToken cancellationToken = default!);
+        public Task<Uri> UploadFile(string containerName, string contentType, Stream stream, CancellationToken cancellationToken = default!);
     }
 }

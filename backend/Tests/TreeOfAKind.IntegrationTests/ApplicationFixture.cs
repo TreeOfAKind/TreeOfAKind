@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading;
@@ -49,7 +50,10 @@ namespace TreeOfAKind.IntegrationTests
             AzureBlobStorageSettings = new AzureBlobStorageSettings
             {
                 ConnectionString = "someConnectionString",
-                BlobContainerName = "someContainerName",
+                Metadata = new Dictionary<string, string>
+                {
+                    {"IntegrationTesting", "true"}
+                }
             };
 
             EmailSender = Substitute.For<IEmailSender>();

@@ -23,7 +23,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddOrChangeTreePhoto
         {
             var file = request.Document;
 
-            var uri = await _fileSaver.UploadFile(file.ContentType, file.Content, cancellationToken);
+            var uri = await _fileSaver.UploadFile(request.TreeId.Value.ToString(), file.ContentType, file.Content, cancellationToken);
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
 
             tree!.AddOrChangeTreePhoto(uri);

@@ -1,8 +1,11 @@
-﻿namespace TreeOfAKind.Infrastructure.FileStorage
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace TreeOfAKind.Infrastructure.FileStorage
 {
     public class AzureBlobStorageSettings
     {
         public string ConnectionString { get; set; }
-        public string BlobContainerName { get; set; }
+        public IDictionary<string,string> Metadata { get; set; }
     }
 }
