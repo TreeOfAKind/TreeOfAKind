@@ -26,7 +26,6 @@ namespace TreeOfAKind.IntegrationTests
         {
             var file = new Document(Stream.Null, "image/png");
 
-
             _applicationFixture.FileSaver
                 .UploadFile(Arg.Any<string>(), Arg.Any<Stream>(), Arg.Any<CancellationToken>())
                 .Returns(_uriExample);
@@ -52,7 +51,6 @@ namespace TreeOfAKind.IntegrationTests
 
             var myTrees = await QueriesExecutor.Execute(
                 new GetMyTreesQuery(AuthId));
-
 
             Assert.Equal(_uriExample, myTrees.Trees.FirstOrDefault()?.PhotoUri);
         }

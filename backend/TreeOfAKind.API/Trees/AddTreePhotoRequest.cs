@@ -7,6 +7,6 @@ namespace TreeOfAKind.API.Trees
     public class AddTreePhotoRequest
     {
         [Required] public Guid TreeId { get; set; }
-        [Required] public IFormFile Image { set; get; }
+        [Required] public IFormFile Image { get; set; }
     }
 }
