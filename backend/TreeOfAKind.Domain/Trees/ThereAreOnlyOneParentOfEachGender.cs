@@ -21,7 +21,7 @@ namespace TreeOfAKind.Domain.Trees
 
         public bool IsBroken()
             => (RelationType == RelationType.Father || RelationType == RelationType.Mother)
-               & Relations.Contains(new Relation(From, To, RelationType));
+               && Relations.Contains(new Relation(From, To, RelationType));
 
         public string Message => "There can only be one mother and one father.";
     }
