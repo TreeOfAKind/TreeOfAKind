@@ -49,31 +49,5 @@ void main() {
         ).called(1);
       });
     });
-
-    group('renders', () {
-      // testWidgets('avatar widget', (tester) async {
-      //   await tester.pumpWidget(
-      //     BlocProvider.value(
-      //       value: authenticationBloc,
-      //       child: MaterialApp(
-      //         home: HomePage(),
-      //       ),
-      //     ),
-      //   );
-      //   expect(find.byType(Avatar), findsOneWidget);
-      // });
-
-      // testWidgets('email address', (tester) async {
-      //   await tester.pumpWidget(
-      //     BlocProvider.value(
-      //       value: authenticationBloc,
-      //       child: MaterialApp(
-      //         home: HomePage(),
-      //       ),
-      //     ),
-      //   );
-      //   expect(find.text('test@gmail.com'), findsOneWidget);
-      // });
-    });
   });
 }
