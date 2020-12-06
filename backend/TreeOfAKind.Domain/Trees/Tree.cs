@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Domain.Trees.Rules;
@@ -16,13 +17,13 @@ namespace TreeOfAKind.Domain.Trees
         public IReadOnlyCollection<Person> People =>
             _people;
 
-        private readonly List<TreeUserProfile> _treeOwners 
+        private readonly List<TreeUserProfile> _treeOwners
             = new List<TreeUserProfile>();
 
         private readonly List<Person> _people
             = new List<Person>();
 
-        
+
         private Tree()
         {
 			Id = default!;
@@ -44,7 +45,11 @@ namespace TreeOfAKind.Domain.Trees
 
         public void AddTreeOwner(UserId userId)
         {
-            _treeOwners.Add(new TreeUserProfile(userId, Id)); 
+            var treeUserProfile = new TreeUserProfile(userId, Id);
+
+            if (_treeOwners.Contains(treeUserProfile)) return;
+
+            _treeOwners.Add(treeUserProfile);
             AddDomainEvent(new TreeOwnerAddedEvent(Id, userId));
         }
 
