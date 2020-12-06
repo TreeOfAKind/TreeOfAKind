@@ -8,12 +8,12 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
         public CreateOrUpdateUserProfileCommandValidator()
         { 
             RuleFor(x => x.FirstName)
-                .MaximumLength(StringLengths.VeryShort)
-                .WithMessage($"FirstName is longer than maximum length {StringLengths.VeryShort}");
+                .MaximumLength(StringLengths.Short)
+                .WithMessage($"FirstName is longer than maximum length {StringLengths.Short}");
             
             RuleFor(x => x.LastName)
-                .MaximumLength(StringLengths.VeryShort)
-                .WithMessage($"LastName is longer than maximum length {StringLengths.VeryShort}");
+                .MaximumLength(StringLengths.Short)
+                .WithMessage($"LastName is longer than maximum length {StringLengths.Short}");
             
             RuleFor(x => x.UserAuthId)
                 .NotNull()

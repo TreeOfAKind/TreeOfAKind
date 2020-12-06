@@ -5,9 +5,7 @@ namespace TreeOfAKind.API.Trees
 {
     public class AddTreeOwnerRequest
     {
-        [Required]
-        public Guid TreeId { get; set; } 
-        [Required]
-        public string InvitedUserEmail { get; set; }
+        [Required] public Guid TreeId { get; set; }
+        [Required] public string InvitedUserEmail { get; set; }
     }
 }

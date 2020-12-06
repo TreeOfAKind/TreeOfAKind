@@ -7,7 +7,7 @@ using TreeOfAKind.Infrastructure.Database;
 
 namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 {
-    public class UserProfileTypeConfiguration : IEntityTypeConfiguration<UserProfile>
+    public class UserProfileEntityTypeConfiguration : IEntityTypeConfiguration<UserProfile>
     {
         public void Configure(EntityTypeBuilder<UserProfile> builder)
         {
@@ -22,10 +22,10 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
                 .HasMaxLength(StringLengths.AuthIdLength);
 
             builder.Property(u => u.FirstName)
-                .HasMaxLength(StringLengths.VeryShort);
+                .HasMaxLength(StringLengths.Short);
 
             builder.Property(u => u.LastName)
-                .HasMaxLength(StringLengths.VeryShort);
+                .HasMaxLength(StringLengths.Short);
 
             builder.Property(u => u.BirthDate)
                 .HasColumnType("date");

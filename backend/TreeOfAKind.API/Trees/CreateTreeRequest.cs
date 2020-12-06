@@ -4,7 +4,6 @@ namespace TreeOfAKind.API.Trees
 {
     public class CreateTreeRequest
     {
-        [Required]
-        public string TreeName { get; set; }
+        [Required] public string TreeName { get; set; }
     }
 }

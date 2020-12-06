@@ -41,14 +41,14 @@ namespace TreeOfAKind.IntegrationTests
             EmailsSettings = new EmailsSettings {FromAddressEmail = "from@mail.com"};
 
             EmailSender = Substitute.For<IEmailSender>();
-            
+
             UserAuthIdProvider = Substitute.For<IUserAuthIdProvider>();
 
             ExecutionContext = new ExecutionContextMock();
 
             ApplicationStartup.Initialize(
                 new ServiceCollection(),
-                ConnectionString, 
+                ConnectionString,
                 new CacheStore(),
                 EmailSender,
                 EmailsSettings,
@@ -57,14 +57,15 @@ namespace TreeOfAKind.IntegrationTests
                 UserAuthIdProvider,
                 runQuartz:false);
         }
-        
+
         private static void ClearDatabase(IDbConnection connection)
         {
             const string sql = "DELETE FROM app.InternalCommands " +
                                "DELETE FROM app.OutboxMessages " +
                                "DELETE FROM trees.Trees " +
                                "DELETE FROM trees.UserProfiles " +
-                               "DELETE FROM trees.TreeUserProfile";
+                               "DELETE FROM trees.TreeUserProfile " +
+                               "DELETE FROM trees.TreeRelations";
 
             connection.ExecuteScalar(sql);
         }

@@ -34,7 +34,7 @@ namespace TreeOfAKind.API.UserProfiles
         ///     {
         ///        "firstName": "Bartosz",
         ///        "lastName": "Chrostowski",
-        ///        "birthDate": "1998-02-12T00:00:00.000Z"
+        ///        "birthDate": "1998-02-12"
         ///     }
         ///
         /// </remarks>
@@ -64,8 +64,8 @@ namespace TreeOfAKind.API.UserProfiles
             return Created(string.Empty, new IdDto {Id = userId.Value});
         }
 
-        
-        
+
+
         /// <summary>
         /// Gets a User Profile of an authenticated user (from token).
         /// </summary>

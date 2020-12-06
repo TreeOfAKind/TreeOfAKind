@@ -26,7 +26,7 @@ namespace TreeOfAKind.Domain.UserProfiles
             BirthDate = default!;
         }
 
-        private UserProfile(string userAuthId, string? firstName, string? lastName,DateTime? birthDate)
+        private UserProfile(string userAuthId, string? firstName, string? lastName, DateTime? birthDate)
         {
             Id = new UserId(Guid.NewGuid());
             UserAuthId = userAuthId;
@@ -44,7 +44,7 @@ namespace TreeOfAKind.Domain.UserProfiles
             DateTime? birthDate,
             IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker)
         {
-            CheckRule(new UserMustBeRegistered(userAuthId));
+            CheckRule(new UserMustBeRegisteredRule(userAuthId));
             CheckRule(new UserAuthIdMustBeUniqueRule(userAuthId, userAuthIdUniquenessChecker));
 
             return new UserProfile(userAuthId, firstName, lastName, birthDate);

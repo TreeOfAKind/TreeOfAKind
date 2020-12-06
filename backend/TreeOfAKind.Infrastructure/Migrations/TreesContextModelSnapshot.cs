@@ -113,6 +113,37 @@ namespace TreeOfAKind.Infrastructure.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uniqueidentifier");
 
+                            b1.Property<string>("Biography")
+                                .IsRequired()
+                                .HasMaxLength(10000)
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime?>("BirthDate")
+                                .HasColumnType("date");
+
+                            b1.Property<DateTime?>("DeathDate")
+                                .HasColumnType("date");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)");
+
+                            b1.Property<string>("Gender")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("Surname")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
                             b1.Property<Guid>("TreeId")
                                 .HasColumnType("uniqueidentifier");
 
@@ -126,6 +157,46 @@ namespace TreeOfAKind.Infrastructure.Migrations
                                 .HasForeignKey("TreeId");
 
                             b1.Navigation("Tree");
+                        });
+
+                    b.OwnsOne("TreeOfAKind.Domain.Trees.TreeRelations", "TreeRelations", b1 =>
+                        {
+                            b1.Property<Guid>("TreeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("TreeId");
+
+                            b1.ToTable("Trees");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TreeId");
+
+                            b1.OwnsMany("TreeOfAKind.Domain.Trees.Relation", "Relations", b2 =>
+                                {
+                                    b2.Property<Guid>("From")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<Guid>("To")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("RelationType")
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
+
+                                    b2.Property<Guid>("TreeId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.HasKey("From", "To", "RelationType");
+
+                                    b2.HasIndex("TreeId");
+
+                                    b2.ToTable("TreeRelations", "trees");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("TreeId");
+                                });
+
+                            b1.Navigation("Relations");
                         });
 
                     b.OwnsMany("TreeOfAKind.Domain.Trees.TreeUserProfile", "TreeOwners", b1 =>
@@ -147,6 +218,9 @@ namespace TreeOfAKind.Infrastructure.Migrations
                     b.Navigation("People");
 
                     b.Navigation("TreeOwners");
+
+                    b.Navigation("TreeRelations")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
