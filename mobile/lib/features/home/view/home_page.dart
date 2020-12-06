@@ -18,78 +18,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 1;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const String _myProfile = 'My profile';
+  static const String _signOut = 'Sign out';
 
-  List<Widget> _widgetOptions(
-    User user,
-    TextTheme textTheme,
-  ) {
-    return <Widget>[
-      Center(
-          child: Text(
-        'Index 0: Home',
-        style: optionStyle,
-      )),
-      Center(
-          child: Text(
-        'Index 1: Family',
-        style: optionStyle,
-      )),
-      BlocProvider<UserProfileBloc>(
-        create: (context) => UserProfileBloc(
-            userProfileRepository:
-                RepositoryProvider.of<UserProfileRepository>(context))
-          ..add(const FetchUserProfile()),
-        child: UserProfilePage(),
-      ),
-    ];
-  }
+  static const List<String> _menuItems = <String>[_myProfile, _signOut];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _menuAction(String item, BuildContext context) {
+    if (item == _myProfile) {
+      Navigator.of(context).push<void>(UserProfilePage.route());
+    } else if (item == _signOut) {
+      context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final user = BlocProvider.of<AuthenticationBloc>(context).state.user;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        actions: <Widget>[
-          IconButton(
-            key: const Key('homePage_logout_iconButton'),
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () => context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationLogoutRequested()),
-          )
-        ],
-      ),
-      body: _widgetOptions(user, textTheme).elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.nature_people),
-            label: 'Family',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'My Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
-        onTap: _onItemTapped,
-      ),
-    );
+        appBar: AppBar(
+          leading: const Icon(Icons.nature_people),
+          title: const Text('My family trees'),
+          actions: <Widget>[
+            PopupMenuButton(
+              key: const Key('homePage_menu_popupMenuButton'),
+              icon: const Icon(Icons.more_vert),
+              onSelected: (item) => _menuAction(item, context),
+              itemBuilder: (context) => _menuItems
+                  .map((item) =>
+                      PopupMenuItem<String>(value: item, child: Text(item)))
+                  .toList(),
+            )
+          ],
+        ),
+        body: Center(child: Text('Trees will be here')));
   }
 }
