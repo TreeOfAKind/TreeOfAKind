@@ -26,6 +26,8 @@ using TreeOfAKind.Infrastructure;
 using TreeOfAKind.Infrastructure.Caching;
 using Serilog;
 using Serilog.Formatting.Compact;
+using Serilog.Formatting.Json;
+using Serilog.Sinks.Datadog.Logs;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Infrastructure.Database;
 using TreeOfAKind.Infrastructure.FileStorage;
@@ -43,9 +45,6 @@ namespace TreeOfAKind.API
 
         public Startup(IWebHostEnvironment env)
         {
-            _logger = ConfigureLogger();
-            _logger.Information("Logger configured");
-
             this._configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
@@ -53,6 +52,9 @@ namespace TreeOfAKind.API
                 .AddUserSecrets<Startup>()
                 .AddEnvironmentVariables()
                 .Build();
+
+            _logger = ConfigureLogger(env);
+            _logger.Information("Logger configured");
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -147,13 +149,24 @@ namespace TreeOfAKind.API
             context.Database.Migrate();
         }
 
-        private static ILogger ConfigureLogger()
+        private ILogger ConfigureLogger(IWebHostEnvironment env)
         {
-            return new LoggerConfiguration()
+            var loggerConfiguration = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{Context}] {Message:lj}{NewLine}{Exception}")
-                .WriteTo.RollingFile(new CompactJsonFormatter(), "logs/logs")
-                .CreateLogger();
+                .WriteTo.Console(
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{Context}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.RollingFile(new JsonFormatter(), "logs/logs");
+
+            if (env.IsProduction())
+            {
+                loggerConfiguration.WriteTo.DatadogLogs(
+                    this._configuration["DatadogApiKey"],
+                    service: env.ApplicationName,
+                    host: env.EnvironmentName,
+                    configuration: new DatadogConfiguration {Url = "https://http-intake.logs.datadoghq.com"});
+            }
+
+            return loggerConfiguration.CreateLogger();
         }
     }
 }

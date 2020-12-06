@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees.Events;
 using TreeOfAKind.Domain.Trees.People;
@@ -55,7 +56,11 @@ namespace TreeOfAKind.Domain.Trees
 
         public void AddTreeOwner(UserId userId)
         {
-            _treeOwners.Add(new TreeUserProfile(userId, Id));
+            var treeUserProfile = new TreeUserProfile(userId, Id);
+
+            if (_treeOwners.Contains(treeUserProfile)) return;
+
+            _treeOwners.Add(treeUserProfile);
             AddDomainEvent(new TreeOwnerAddedEvent(Id, userId));
         }
 
