@@ -6,6 +6,7 @@ using TreeOfAKind.Application.Command.Trees.AddPerson;
 using TreeOfAKind.Application.Command.Trees.AddRelation;
 using TreeOfAKind.Application.Command.Trees.CreateTree;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
+using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
@@ -82,6 +83,15 @@ namespace TreeOfAKind.IntegrationTests
 
             Assert.Equal(TreeName, tree.TreeName);
             Assert.Equal(treeId.Value, tree.TreeId);
+        }
+
+        [Fact]
+        public async Task TreeQuery_UnauthorizedUser_ThrowsException()
+        {
+            var treeId = await CreateTree();
+
+            await Assert.ThrowsAsync<UnauthorizedException>(async () =>
+                await QueriesExecutor.Execute(new GetTreeQuery(AuthId + "2", treeId)));
         }
 
     }

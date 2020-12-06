@@ -19,7 +19,6 @@ namespace TreeOfAKind.Application.Query.Trees
 
         public async Task<AuthorizationResult> AuthorizeAsync(TreeQueryBase<TResult> instance, CancellationToken cancellation = default)
         {
-            return AuthorizationResult.Succeed();
             var connection = _sqlConnectionFactory.GetOpenConnection();
             const string sql =
                 "SELECT 1 FROM [trees].[TreeUserProfile] tup " +
