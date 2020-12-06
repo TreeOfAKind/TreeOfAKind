@@ -1,9 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tree_of_a_kind/contracts/user_profile/user_profile_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
-import 'package:tree_of_a_kind/features/user_profile/bloc/user_profile_bloc.dart';
 import 'package:tree_of_a_kind/features/user_profile/view/user_profile_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,8 +40,7 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.more_vert),
               onSelected: (item) => _menuAction(item, context),
               itemBuilder: (context) => _menuItems
-                  .map((item) =>
-                      PopupMenuItem<String>(value: item, child: Text(item)))
+                  .map((item) => PopupMenuItem(value: item, child: Text(item)))
                   .toList(),
             )
           ],
