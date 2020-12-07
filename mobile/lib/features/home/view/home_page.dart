@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
+import 'package:tree_of_a_kind/features/common/generic_error.dart';
+import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
+import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
 import 'package:tree_of_a_kind/features/user_profile/view/user_profile_page.dart';
+
+import 'tree_list_view.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -10,7 +16,14 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => HomePage());
+    return MaterialPageRoute<void>(
+        builder: (context) => BlocProvider<TreeListBloc>(
+              create: (context) => TreeListBloc(
+                  treeRepository:
+                      RepositoryProvider.of<TreeRepository>(context))
+                ..add(const FetchTreeList()),
+              child: HomePage(),
+            ));
   }
 }
 
@@ -45,6 +58,18 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-        body: Center(child: Text('Trees will be here')));
+        body: BlocBuilder<TreeListBloc, TreeListState>(
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return Center(child: LoadingIndicator());
+            } else if (state is UnknownErrorState) {
+              return GenericError();
+            } else if (state is PresentingData) {
+              return TreeListView(treeList: state.treeList);
+            } else {
+              return Container();
+            }
+          },
+        ));
   }
 }
