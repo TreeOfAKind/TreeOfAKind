@@ -117,7 +117,7 @@ void main() {
           BlocProvider.value(
             value: userProfileBloc,
           ),
-        ], child: MaterialApp(home: Scaffold(body: UserProfilePage()))));
+        ], child: MaterialApp(home: UserProfilePage())));
 
         expect(find.byType(Avatar), findsOneWidget);
       });
@@ -130,7 +130,7 @@ void main() {
           BlocProvider.value(
             value: userProfileBloc,
           ),
-        ], child: MaterialApp(home: Scaffold(body: UserProfilePage()))));
+        ], child: MaterialApp(home: UserProfilePage())));
 
         expect(find.byType(Avatar), findsOneWidget);
       });
@@ -143,7 +143,7 @@ void main() {
           BlocProvider.value(
             value: userProfileBloc,
           ),
-        ], child: MaterialApp(home: Scaffold(body: UserProfilePage()))));
+        ], child: MaterialApp(home: UserProfilePage())));
 
         expect(find.byType(TextFormField), findsNWidgets(2));
       });
@@ -156,7 +156,7 @@ void main() {
           BlocProvider.value(
             value: userProfileBloc,
           ),
-        ], child: MaterialApp(home: Scaffold(body: UserProfilePage()))));
+        ], child: MaterialApp(home: UserProfilePage())));
 
         expect(find.byType(RaisedButton), findsNWidgets(2));
       });
