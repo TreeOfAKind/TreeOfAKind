@@ -4,12 +4,24 @@ abstract class TreeListState {
   const TreeListState();
 }
 
-class LoadingState extends TreeListState {
-  const LoadingState();
+class InitialLoadingState extends TreeListState {
+  const InitialLoadingState();
 }
 
-class PresentingData extends TreeListState {
-  PresentingData(this.treeList);
+class RefreshLoadingState extends TreeListState {
+  const RefreshLoadingState(this.treeList);
+
+  final List<TreeItemDTO> treeList;
+}
+
+class PresentingList extends TreeListState {
+  const PresentingList(this.treeList);
+
+  final List<TreeItemDTO> treeList;
+}
+
+class PresentingNewTreeForm extends TreeListState {
+  const PresentingNewTreeForm(this.treeList);
 
   final List<TreeItemDTO> treeList;
 }

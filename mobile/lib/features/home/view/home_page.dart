@@ -41,6 +41,46 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _newTreeDialog(BuildContext context, TreeListBloc bloc) {
+    final controller = TextEditingController();
+    final treeNameFieldKey = GlobalKey<FormState>();
+
+    showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+              title: Text('Add your new family tree'),
+              titleTextStyle: Theme.of(context).textTheme.headline4,
+              content: Form(
+                  key: treeNameFieldKey,
+                  child: TextFormField(
+                    controller: controller,
+                    validator: (text) => text.isEmpty
+                        ? 'Please provide family tree title'
+                        : null,
+                    decoration: const InputDecoration(
+                        labelText: 'Title',
+                        helperText: 'Your new family tree title'),
+                  )),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Add'),
+                  onPressed: () {
+                    if (treeNameFieldKey.currentState.validate()) {
+                      Navigator.of(context).pop();
+                      bloc.add(SaveNewTree(controller.text));
+                    }
+                  },
+                ),
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,14 +98,26 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () =>
+              _newTreeDialog(context, BlocProvider.of<TreeListBloc>(context)),
+        ),
         body: BlocBuilder<TreeListBloc, TreeListState>(
           builder: (context, state) {
-            if (state is LoadingState) {
+            if (state is InitialLoadingState) {
               return Center(child: LoadingIndicator());
             } else if (state is UnknownErrorState) {
               return GenericError();
-            } else if (state is PresentingData) {
-              return TreeListView(treeList: state.treeList);
+            } else if (state is PresentingList) {
+              return TreeListView(
+                treeList: state.treeList,
+              );
+            } else if (state is RefreshLoadingState) {
+              return TreeListView(
+                treeList: state.treeList,
+                isRefreshing: true,
+              );
             } else {
               return Container();
             }

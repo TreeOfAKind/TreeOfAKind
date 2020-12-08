@@ -9,9 +9,11 @@ part 'tree_list_event.dart';
 part 'tree_list_state.dart';
 
 class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
-  TreeListBloc({@required this.treeRepository}) : super(LoadingState());
+  TreeListBloc({@required this.treeRepository}) : super(InitialLoadingState());
 
   final TreeRepository treeRepository;
+
+  List<TreeItemDTO> _treeList;
 
   @override
   Stream<TreeListState> mapEventToState(
@@ -19,19 +21,48 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
   ) async* {
     if (event is FetchTreeList) {
       yield* _handleFetchTreeList();
+    } else if (event is OpenNewTreeForm) {
+      yield PresentingNewTreeForm(_treeList);
+    } else if (event is CloseNewTreeForm) {
+      yield PresentingList(_treeList);
+    } else if (event is SaveNewTree) {
+      yield* _handleSaveNewTree(event.treeName);
     } else {
       throw new Exception("Unhandled event.");
     }
   }
 
   Stream<TreeListState> _handleFetchTreeList() async* {
-    yield const LoadingState();
+    yield _treeList == null
+        ? const InitialLoadingState()
+        : RefreshLoadingState(_treeList);
+
     final result = await treeRepository.getMyTrees();
-    final treeList = result.unexpectedError ? null : result.data;
+
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else {
-      yield PresentingData(treeList);
+      _treeList = result.data;
+      yield PresentingList(_treeList);
+    }
+  }
+
+  Stream<TreeListState> _handleSaveNewTree(String treeName) async* {
+    yield RefreshLoadingState(_treeList);
+
+    final result = await treeRepository.addTree(treeName: treeName);
+
+    if (result.unexpectedError) {
+      yield const UnknownErrorState();
+    } else {
+      final queryResult = await treeRepository.getMyTrees();
+
+      if (queryResult.unexpectedError) {
+        yield const UnknownErrorState();
+      } else {
+        _treeList = queryResult.data;
+        yield PresentingList(_treeList);
+      }
     }
   }
 }
