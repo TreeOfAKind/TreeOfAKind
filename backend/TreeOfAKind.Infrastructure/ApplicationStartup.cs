@@ -8,23 +8,22 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
+using Serilog;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Emails;
+using TreeOfAKind.Application.Services;
+using TreeOfAKind.Infrastructure.Authentication;
 using TreeOfAKind.Infrastructure.Caching;
 using TreeOfAKind.Infrastructure.Database;
 using TreeOfAKind.Infrastructure.Domain;
 using TreeOfAKind.Infrastructure.Emails;
+using TreeOfAKind.Infrastructure.FileStorage;
 using TreeOfAKind.Infrastructure.Logging;
 using TreeOfAKind.Infrastructure.Processing;
 using TreeOfAKind.Infrastructure.Processing.InternalCommands;
 using TreeOfAKind.Infrastructure.Processing.Outbox;
 using TreeOfAKind.Infrastructure.Quartz;
 using TreeOfAKind.Infrastructure.SeedWork;
-using Serilog;
-using TreeOfAKind.Application.Services;
-using TreeOfAKind.Domain.Trees;
-using TreeOfAKind.Infrastructure.Authentication;
-using TreeOfAKind.Infrastructure.FileStorage;
 
 namespace TreeOfAKind.Infrastructure
 {

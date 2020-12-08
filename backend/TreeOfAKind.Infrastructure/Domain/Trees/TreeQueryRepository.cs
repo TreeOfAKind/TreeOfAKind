@@ -7,7 +7,6 @@ using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.Database;
-using TreeOfAKind.Infrastructure.Domain.UserProfiles;
 
 namespace TreeOfAKind.Infrastructure.Domain.Trees
 {

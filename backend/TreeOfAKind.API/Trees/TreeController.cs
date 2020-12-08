@@ -1,13 +1,9 @@
-﻿using System.IO;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using Google.Apis.Upload;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.API.SeedWork;
-using TreeOfAKind.API.UserProfiles;
 using TreeOfAKind.Application.Command;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePhoto;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner;

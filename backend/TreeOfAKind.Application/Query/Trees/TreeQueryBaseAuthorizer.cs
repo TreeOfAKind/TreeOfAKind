@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
-using TreeOfAKind.Application.Command.Trees;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Data;
-using TreeOfAKind.Application.Query.Trees.GetTree;
 
 namespace TreeOfAKind.Application.Query.Trees
 {

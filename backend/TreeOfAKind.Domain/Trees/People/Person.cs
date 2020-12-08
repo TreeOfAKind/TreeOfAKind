@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TreeOfAKind.Domain.SeedWork;
 
 namespace TreeOfAKind.Domain.Trees.People

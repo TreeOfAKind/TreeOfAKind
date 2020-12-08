@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.Domain.SeedWork;
-using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.API.SeedWork
 {
-    public class BusinessRuleValidationExceptionProblemDetails : Microsoft.AspNetCore.Mvc.ProblemDetails
+    public class BusinessRuleValidationExceptionProblemDetails : ProblemDetails
     {
         public BusinessRuleValidationExceptionProblemDetails(BusinessRuleValidationException exception)
         {

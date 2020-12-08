@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.Trees;
-using TreeOfAKind.Domain.Trees.People;
-using TreeOfAKind.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.Database;
 
 namespace TreeOfAKind.Infrastructure.Domain.Trees

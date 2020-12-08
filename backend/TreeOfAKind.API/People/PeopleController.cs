@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.API.SeedWork;
-using TreeOfAKind.API.UserProfiles;
 using TreeOfAKind.Application.Command.Trees.People.AddPerson;
 using TreeOfAKind.Application.Command.Trees.People.AddRelation;
 using TreeOfAKind.Application.Command.Trees.People.RemovePerson;

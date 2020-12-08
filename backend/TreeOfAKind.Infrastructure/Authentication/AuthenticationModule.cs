@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using TreeOfAKind.Application.Services;
-using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Infrastructure.Authentication
 {

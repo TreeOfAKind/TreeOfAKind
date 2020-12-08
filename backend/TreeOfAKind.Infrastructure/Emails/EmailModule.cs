@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using TreeOfAKind.Application.Configuration.Emails;
-using Module = Autofac.Module;
 
 namespace TreeOfAKind.Infrastructure.Emails
 {

@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Data;
-using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.Command.Trees
 {

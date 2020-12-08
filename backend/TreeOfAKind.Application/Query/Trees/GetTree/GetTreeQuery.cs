@@ -1,5 +1,4 @@
-﻿using TreeOfAKind.Application.Configuration.Queries;
-using TreeOfAKind.Domain.Trees;
+﻿using TreeOfAKind.Domain.Trees;
 
 namespace TreeOfAKind.Application.Query.Trees.GetTree
 {

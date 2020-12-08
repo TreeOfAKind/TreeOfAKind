@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.API.SeedWork;
-using TreeOfAKind.Application.Command.UserProfiles;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Application.Query.UserProfiles.GetMyUserProfile;
-using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.API.UserProfiles
 {

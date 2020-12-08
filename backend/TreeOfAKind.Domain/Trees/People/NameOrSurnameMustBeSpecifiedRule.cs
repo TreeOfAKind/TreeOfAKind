@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using TreeOfAKind.Domain.SeedWork;
+﻿using TreeOfAKind.Domain.SeedWork;
 
 namespace TreeOfAKind.Domain.Trees.People
 {

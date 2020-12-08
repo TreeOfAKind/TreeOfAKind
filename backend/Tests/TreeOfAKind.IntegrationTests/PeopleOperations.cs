@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TreeOfAKind.Application.Command.Trees.People.AddPerson;
 using TreeOfAKind.Application.Command.Trees.People.AddRelation;
-using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.SeedWork;

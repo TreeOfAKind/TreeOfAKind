@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Dapper;
 using MediatR;
 using Newtonsoft.Json;
-using TreeOfAKind.Application.Configuration.Commands;
-using TreeOfAKind.Application.Configuration.Data;
-using TreeOfAKind.Application.Configuration.DomainEvents;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
+using TreeOfAKind.Application.Configuration.Commands;
+using TreeOfAKind.Application.Configuration.Data;
+using TreeOfAKind.Application.Configuration.DomainEvents;
 
 namespace TreeOfAKind.Infrastructure.Processing.Outbox
 {

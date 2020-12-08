@@ -2,13 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using TreeOfAKind.Application.Configuration;
-using TreeOfAKind.Application.Configuration.Commands;
-using TreeOfAKind.Infrastructure.Processing.Outbox;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
+using TreeOfAKind.Application.Configuration;
+using TreeOfAKind.Application.Configuration.Commands;
+using TreeOfAKind.Infrastructure.Processing.Outbox;
 
 namespace TreeOfAKind.Infrastructure.Logging
 {
