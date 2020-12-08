@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: "https://treeofakind-test.azurewebsites.net/api/",
 };
