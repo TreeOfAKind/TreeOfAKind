@@ -11,7 +11,8 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './authentication/shared/token-interceptor'
+import { TokenInterceptor } from './authentication/shared/token-interceptor';
+import { UserProfileFormComponent } from './user-profile/user-profile-form/user-profile-form.component'
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { TokenInterceptor } from './authentication/shared/token-interceptor'
     LoginComponent,
     RegisterComponent,
     HomeComponent,
+    UserProfileFormComponent,
   ],
   imports: [
     BrowserModule,

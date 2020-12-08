@@ -14,24 +14,13 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private router: Router,
     private zone: NgZone
-  ) {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.user = user;
-        localStorage.setItem('user', JSON.stringify(this.user));
-        JSON.parse(localStorage.getItem('user'));
-      } else {
-        this.user = null;
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-      }
-    })
-   }
+  ) { }
 
   async register(email: string, password: string) {
     await this.afAuth.createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        this.zone.run(() => this.router.navigate(['/login']));
+      .then((result) => {
+        this.setUserData(result.user);
+        this.zone.run(() => this.router.navigate(['/user-profile']));
       })
       .catch(error => {
         window.alert(error.message);
@@ -63,7 +52,7 @@ export class AuthService {
   }
 
   getToken(): Observable<string> {
-    return from(this.user.getIdToken());
+    return from(this.afAuth.idToken);
   }
 
   isLoggedIn() {
