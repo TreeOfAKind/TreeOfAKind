@@ -1,6 +1,5 @@
 using AutoFixture;
-using TreeOfAKind.Application.Command.Trees.AddPerson;
-using TreeOfAKind.Application.Command.Trees.AddRelation;
+using TreeOfAKind.Application.Command.Trees.People.AddRelation;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.Trees.People;
 using Xunit;

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using TreeOfAKind.Application.Command;
-using TreeOfAKind.Application.Command.Trees.AddOrChangeTreePhoto;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePhoto;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;

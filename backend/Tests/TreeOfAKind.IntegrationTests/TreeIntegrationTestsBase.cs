@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TreeOfAKind.Application.Command.Trees.CreateTree;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Infrastructure.Processing;

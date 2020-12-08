@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using AutoFixture;
 using FluentValidation.Results;
-using TreeOfAKind.Application.Command.Trees.AddPerson;
+using TreeOfAKind.Application.Command.Trees.People.AddPerson;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;

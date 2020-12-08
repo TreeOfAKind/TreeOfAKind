@@ -1,6 +1,5 @@
 using System.Reflection;
 using AutoFixture;
-using TreeOfAKind.Application.Command.Trees.AddPerson;
 
 namespace TreeOfAKind.UnitTests.Validators
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TreeOfAKind.Application.Command.Trees.AddPerson;
+using TreeOfAKind.Application.Command.Trees.People.AddPerson;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 
