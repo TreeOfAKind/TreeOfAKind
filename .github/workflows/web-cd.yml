@@ -18,7 +18,7 @@ jobs:
         run: npm install
         working-directory: ./web
       - name: Build
-        run: npm run build --prod
+        run: npm run build --configuration=production
         working-directory: ./web
       - name: Deploy
         uses: w9jds/firebase-action@master
