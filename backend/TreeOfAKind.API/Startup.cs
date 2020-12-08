@@ -70,10 +70,10 @@ namespace TreeOfAKind.API
 
             services.AddFirebaseAuthentication(_configuration["FirebaseAuthentication:Issuer"], _configuration["FirebaseAuthentication:Audience"]);
 
-            FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromJson(_configuration["Firebase:GoogleCredentialsJson"])
-            });
+            // FirebaseApp.Create(new AppOptions()
+            // {
+            //     Credential = GoogleCredential.FromJson(_configuration["Firebase:GoogleCredentialsJson"])
+            // });
 
             services.AddSwaggerDocumentation();
 
@@ -119,7 +119,11 @@ namespace TreeOfAKind.API
         {
             app.UseCors(cfg =>
             {
-                (env.IsProduction() ? cfg.WithOrigins().AllowCredentials() : cfg.AllowAnyOrigin()) // TODO: Add web domain
+                (env.IsProduction() ?
+                        cfg.WithOrigins(_configuration["AllowedOrigins"].Split(";"))
+                            .AllowCredentials()
+                        :
+                        cfg.AllowAnyOrigin())
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .SetPreflightMaxAge(TimeSpan.FromMinutes(60));
