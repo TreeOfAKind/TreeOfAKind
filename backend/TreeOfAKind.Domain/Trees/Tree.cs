@@ -67,13 +67,12 @@ namespace TreeOfAKind.Domain.Trees
         public void RemoveTreeOwner(UserId userId)
         {
             _treeOwners.RemoveAll(o => o.UserId == userId);
-            CheckRule(new TreeMustHaveAtLeasOneOwnerRule(_treeOwners));
             AddDomainEvent(new TreeOwnerRemovedEvent(Id, userId));
         }
 
         public Person AddPerson(
             string? name,
-            string? surname,
+            string? lastName,
             Gender gender,
             DateTime? birthDate,
             DateTime? deathDate,
@@ -83,7 +82,7 @@ namespace TreeOfAKind.Domain.Trees
             var person = Person.CreateNewPerson(
                 this,
                 name,
-                surname,
+                lastName,
                 gender,
                 birthDate,
                 deathDate,

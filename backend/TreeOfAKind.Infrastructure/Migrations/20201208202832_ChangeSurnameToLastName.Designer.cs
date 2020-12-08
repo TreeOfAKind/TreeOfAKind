@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeOfAKind.Infrastructure.Database;
 
 namespace TreeOfAKind.Infrastructure.Migrations
 {
     [DbContext(typeof(TreesContext))]
-    partial class TreesContextModelSnapshot : ModelSnapshot
+    [Migration("20201208202832_ChangeSurnameToLastName")]
+    partial class ChangeSurnameToLastName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,7 +143,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
                             b1.Property<string>("LastName")
                                 .IsRequired()
                                 .HasMaxLength(128)
-                                .HasColumnType("nvarchar(128)");
+                                .HasColumnType("nvarchar(128)")
+                                .HasColumnName("Surname");
 
                             b1.Property<string>("Name")
                                 .IsRequired()

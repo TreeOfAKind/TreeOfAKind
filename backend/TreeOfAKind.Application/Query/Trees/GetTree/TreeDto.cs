@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
@@ -10,10 +11,10 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         public Gender Gender { get; set; }
-        public DateTime? BirthDate { get; set; }
-        public DateTime? DeathDate { get; set; }
+        [DataType(DataType.Date)] public DateTime? BirthDate { get; set; }
+        [DataType(DataType.Date)] public DateTime? DeathDate { get; set; }
         public string Description { get; set; }
         public string Biography { get; set; }
         public Guid? Mother { get; set; }
@@ -31,7 +32,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         {
             Id = person.Id.Value;
             Name = person.Name;
-            Surname = person.Surname;
+            LastName = person.LastName;
             Gender = person.Gender;
             BirthDate = person.BirthDate;
             DeathDate = person.DeathDate;

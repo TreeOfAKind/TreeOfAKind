@@ -21,6 +21,11 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                 .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
         }
 
+        public async Task RemoveAsync(Tree id, CancellationToken cancellationToken = default)
+        {
+            await Task.FromResult(_treesContext.Remove(id));
+        }
+
         public async Task AddAsync(Tree tree, CancellationToken cancellationToken = default)
         {
             await _treesContext.AddAsync(tree, cancellationToken);

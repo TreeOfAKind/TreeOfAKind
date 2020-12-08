@@ -16,8 +16,8 @@ namespace TreeOfAKind.UnitTests.Trees
         private static string Name
             => "Name";
 
-        private static string Surname
-            => "Surname";
+        private static string LastName
+            => "LastName";
 
         private static Gender Gender
             => Gender.Female;
@@ -58,7 +58,7 @@ namespace TreeOfAKind.UnitTests.Trees
         {
             var person = Tree.AddPerson(
                 Name,
-                Surname,
+                LastName,
                 Gender,
                 BirthDate,
                 DeathDate,
@@ -67,10 +67,11 @@ namespace TreeOfAKind.UnitTests.Trees
 
             Assert.Single(Tree.People);
             Assert.Equal(person, Tree.People.FirstOrDefault());
+            Assert.Equal(LastName, person.LastName);
         }
 
         [Fact]
-        public void AddPersonToTree_NoNameNorSurnameProvided_ThrowsException()
+        public void AddPersonToTree_NoNameNorLastNameProvided_ThrowsException()
         {
             Assert.Throws<BusinessRuleValidationException>(() =>
                 Tree.AddPerson(
@@ -89,7 +90,7 @@ namespace TreeOfAKind.UnitTests.Trees
             Assert.Throws<BusinessRuleValidationException>(() =>
                 Tree.AddPerson(
                     Name,
-                    Surname,
+                    LastName,
                     Gender,
                     DeathDate.AddDays(1),
                     DeathDate,

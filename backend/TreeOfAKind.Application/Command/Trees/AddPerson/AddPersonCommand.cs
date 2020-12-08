@@ -27,7 +27,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
             }
         }
         public string? Name { get; }
-        public string? Surname { get; }
+        public string? LastName { get; }
         public Gender Gender { get; }
         public DateTime? BirthDate { get; }
         public DateTime? DeathDate { get; }
@@ -35,13 +35,13 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
         public string? Biography { get; }
         public IEnumerable<Relation> Relations { get; }
 
-        public AddPersonCommand(string requesterUserAuthId, TreeId treeId, string? name, string? surname, Gender gender,
+        public AddPersonCommand(string requesterUserAuthId, TreeId treeId, string? name, string? lastName, Gender gender,
             DateTime? birthDate, DateTime? deathDate, string? description, string? biography,
             IEnumerable<Relation> relations = null) : base(
             requesterUserAuthId, treeId)
         {
             Name = name;
-            Surname = surname;
+            LastName = lastName;
             Gender = gender;
             BirthDate = birthDate;
             DeathDate = deathDate;
