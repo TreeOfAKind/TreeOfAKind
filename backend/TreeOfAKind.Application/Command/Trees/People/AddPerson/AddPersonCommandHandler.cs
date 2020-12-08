@@ -21,7 +21,7 @@ namespace TreeOfAKind.Application.Command.Trees.People.AddPerson
 
             var person = tree!.AddPerson(
                 request.Name,
-                request.Surname,
+                request.LastName,
                 request.Gender,
                 request.BirthDate,
                 request.DeathDate,

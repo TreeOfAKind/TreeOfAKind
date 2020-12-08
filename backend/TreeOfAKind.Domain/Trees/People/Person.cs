@@ -44,7 +44,7 @@ namespace TreeOfAKind.Domain.Trees.People
         public PersonId Id { get; private set; }
         public Tree Tree { get; private set; }
         public string Name { get; private set; }
-        public string Surname { get; private set; }
+        public string LastName { get; private set; }
         public Gender Gender { get; private set; }
         public DateTime? BirthDate { get; private set; }
         public DateTime? DeathDate { get; private set; }
@@ -63,7 +63,7 @@ namespace TreeOfAKind.Domain.Trees.People
             Id = default!;
             Tree = default!;
             Name = default!;
-            Surname = default!;
+            LastName = default!;
             Gender = default!;
             BirthDate = default!;
             DeathDate = default!;
@@ -74,7 +74,7 @@ namespace TreeOfAKind.Domain.Trees.People
         public Person(
             Tree tree,
             string? name,
-            string? surname,
+            string? lastName,
             Gender gender,
             DateTime? birthDate,
             DateTime? deathDate,
@@ -84,7 +84,7 @@ namespace TreeOfAKind.Domain.Trees.People
             Id = new PersonId(Guid.NewGuid());
             Tree = tree;
             Name = name ?? "";
-            Surname = surname ?? "";
+            LastName = lastName ?? "";
             Gender = gender;
             BirthDate = birthDate;
             DeathDate = deathDate;
@@ -95,16 +95,18 @@ namespace TreeOfAKind.Domain.Trees.People
         public static Person CreateNewPerson(
             Tree tree,
             string? name,
-            string? surname,
+            string? lastName,
             Gender gender,
             DateTime? birthDate,
             DateTime? deathDate,
             string? description,
             string? biography)
         {
-            CheckRule(new NameOrSurnameMustBeSpecifiedRule(name, surname));
+            CheckRule(new NameOrLastNameMustBeSpecifiedRule(name, lastName));
             CheckRule(new BirthDateMustBeBeforeDeathDateRule(birthDate, deathDate));
-            return new Person(tree, name, surname, gender, birthDate, deathDate, description, biography);
+            return new Person(tree, name, lastName, gender, birthDate, deathDate, description, biography);
+        }
+
         public FileId AddFile(string name, string mimeType, Uri fileUri)
         {
             var file = new File(name, mimeType, fileUri, this);

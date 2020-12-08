@@ -34,7 +34,7 @@ namespace TreeOfAKind.API.People
         ///     {
         ///          "treeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         ///          "name": "Bartek",
-        ///          "surname": "Chrostowski",
+        ///          "lastName": "Chrostowski",
         ///          "gender": "Male",
         ///          "birthDate": "1998-12-04",
         ///          "description": "Some guy",
@@ -82,7 +82,7 @@ namespace TreeOfAKind.API.People
                     r.RelationType));
 
             var result = await _mediator.Send(
-                new AddPersonCommand(authId, new TreeId(request.TreeId), request.Name, request.Surname, request.Gender,
+                new AddPersonCommand(authId, new TreeId(request.TreeId), request.Name, request.LastName, request.Gender,
                     request.BirthDate, request.DeathDate, request.Description, request.Biography, relations));
 
 

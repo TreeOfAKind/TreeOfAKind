@@ -2,19 +2,19 @@
 
 namespace TreeOfAKind.Domain.Trees.People
 {
-    public class NameOrSurnameMustBeSpecifiedRule : IBusinessRule
+    public class NameOrLastNameMustBeSpecifiedRule : IBusinessRule
     {
         public string? Name { get; }
-        public string? Surname { get; }
-        public NameOrSurnameMustBeSpecifiedRule(string? name, string? surname)
+        public string? LastName { get; }
+        public NameOrLastNameMustBeSpecifiedRule(string? name, string? lastName)
         {
             Name = name;
-            Surname = surname;
+            LastName = lastName;
         }
 
         public bool IsBroken()
-            => string.IsNullOrWhiteSpace(Name) && string.IsNullOrEmpty(Surname);
+            => string.IsNullOrWhiteSpace(Name) && string.IsNullOrEmpty(LastName);
 
-        public string Message => "Name or surname of person must be specified.";
+        public string Message => "Name or last name of person must be specified.";
     }
 }

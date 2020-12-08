@@ -38,7 +38,7 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                 b.Property(p => p.Name)
                     .HasMaxLength(StringLengths.VeryShort);
 
-                b.Property(p => p.Surname)
+                b.Property(p => p.LastName)
                     .HasMaxLength(StringLengths.VeryShort);
 
                 b.Property(p => p.Description)

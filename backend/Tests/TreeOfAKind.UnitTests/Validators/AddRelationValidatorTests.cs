@@ -16,7 +16,7 @@ namespace TreeOfAKind.UnitTests.Validators
         }
 
         [Fact]
-        public void Validate_TooLongName_ValidationFails()
+        public void Validate_IdNotProvided_ValidationFails()
         {
             var command = Fixture.Create<AddRelationCommand>();
 
@@ -25,14 +25,5 @@ namespace TreeOfAKind.UnitTests.Validators
             Assert.False(Validator.Validate(command).IsValid);
         }
 
-        [Fact]
-        public void Validate_TooLongSurname_ValidationFails()
-        {
-            var command = Fixture.Create<AddRelationCommand>();
-
-            SetPropertyWithReflection(command, nameof(command.From),(PersonId)null);
-
-            Assert.False(Validator.Validate(command).IsValid);
-        }
     }
 }
