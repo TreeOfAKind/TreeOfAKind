@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NodaTime;
+using NodaTime.Serialization.SystemTextJson;
 using TreeOfAKind.API.Configuration;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.API.SeedWork;
@@ -64,16 +66,17 @@ namespace TreeOfAKind.API
             services.AddControllers().AddJsonOptions(opts =>
             {
                 opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                opts.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
             });
 
             services.AddMemoryCache();
 
             services.AddFirebaseAuthentication(_configuration["FirebaseAuthentication:Issuer"], _configuration["FirebaseAuthentication:Audience"]);
 
-            // FirebaseApp.Create(new AppOptions()
-            // {
-            //     Credential = GoogleCredential.FromJson(_configuration["Firebase:GoogleCredentialsJson"])
-            // });
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromJson(_configuration["Firebase:GoogleCredentialsJson"])
+            });
 
             services.AddSwaggerDocumentation();
 
