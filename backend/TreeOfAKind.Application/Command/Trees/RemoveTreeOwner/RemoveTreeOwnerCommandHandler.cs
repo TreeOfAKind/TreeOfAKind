@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -21,6 +22,11 @@ namespace TreeOfAKind.Application.Command.Trees.RemoveTreeOwner
         {
             var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
             tree!.RemoveTreeOwner(request.UserToRemoveId);
+
+            if (!tree.TreeOwners.Any())
+            {
+                await _treeRepository.RemoveAsync(tree, cancellationToken);
+            }
 
             return Unit.Value;
         }

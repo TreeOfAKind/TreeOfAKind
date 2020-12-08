@@ -67,6 +67,7 @@ namespace TreeOfAKind.UnitTests.Trees
 
             Assert.Single(Tree.People);
             Assert.Equal(person, Tree.People.FirstOrDefault());
+            Assert.Equal(Surname, person.Surname);
         }
 
         [Fact]

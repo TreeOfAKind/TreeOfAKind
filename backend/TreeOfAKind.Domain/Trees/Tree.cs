@@ -67,7 +67,6 @@ namespace TreeOfAKind.Domain.Trees
         public void RemoveTreeOwner(UserId userId)
         {
             _treeOwners.RemoveAll(o => o.UserId == userId);
-            CheckRule(new TreeMustHaveAtLeasOneOwnerRule(_treeOwners));
             AddDomainEvent(new TreeOwnerRemovedEvent(Id, userId));
         }
 

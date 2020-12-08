@@ -15,6 +15,7 @@ using TreeOfAKind.Application.Command.Trees.CreateTree;
 using TreeOfAKind.Application.Command.Trees.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.RemoveTreePhoto;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
+using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles;
 
@@ -90,6 +91,41 @@ namespace TreeOfAKind.API.Trees
 
             return Created(string.Empty,new IdDto{ Id = result.Value});
         }
+
+        /// <summary>
+        /// Gets tree with all of its details.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "treeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns>Tree with all of its properties</returns>
+        /// <response code="200">Returns tree</response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(typeof(TreeDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> GetTree([FromBody] GetTreeRequest request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+
+            var result = await _mediator.Send(new GetTreeQuery(authId, new TreeId(request.TreeId)));
+
+            return Ok(result);
+        }
+
+
 
         /// <summary>
         /// Adds person as a tree owner.
