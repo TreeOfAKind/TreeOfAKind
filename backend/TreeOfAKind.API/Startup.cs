@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using AspNetCore.Firebase.Authentication.Extensions;
 using FirebaseAdmin;
@@ -10,6 +11,7 @@ using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -59,14 +61,18 @@ namespace TreeOfAKind.API
             _logger.Information("Logger configured");
         }
 
+        public static void ConfigureSerializerSettings(JsonSerializerOptions jsonSerializerOptions)
+        {
+            jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            jsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+        }
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry();
 
             services.AddControllers().AddJsonOptions(opts =>
             {
-                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                opts.JsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+                ConfigureSerializerSettings(opts.JsonSerializerOptions);
             });
 
             services.AddMemoryCache();

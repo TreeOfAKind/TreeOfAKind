@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
+using MicroElements.Swashbuckle.NodaTime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +20,9 @@ namespace TreeOfAKind.API.Configuration
                     Version = "v1",
                     Description = "",
                 });
-
+                var jsonSerializerOptions = new JsonSerializerOptions();
+                Startup.ConfigureSerializerSettings(jsonSerializerOptions);
+                options.ConfigureForNodaTimeWithSystemTextJson(jsonSerializerOptions);
                 var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 var commentsFileName = Assembly.GetExecutingAssembly().GetName().Name + ".XML";
                 var commentsFile = Path.Combine(baseDirectory, commentsFileName);

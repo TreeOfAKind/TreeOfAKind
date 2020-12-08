@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NodaTime;
+using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 
@@ -35,8 +36,8 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
             Name = person.Name;
             LastName = person.LastName;
             Gender = person.Gender;
-            BirthDate = person.BirthDate.HasValue ? LocalDate.FromDateTime(person.BirthDate.Value) : (LocalDate?)null;
-            DeathDate = person.DeathDate.HasValue ? LocalDate.FromDateTime(person.DeathDate.Value) : (LocalDate?)null;
+            BirthDate = person.BirthDate?.GetDate();
+            DeathDate = person.DeathDate?.GetDate();
             Description = person.Description;
             Biography = person.Biography;
 
