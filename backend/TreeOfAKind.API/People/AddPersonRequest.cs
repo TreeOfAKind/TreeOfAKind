@@ -18,7 +18,7 @@ namespace TreeOfAKind.API.People
     {
         [Required] public Guid TreeId { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         public Gender Gender { get; set; }
         [DataType(DataType.Date)] public DateTime? BirthDate { get; set; }
         [DataType(DataType.Date)] public DateTime? DeathDate { get; set; }

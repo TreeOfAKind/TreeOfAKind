@@ -15,7 +15,7 @@ namespace TreeOfAKind.IntegrationTests
         protected const string TreeName = nameof(PeopleOperations) + "Moje super drzewko";
         protected string AuthId { get; }
         protected const string Name = "Bartek";
-        protected const string Surname = "Chrostowski";
+        protected const string LastName = "Chrostowski";
         protected readonly DateTime BirthDate = new DateTime(1998, 02, 27);
 
         protected TreeIntegrationTestsBase(ApplicationFixture applicationFixture)
@@ -28,7 +28,7 @@ namespace TreeOfAKind.IntegrationTests
         protected async Task<TreeId> CreateTree()
         {
             await CommandsExecutor.Execute(
-                new CreateOrUpdateUserProfileCommand(AuthId, Name, Surname, BirthDate));
+                new CreateOrUpdateUserProfileCommand(AuthId, Name, LastName, BirthDate));
 
             return await CommandsExecutor.Execute(
                 new CreateTreeCommand(TreeName, AuthId));

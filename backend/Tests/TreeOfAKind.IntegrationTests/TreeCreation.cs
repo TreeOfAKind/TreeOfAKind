@@ -27,7 +27,7 @@ namespace TreeOfAKind.IntegrationTests
         protected const string TreeName = nameof(TreeCreation) + "Moje super drzewko";
         protected string AuthId { get; }
         protected const string Name = "Bartek";
-        protected const string Surname = "Chrostowski";
+        protected const string LastName = "Chrostowski";
         protected readonly DateTime BirthDate = new DateTime(1998, 02, 27);
         private readonly ApplicationFixture _applicationFixture;
 
@@ -41,7 +41,7 @@ namespace TreeOfAKind.IntegrationTests
         public async Task CreateProfileAndTree_HappyPath_TreeIsCreated()
         {
             var userId = await CommandsExecutor.Execute(
-                new CreateOrUpdateUserProfileCommand(AuthId, Name, Surname, BirthDate));
+                new CreateOrUpdateUserProfileCommand(AuthId, Name, LastName, BirthDate));
 
             var treeId = await CommandsExecutor.Execute(
                 new CreateTreeCommand(TreeName, AuthId));
@@ -60,7 +60,7 @@ namespace TreeOfAKind.IntegrationTests
         public async Task AddOwner_NotOwnerAdding_ThrowsUnauthorized()
         {
             var userId = await CommandsExecutor.Execute(
-                new CreateOrUpdateUserProfileCommand(AuthId, Name, Surname, BirthDate));
+                new CreateOrUpdateUserProfileCommand(AuthId, Name, LastName, BirthDate));
 
             var treeId = await CommandsExecutor.Execute(
                 new CreateTreeCommand(TreeName, AuthId));
@@ -78,7 +78,7 @@ namespace TreeOfAKind.IntegrationTests
         {
             await Assert.ThrowsAsync<InvalidCommandException>(async () =>
                 await CommandsExecutor.Execute(
-                    new CreateOrUpdateUserProfileCommand(AuthId, new string('a', StringLengths.Short + 1), Surname,
+                    new CreateOrUpdateUserProfileCommand(AuthId, new string('a', StringLengths.Short + 1), LastName,
                         BirthDate)));
         }
 
@@ -86,13 +86,13 @@ namespace TreeOfAKind.IntegrationTests
         public async Task CreateProfileAndTreeAddTreeOwner_HappyPath_AddsTreeOwner()
         {
             var userId = await CommandsExecutor.Execute(
-                new CreateOrUpdateUserProfileCommand(AuthId, Name, Surname, BirthDate));
+                new CreateOrUpdateUserProfileCommand(AuthId, Name, LastName, BirthDate));
 
             var treeId = await CommandsExecutor.Execute(
                 new CreateTreeCommand(TreeName, AuthId));
 
             var userId2 = await CommandsExecutor.Execute(
-                new CreateOrUpdateUserProfileCommand(AuthId + "2", Name + "2", Surname + "2", BirthDate));
+                new CreateOrUpdateUserProfileCommand(AuthId + "2", Name + "2", LastName + "2", BirthDate));
 
 
             _applicationFixture.UserAuthIdProvider

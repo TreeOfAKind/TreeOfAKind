@@ -32,11 +32,11 @@ namespace TreeOfAKind.UnitTests.Validators
         }
 
         [Fact]
-        public void Validate_TooLongSurname_ValidationFails()
+        public void Validate_TooLongLastName_ValidationFails()
         {
             var command = Fixture.Create<AddPersonCommand>();
 
-            SetPropertyWithReflection(command, nameof(command.Surname),
+            SetPropertyWithReflection(command, nameof(command.LastName),
                 string.Join(string.Empty, Fixture.CreateMany<char>(StringLengths.Long)));
 
             Assert.False(Validator.Validate(command).IsValid);

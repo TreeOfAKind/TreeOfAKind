@@ -11,7 +11,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
+        public string LastName { get; set; }
         public Gender Gender { get; set; }
         [DataType(DataType.Date)] public DateTime? BirthDate { get; set; }
         [DataType(DataType.Date)] public DateTime? DeathDate { get; set; }
@@ -32,7 +32,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         {
             Id = person.Id.Value;
             Name = person.Name;
-            Surname = person.Surname;
+            LastName = person.LastName;
             Gender = person.Gender;
             BirthDate = person.BirthDate;
             DeathDate = person.DeathDate;

@@ -72,7 +72,7 @@ namespace TreeOfAKind.Domain.Trees
 
         public Person AddPerson(
             string? name,
-            string? surname,
+            string? lastName,
             Gender gender,
             DateTime? birthDate,
             DateTime? deathDate,
@@ -82,7 +82,7 @@ namespace TreeOfAKind.Domain.Trees
             var person = Person.CreateNewPerson(
                 this,
                 name,
-                surname,
+                lastName,
                 gender,
                 birthDate,
                 deathDate,

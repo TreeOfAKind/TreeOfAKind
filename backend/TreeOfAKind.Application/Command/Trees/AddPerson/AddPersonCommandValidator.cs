@@ -21,7 +21,7 @@ namespace TreeOfAKind.Application.Command.Trees.AddPerson
             RuleFor(x => x.Name)
                 .MaximumLength(StringLengths.VeryShort);
 
-            RuleFor(x => x.Surname)
+            RuleFor(x => x.LastName)
                 .MaximumLength(StringLengths.VeryShort);
 
             RuleFor(x => x.Description)
