@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserProfileFormComponent } from './user-profile-form.component';
 import { AppRoutingModule } from '../../app-routing.module';
 import { UserProfileService } from '../shared/user-profile.service';
@@ -16,7 +16,7 @@ describe('UserProfileFormComponent', () => {
   let userProfileService: UserProfileService;
   let router: Router;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ UserProfileFormComponent ],
       imports: [
@@ -54,7 +54,7 @@ describe('UserProfileFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display proper values', async(() => {
+  it('should display proper values', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
@@ -64,7 +64,7 @@ describe('UserProfileFormComponent', () => {
     });
   }));
 
-  it('should call service update method', async(() => {
+  it('should call service update method', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
