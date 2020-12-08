@@ -24,7 +24,7 @@ namespace TreeOfAKind.IntegrationTests
 
         private async Task<Uri> AddExampleFile(TreeId treeId)
         {
-            var file = new Document(Stream.Null, "image/png");
+            var file = new Document(Stream.Null, "image/png", "ASDF.jpg");
 
             _applicationFixture.FileSaver
                 .UploadFile(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<Stream>(), Arg.Any<CancellationToken>())

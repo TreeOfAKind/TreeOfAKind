@@ -1,8 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using TreeOfAKind.Domain.SeedWork;
 
 namespace TreeOfAKind.Domain.Trees.People
 {
+    public class FileId : TypedIdValueBase
+    {
+        public FileId(Guid value) : base(value)
+        {
+        }
+    }
+
+    public class File : Entity
+    {
+        public FileId Id { get; private set; }
+        public Person Owner { get; private set; }
+        public Uri FileUri { get; private set; }
+        public string Name { get; private set; }
+        public string MimeType { get; private set; }
+
+        private File()
+        {
+            Id = default!;
+            Owner = default!;
+            FileUri = default!;
+            Name = default!;
+            MimeType = default!;
+        }
+
+        public File(string name, string mimeType, Uri fileUri, Person owner)
+        {
+            Id = new FileId(Guid.NewGuid());
+            Owner = owner;
+            Name = name;
+            MimeType = mimeType;
+            FileUri = fileUri;
+        }
+    }
     public class Person : Entity
     {
         public PersonId Id { get; private set; }
@@ -14,6 +50,12 @@ namespace TreeOfAKind.Domain.Trees.People
         public DateTime? DeathDate { get; private set; }
         public string Description { get; private set; }
         public string Biography { get; private set; }
+        public File? MainPhoto { get; private set; }
+        public IReadOnlyCollection<File> Files =>
+            _files;
+
+        private readonly List<File>_files
+            = new List<File>();
 
 
         private Person()
@@ -63,6 +105,23 @@ namespace TreeOfAKind.Domain.Trees.People
             CheckRule(new NameOrSurnameMustBeSpecifiedRule(name, surname));
             CheckRule(new BirthDateMustBeBeforeDeathDateRule(birthDate, deathDate));
             return new Person(tree, name, surname, gender, birthDate, deathDate, description, biography);
+        public FileId AddFile(string name, string mimeType, Uri fileUri)
+        {
+            var file = new File(name, mimeType, fileUri, this);
+            _files.Add(file);
+            return file.Id;
+        }
+
+        public void RemoveFile(FileId fileId)
+        {
+            _files.RemoveAll(f => f.Id == fileId);
+            if (MainPhoto?.Id == fileId) MainPhoto = null;
+        }
+
+        public FileId AddOrChangeMainPhoto(string name, string mimeType, Uri fileUri)
+        {
+            MainPhoto = new File(name, mimeType, fileUri, this);
+            return MainPhoto.Id;
         }
     }
 }

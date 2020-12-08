@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Command\Trees\People" />
+    <Folder Include="Command\Trees\People\RemoveDocument" />
     <Folder Include="Command\Trees\TreeAdministration" />
   </ItemGroup>
 
