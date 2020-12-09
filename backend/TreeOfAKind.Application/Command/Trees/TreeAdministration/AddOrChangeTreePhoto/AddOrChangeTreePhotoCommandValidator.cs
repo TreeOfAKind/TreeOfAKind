@@ -21,13 +21,8 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTr
         public AddOrChangeTreePhotoCommandValidator()
         {
             RuleFor(x => x.Document)
-                .NotEmpty();
-
-            RuleFor(x => x.Document.ContentType)
-                .Must(IsAcceptedMimeType);
-
-            RuleFor(x => x.Document.Content)
-                .NotEmpty();
+                .NotEmpty()
+                .SetValidator(new DocumentValidator(AcceptedMimeTypes));
         }
     }
 }

@@ -125,7 +125,7 @@ namespace TreeOfAKind.Domain.Trees
             Photo = null!;
         }
 
-        public FileId AddPersonFile(PersonId personId, string name, string mimeType, Uri fileUri)
+        public FileId AddPersonsFile(PersonId personId, string name, string mimeType, Uri fileUri)
         {
             CheckRule(new TreeMustContainPersonRule(People, personId));
             var person = _people.First(p => p.Id == personId);
@@ -133,7 +133,7 @@ namespace TreeOfAKind.Domain.Trees
             return fileId;
         }
 
-        public FileId AddOrChangePersonMainPhoto(PersonId personId, string name, string mimeType, Uri fileUri)
+        public FileId AddOrChangePersonsMainPhoto(PersonId personId, string name, string mimeType, Uri fileUri)
         {
             CheckRule(new TreeMustContainPersonRule(People, personId));
             var person = _people.First(p => p.Id == personId);
@@ -141,7 +141,7 @@ namespace TreeOfAKind.Domain.Trees
             return fileId;
         }
 
-        public void RemovePersonFile(PersonId personId, FileId fileId)
+        public void RemovePersonsFile(PersonId personId, FileId fileId)
         {
             CheckRule(new TreeMustContainPersonRule(People, personId));
             var person = _people.First(p => p.Id == personId);

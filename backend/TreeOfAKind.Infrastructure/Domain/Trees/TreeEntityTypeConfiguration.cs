@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.Trees;
+using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Infrastructure.Database;
 
 namespace TreeOfAKind.Infrastructure.Domain.Trees
@@ -56,6 +57,18 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                 b.Property(p => p.Gender)
                     .HasConversion<string>()
                     .HasMaxLength(StringLengths.VeryShort);
+
+                b.OwnsOne(p => p.MainPhoto, b =>
+                {
+                    b.ToTable("PersonsMainPhotos", SchemaNames.Trees);
+                    FileBuildAction(b);
+                });
+
+                b.OwnsMany(p => p.Files, b =>
+                {
+                    b.ToTable("PersonsMainFiles", SchemaNames.Trees);
+                    FileBuildAction(b);
+                });
             });
 
             builder.OwnsOne(t => t.TreeRelations, b =>
@@ -74,6 +87,23 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                         .HasMaxLength(StringLengths.VeryShort);
                 });
             });
+        }
+
+        private void FileBuildAction(OwnedNavigationBuilder<Person, File?> b)
+        {
+            b.WithOwner(f => f.Owner);
+
+            b.HasKey(f => f.Id);
+
+            b.Property(f => f.Name)
+                .HasMaxLength(StringLengths.Short);
+
+            b.Property(f => f.FileUri)
+                .HasConversion<string>()
+                .HasMaxLength(StringLengths.Short);
+
+            b.Property(f => f.MimeType)
+                .HasMaxLength(StringLengths.VeryShort);
         }
     }
 }

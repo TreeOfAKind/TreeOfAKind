@@ -12,7 +12,7 @@ namespace TreeOfAKind.IntegrationTests
     {
         protected readonly ApplicationFixture _applicationFixture;
 
-        protected const string TreeName = nameof(PeopleOperations) + "Moje super drzewko";
+        protected const string TreeName = "Moje super drzewko";
         protected string AuthId { get; }
         protected const string Name = "Bartek";
         protected const string LastName = "Chrostowski";
