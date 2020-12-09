@@ -1,30 +1,49 @@
 <div class="container">
-  <form (ngSubmit)="onSubmit()">
-
-    <div class="form-group">
-      <label for="firstName">
-        First name
-      </label>
-      <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="model.firstName">
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">User profile</h5>
+          <p class="card-text">Twój profil użytkownika umożliwi innym 
+            użytkownikom łatwą identyfikację przy wspólnej przygodzie z drzewami genealogicznymi 😊</p>
+        </div>
+      </div>
     </div>
+    <div class="col-lg-6">
+      <form (ngSubmit)="onSubmit()">
 
-    <div class="form-group">
-      <label for="lastName">
-        Last name
-      </label>
-      <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="model.lastName">
+        <div class="form-group">
+          <label for="firstName">
+            First name
+          </label>
+          <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="model.firstName">
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">
+            Last name
+          </label>
+          <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="model.lastName">
+        </div>
+
+        <div class="form-group">
+          <label for="birthDate">
+            Birth date
+          </label>
+          <input id="birthDate" name="birthDate" class="form-control" type="date" [(ngModel)]="model.birthDate">
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-primary" type="submit" name="submitUserProfileButton">Submit</button>
+        </div>
+      </form>
     </div>
-
-    <div class="form-group">
-      <label for="birthDate">
-        Birth date
-      </label>
-      <input id="birthDate" name="birthDate" class="form-control" type="date" [(ngModel)]="model.birthDate">
+  </div>
+  <div class="row top30">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+      <img class="img-thumbnail" src="https://www.odkrywamyzakryte.com/wp-content/uploads/2017/04/drzewo-genalogiczne-twojej-rodziny.jpg"/>
     </div>
-
-    <div class="text-center">
-      <button class="btn btn-primary" type="submit" name="submitUserProfileButton">Submit</button>
-    </div>
-
-  </form>
+</div>
 </div>

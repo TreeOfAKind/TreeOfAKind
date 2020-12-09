@@ -1,2 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~bootstrap/dist/css/bootstrap.min.css';
+$theme-colors: (
+  primary: #4caf50
+);
+
+body { background: #e8f5e9 !important; }
+
+@import "bootstrap";
