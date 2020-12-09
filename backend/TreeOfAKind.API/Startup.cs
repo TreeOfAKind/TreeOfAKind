@@ -165,6 +165,7 @@ namespace TreeOfAKind.API
         private ILogger ConfigureLogger(IWebHostEnvironment env)
         {
             var loggerConfiguration = new LoggerConfiguration()
+                .ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{Context}] {Message:lj}{NewLine}{Exception}")
