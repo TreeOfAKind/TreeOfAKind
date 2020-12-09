@@ -7,7 +7,7 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Application.Command.Trees.People.AddOrChangePersonsPhoto
 {
-    public class AddOrChangePersonsPhotoCommandHandler : ICommandHandler<AddOrChangePersonsPhotoCommand, FileId>
+    public class AddOrChangePersonsPhotoCommandHandler : ICommandHandler<AddOrChangePersonsPhotoCommand, File>
     {
         private readonly ITreeRepository _treeRepository;
         private readonly IFileSaver _fileSaver;
@@ -18,7 +18,7 @@ namespace TreeOfAKind.Application.Command.Trees.People.AddOrChangePersonsPhoto
             _fileSaver = fileSaver;
         }
 
-        public async Task<FileId> Handle(AddOrChangePersonsPhotoCommand request, CancellationToken cancellationToken)
+        public async Task<File> Handle(AddOrChangePersonsPhotoCommand request, CancellationToken cancellationToken)
         {
             var document = request.Document;
             var fileUri = await _fileSaver.UploadFile(request.TreeId.Value.ToString(), document.ContentType,

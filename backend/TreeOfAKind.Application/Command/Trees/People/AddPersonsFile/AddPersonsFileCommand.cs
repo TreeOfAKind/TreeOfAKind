@@ -3,7 +3,7 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Application.Command.Trees.People.AddPersonFile
 {
-    public class AddPersonsFileCommand : TreeOperationCommandBase<FileId>
+    public class AddPersonsFileCommand : TreeOperationCommandBase<File>
     {
         public Document Document { get; }
         public PersonId PersonId { get; }

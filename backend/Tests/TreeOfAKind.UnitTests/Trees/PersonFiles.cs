@@ -57,10 +57,10 @@ namespace TreeOfAKind.UnitTests.Trees
 
             Assert.Null(person.MainPhoto);
 
-            var mainPhotoId = _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
-            var fileId = _tree.AddPersonsFile(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            var mainPhoto = _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            var file = _tree.AddPersonsFile(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
 
-            _tree.RemovePersonsFile(person.Id, mainPhotoId);
+            _tree.RemovePersonsFile(person.Id, mainPhoto.Id);
             Assert.Null(person.MainPhoto);
             Assert.Single(person.Files);
         }
@@ -72,10 +72,10 @@ namespace TreeOfAKind.UnitTests.Trees
 
             Assert.Null(person.MainPhoto);
 
-            var mainPhotoId = _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
-            var fileId = _tree.AddPersonsFile(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            var mainPhoto = _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            var file = _tree.AddPersonsFile(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
 
-            _tree.RemovePersonsFile(person.Id, fileId);
+            _tree.RemovePersonsFile(person.Id, file.Id);
             Assert.NotNull(person.MainPhoto);
             Assert.Empty(person.Files);
         }

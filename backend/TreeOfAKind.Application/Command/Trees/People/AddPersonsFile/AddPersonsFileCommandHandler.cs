@@ -8,7 +8,7 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Application.Command.Trees.People.AddPersonsFile
 {
-    public class AddPersonsFileCommandHandler : ICommandHandler<AddPersonsFileCommand, FileId>
+    public class AddPersonsFileCommandHandler : ICommandHandler<AddPersonsFileCommand, File>
     {
         private readonly ITreeRepository _treeRepository;
         private readonly IFileSaver _fileSaver;
@@ -19,7 +19,7 @@ namespace TreeOfAKind.Application.Command.Trees.People.AddPersonsFile
             _fileSaver = fileSaver;
         }
 
-        public async Task<FileId> Handle(People.AddPersonFile.AddPersonsFileCommand request, CancellationToken cancellationToken)
+        public async Task<File> Handle(People.AddPersonFile.AddPersonsFileCommand request, CancellationToken cancellationToken)
         {
             var document = request.Document;
             var fileUri = await _fileSaver.UploadFile(request.TreeId.Value.ToString(), document.ContentType,

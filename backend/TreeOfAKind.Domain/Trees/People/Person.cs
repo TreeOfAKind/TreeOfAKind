@@ -107,11 +107,11 @@ namespace TreeOfAKind.Domain.Trees.People
             return new Person(tree, name, lastName, gender, birthDate, deathDate, description, biography);
         }
 
-        public FileId AddFile(string name, string mimeType, Uri fileUri)
+        public File AddFile(string name, string mimeType, Uri fileUri)
         {
             var file = new File(name, mimeType, fileUri, this);
             _files.Add(file);
-            return file.Id;
+            return file;
         }
 
         public void RemoveFile(FileId fileId)
@@ -120,10 +120,10 @@ namespace TreeOfAKind.Domain.Trees.People
             if (MainPhoto?.Id == fileId) MainPhoto = null;
         }
 
-        public FileId AddOrChangeMainPhoto(string name, string mimeType, Uri fileUri)
+        public File AddOrChangeMainPhoto(string name, string mimeType, Uri fileUri)
         {
             MainPhoto = new File(name, mimeType, fileUri, this);
-            return MainPhoto.Id;
+            return MainPhoto;
         }
     }
 }
