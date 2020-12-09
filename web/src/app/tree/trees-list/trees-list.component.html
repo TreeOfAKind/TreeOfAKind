@@ -2,10 +2,9 @@
   <div class="row row-cols-1 row-cols-md-3">
     <div class="col mb-4" *ngFor="let tree of treesList let treeIndex = index" [attr.data-index]="treeIndex">
       <a href="#" class="link-unstyled">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="tree.photoUri" alt="Card image cap" *ngIf="tree.photoUri">
-          <img class="card-img-top" style="width: 18rem; align-content: center;"
-            src="../../../assets/nature-24px.svg" alt="Card image cap" *ngIf="!tree.photoUri">
+        <div class="card">
+          <img class="card-img-top" [src]="tree.photoUri" alt="Card image cap" *ngIf="tree.photoUri">
+          <img class="card-img-top" src="../../../assets/nature-24px.svg" alt="Card image cap" *ngIf="!tree.photoUri">
           <div class="card-body">
             <h5 class="card-title text-center">{{ tree.treeName }}</h5>
           </div>
@@ -15,9 +14,8 @@
 
     <div class="col mb-4">
       <a href="#" class="link-unstyled">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" style="width: 18rem; align-content: center;"
-            src="../../../assets/add-black-18dp.svg" alt="Card image cap">
+        <div class="card">
+          <img class="card-img-top" src="../../../assets/add-black-18dp.svg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title text-center">Add tree</h5>
           </div>
