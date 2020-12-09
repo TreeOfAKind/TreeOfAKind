@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using AspNetCore.Firebase.Authentication.Extensions;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NodaTime;
+using NodaTime.Serialization.SystemTextJson;
 using Serilog;
 using Serilog.Formatting.Json;
 using Serilog.Sinks.Datadog.Logs;
@@ -52,13 +57,18 @@ namespace TreeOfAKind.API
             _logger.Information("Logger configured");
         }
 
+        public static void ConfigureSerializerSettings(JsonSerializerOptions jsonSerializerOptions)
+        {
+            jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            jsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+        }
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry();
 
             services.AddControllers().AddJsonOptions(opts =>
             {
-                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                ConfigureSerializerSettings(opts.JsonSerializerOptions);
             });
 
             services.AddMemoryCache();
@@ -114,7 +124,11 @@ namespace TreeOfAKind.API
         {
             app.UseCors(cfg =>
             {
-                (env.IsProduction() ? cfg.WithOrigins().AllowCredentials() : cfg.AllowAnyOrigin()) // TODO: Add web domain
+                (env.IsProduction() ?
+                        cfg.WithOrigins(_configuration["AllowedOrigins"].Split(";"))
+                            .AllowCredentials()
+                        :
+                        cfg.AllowAnyOrigin())
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .SetPreflightMaxAge(TimeSpan.FromMinutes(60));
@@ -147,6 +161,7 @@ namespace TreeOfAKind.API
         private ILogger ConfigureLogger(IWebHostEnvironment env)
         {
             var loggerConfiguration = new LoggerConfiguration()
+                .ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{Context}] {Message:lj}{NewLine}{Exception}")

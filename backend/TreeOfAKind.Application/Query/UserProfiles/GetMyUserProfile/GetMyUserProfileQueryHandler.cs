@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using NodaTime;
 using TreeOfAKind.Application.Configuration.Queries;
 using TreeOfAKind.Domain.UserProfiles;
 
@@ -18,13 +19,12 @@ namespace TreeOfAKind.Application.Query.UserProfiles.GetMyUserProfile
         {
             var userProfile = await _userProfileRepository.GetByUserAuthIdAsync(request.AuthId, cancellationToken);
             if (userProfile is null) return null;
-            return new UserProfileDto()
-            {
-                Id = userProfile.Id.Value,
-                FirstName = userProfile.FirstName,
-                LastName = userProfile.LastName,
-                BirthDate = userProfile.BirthDate,
-            };
+            return new UserProfileDto(
+                userProfile.Id.Value,
+                userProfile.FirstName,
+                userProfile.LastName,
+                userProfile.BirthDate
+            );
         }
     }
 }
