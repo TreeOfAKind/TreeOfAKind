@@ -12,7 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './authentication/shared/token-interceptor';
-import { UserProfileFormComponent } from './user-profile/user-profile-form/user-profile-form.component'
+import { UserProfileFormComponent } from './user-profile/user-profile-form/user-profile-form.component';
+import { TreesListComponent } from './tree/trees-list/trees-list.component'
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -23,6 +25,7 @@ import { UserProfileFormComponent } from './user-profile/user-profile-form/user-
     RegisterComponent,
     HomeComponent,
     UserProfileFormComponent,
+    TreesListComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { UserProfileFormComponent } from './user-profile/user-profile-form/user-
     AngularFireAuthModule,
     FormsModule,
     HttpClientModule,
+    CommonModule,
   ],
   providers: [
     {
