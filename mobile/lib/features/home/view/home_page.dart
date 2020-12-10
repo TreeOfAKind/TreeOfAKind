@@ -1,10 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tree_of_a_kind/contracts/user_profile/user_profile_repository.dart';
+import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
-import 'package:tree_of_a_kind/features/user_profile/bloc/user_profile_bloc.dart';
+import 'package:tree_of_a_kind/features/common/generic_error.dart';
+import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
+import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
 import 'package:tree_of_a_kind/features/user_profile/view/user_profile_page.dart';
+
+import 'tree_list_view.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -13,83 +16,112 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => HomePage());
+    return MaterialPageRoute<void>(
+        builder: (context) => BlocProvider<TreeListBloc>(
+              create: (context) => TreeListBloc(
+                  treeRepository:
+                      RepositoryProvider.of<TreeRepository>(context))
+                ..add(const FetchTreeList()),
+              child: HomePage(),
+            ));
   }
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 1;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const String _myProfile = 'My profile';
+  static const String _signOut = 'Sign out';
 
-  List<Widget> _widgetOptions(
-    User user,
-    TextTheme textTheme,
-  ) {
-    return <Widget>[
-      Center(
-          child: Text(
-        'Index 0: Home',
-        style: optionStyle,
-      )),
-      Center(
-          child: Text(
-        'Index 1: Family',
-        style: optionStyle,
-      )),
-      BlocProvider<UserProfileBloc>(
-        create: (context) => UserProfileBloc(
-            userProfileRepository:
-                RepositoryProvider.of<UserProfileRepository>(context))
-          ..add(const FetchUserProfile()),
-        child: UserProfilePage(),
-      ),
-    ];
+  static const List<String> _menuItems = <String>[_myProfile, _signOut];
+
+  void _menuAction(String item, BuildContext context) {
+    if (item == _myProfile) {
+      Navigator.of(context).push<void>(UserProfilePage.route());
+    } else if (item == _signOut) {
+      context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
+    }
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _newTreeDialog(BuildContext context, TreeListBloc bloc) {
+    final controller = TextEditingController();
+    final treeNameFieldKey = GlobalKey<FormState>();
+
+    showDialog(
+        context: context,
+        builder: (context) => new AlertDialog(
+              title: Text('Add your new family tree'),
+              titleTextStyle: Theme.of(context).textTheme.headline4,
+              content: Form(
+                  key: treeNameFieldKey,
+                  child: TextFormField(
+                    controller: controller,
+                    validator: (text) => text.isEmpty
+                        ? 'Please provide family tree title'
+                        : null,
+                    decoration: const InputDecoration(
+                        labelText: 'Title',
+                        helperText: 'Your new family tree title'),
+                  )),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Add'),
+                  onPressed: () {
+                    if (treeNameFieldKey.currentState.validate()) {
+                      Navigator.of(context).pop();
+                      bloc.add(SaveNewTree(controller.text));
+                    }
+                  },
+                ),
+              ],
+            ));
   }
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final user = BlocProvider.of<AuthenticationBloc>(context).state.user;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        actions: <Widget>[
-          IconButton(
-            key: const Key('homePage_logout_iconButton'),
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () => context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationLogoutRequested()),
-          )
-        ],
-      ),
-      body: _widgetOptions(user, textTheme).elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.nature_people),
-            label: 'Family',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'My Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
-        onTap: _onItemTapped,
-      ),
-    );
+        appBar: AppBar(
+          leading: const Icon(Icons.nature_people),
+          title: const Text('My family trees'),
+          actions: <Widget>[
+            PopupMenuButton(
+              key: const Key('homePage_menu_popupMenuButton'),
+              icon: const Icon(Icons.more_vert),
+              onSelected: (item) => _menuAction(item, context),
+              itemBuilder: (context) => _menuItems
+                  .map((item) => PopupMenuItem(value: item, child: Text(item)))
+                  .toList(),
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () =>
+              _newTreeDialog(context, BlocProvider.of<TreeListBloc>(context)),
+        ),
+        body: BlocBuilder<TreeListBloc, TreeListState>(
+          builder: (context, state) {
+            if (state is InitialLoadingState) {
+              return Center(child: LoadingIndicator());
+            } else if (state is UnknownErrorState) {
+              return GenericError();
+            } else if (state is PresentingList) {
+              return TreeListView(
+                treeList: state.treeList,
+              );
+            } else if (state is RefreshLoadingState) {
+              return TreeListView(
+                treeList: state.treeList,
+                isRefreshing: true,
+              );
+            } else {
+              return Container();
+            }
+          },
+        ));
   }
 }
