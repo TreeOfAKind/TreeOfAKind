@@ -21,7 +21,7 @@
     <div class="navbar-nav" *ngIf="isLoggedIn()">
       <a class="nav-item nav-link" *ngIf="getUserEmail() != null" href="/user-profile"> {{ getUserEmail() }} </a>
       <li class="nav-item">
-        <a class="nav-link" (click)="logout()" href="/login"> Wyloguj </a>
+        <a class="nav-link" (click)="signOut()" href="/login"> Sign out </a>
       </li>
     </div>
   </div>

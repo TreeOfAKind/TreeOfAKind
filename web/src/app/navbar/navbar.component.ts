@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
     this.navbarOpen = !this.navbarOpen;
   }
 
-  logout() {
+  signOut() {
     this.authService.logout();
   }
 
