@@ -27,7 +27,7 @@ void main() {
   const lastnameTextFormFieldKey = Key('userProfile_lastname_textFormField');
   const saveRaisedButtonKey = Key('userProfile_save_raisedButton');
 
-  group('HomePage', () {
+  group('UserProfilePage', () {
     // ignore: close_sinks
     AuthenticationBloc authenticationBloc;
     // ignore: close_sinks
