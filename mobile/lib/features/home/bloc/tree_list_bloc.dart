@@ -27,6 +27,8 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
       yield PresentingList(_treeList);
     } else if (event is SaveNewTree) {
       yield* _handleSaveNewTree(event.treeName);
+    } else if (event is DeleteTree) {
+      yield* _handleDeleteTree(event.treeId);
     } else {
       throw new Exception("Unhandled event.");
     }
@@ -35,7 +37,7 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
   Stream<TreeListState> _handleFetchTreeList() async* {
     yield _treeList == null
         ? const InitialLoadingState()
-        : RefreshLoadingState(_treeList);
+        : RefreshLoadingState(_treeList, null);
 
     final result = await treeRepository.getMyTrees();
 
@@ -48,9 +50,28 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
   }
 
   Stream<TreeListState> _handleSaveNewTree(String treeName) async* {
-    yield RefreshLoadingState(_treeList);
+    yield RefreshLoadingState(_treeList, null);
 
     final result = await treeRepository.addTree(treeName: treeName);
+
+    if (result.unexpectedError) {
+      yield const UnknownErrorState();
+    } else {
+      final queryResult = await treeRepository.getMyTrees();
+
+      if (queryResult.unexpectedError) {
+        yield const UnknownErrorState();
+      } else {
+        _treeList = queryResult.data;
+        yield PresentingList(_treeList);
+      }
+    }
+  }
+
+  Stream<TreeListState> _handleDeleteTree(String treeId) async* {
+    yield RefreshLoadingState(_treeList, treeId);
+
+    final result = await treeRepository.deleteTree(treeId: treeId);
 
     if (result.unexpectedError) {
       yield const UnknownErrorState();

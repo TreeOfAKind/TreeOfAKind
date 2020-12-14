@@ -21,3 +21,9 @@ class SaveNewTree extends TreeListEvent {
 
   final String treeName;
 }
+
+class DeleteTree extends TreeListEvent {
+  const DeleteTree(this.treeId);
+
+  final String treeId;
+}

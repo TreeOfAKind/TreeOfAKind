@@ -9,9 +9,10 @@ class InitialLoadingState extends TreeListState {
 }
 
 class RefreshLoadingState extends TreeListState {
-  const RefreshLoadingState(this.treeList);
+  const RefreshLoadingState(this.treeList, this.deletedTreeId);
 
   final List<TreeItemDTO> treeList;
+  final String deletedTreeId;
 }
 
 class PresentingList extends TreeListState {
