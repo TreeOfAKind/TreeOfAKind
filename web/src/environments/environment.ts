@@ -14,7 +14,7 @@ export const environment = {
     appId: "1:379436452047:web:dadee4d7d46fbdcebf8fba",
     measurementId: "G-GYBHBW6RJW"
   },
-  apiUrl: "http://localhost:5000/api/",
+  apiUrl: "https://treeofakind-test.azurewebsites.net/api/",
 };
 
 /*
