@@ -117,6 +117,7 @@ class _HomePageState extends State<HomePage> {
               return TreeListView(
                 treeList: state.treeList,
                 isRefreshing: true,
+                deletedTreeId: state.deletedTreeId,
               );
             } else {
               return Container();
