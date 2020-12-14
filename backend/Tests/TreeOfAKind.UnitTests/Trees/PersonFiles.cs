@@ -16,16 +16,16 @@ namespace TreeOfAKind.UnitTests.Trees
         [Fact]
         private void AddPersonFile_PersonNotInTree_ThrowsException()
         {
-            Assert.Throws<BusinessRuleValidationException>(() => _tree.AddPersonsFile(new PersonId(Guid.Empty), "asdf", "asfd",
+            Assert.Throws<BusinessRuleValidationException>(() => _tree.AddPersonsFile(new PersonId(Guid.Empty), "ASDF.jpg", "image/jpg",
                 _fixture.Create<Uri>()));
         }
 
         [Fact]
         private void AddPersonFile_PersonInTree_AddsFile()
         {
-            var person = _tree.AddPerson("asdf", "asdf", Gender.Female, null, null, null, null);
+            var person = _tree.AddPerson("Name", "Surname", Gender.Female, null, null, null, null);
 
-            _tree.AddPersonsFile(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            _tree.AddPersonsFile(person.Id, "Name", "Surname",_fixture.Create<Uri>());
 
             Assert.Single(person.Files);
         }
@@ -40,11 +40,11 @@ namespace TreeOfAKind.UnitTests.Trees
         [Fact]
         private void AddOrChangePersonMainPhoto_PersonInTree_AddsFile()
         {
-            var person = _tree.AddPerson("asdf", "asdf", Gender.Female, null, null, null, null);
+            var person = _tree.AddPerson("Name", "Surname", Gender.Female, null, null, null, null);
 
             Assert.Null(person.MainPhoto);
 
-            _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            _tree.AddOrChangePersonsMainPhoto(person.Id, "Name", "Surname",_fixture.Create<Uri>());
 
             Assert.NotNull(person.MainPhoto);
             Assert.Empty(person.Files);
@@ -53,12 +53,12 @@ namespace TreeOfAKind.UnitTests.Trees
         [Fact]
         private void RemovePersonsFile_RemovingMainPhoto_FileRemoved()
         {
-            var person = _tree.AddPerson("asdf", "asdf", Gender.Female, null, null, null, null);
+            var person = _tree.AddPerson("Name", "Surname", Gender.Female, null, null, null, null);
 
             Assert.Null(person.MainPhoto);
 
-            var mainPhoto = _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
-            var file = _tree.AddPersonsFile(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            var mainPhoto = _tree.AddOrChangePersonsMainPhoto(person.Id, "ASDF.png", "image/png",_fixture.Create<Uri>());
+            var file = _tree.AddPersonsFile(person.Id, "ASDF2.jpg", "image/jpg",_fixture.Create<Uri>());
 
             _tree.RemovePersonsFile(person.Id, mainPhoto.Id);
             Assert.Null(person.MainPhoto);
@@ -68,12 +68,12 @@ namespace TreeOfAKind.UnitTests.Trees
         [Fact]
         private void RemovePersonsFile_RemovingFile_FileRemoved()
         {
-            var person = _tree.AddPerson("asdf", "asdf", Gender.Female, null, null, null, null);
+            var person = _tree.AddPerson("Name", "Surname", Gender.Female, null, null, null, null);
 
             Assert.Null(person.MainPhoto);
 
-            var mainPhoto = _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
-            var file = _tree.AddPersonsFile(person.Id, "asdf", "asfd",_fixture.Create<Uri>());
+            var mainPhoto = _tree.AddOrChangePersonsMainPhoto(person.Id, "asdf.png", "image/png",_fixture.Create<Uri>());
+            var file = _tree.AddPersonsFile(person.Id, "asdf2.png", "image/png",_fixture.Create<Uri>());
 
             _tree.RemovePersonsFile(person.Id, file.Id);
             Assert.NotNull(person.MainPhoto);

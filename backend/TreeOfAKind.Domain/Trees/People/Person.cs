@@ -116,6 +116,7 @@ namespace TreeOfAKind.Domain.Trees.People
 
         public void RemoveFile(FileId fileId)
         {
+            AddDomainEvent(new FileRemovedEvent(fileId));
             _files.RemoveAll(f => f.Id == fileId);
             if (MainPhoto?.Id == fileId) MainPhoto = null;
         }

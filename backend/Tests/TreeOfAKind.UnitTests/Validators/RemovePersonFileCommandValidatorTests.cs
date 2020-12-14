@@ -21,7 +21,7 @@ namespace TreeOfAKind.UnitTests.Validators
         [Fact]
         private void Validate_NoPersonId_ValidationPasses()
         {
-            var command = new RemovePersonsFileCommand("asdf", new TreeId(Guid.Empty), new FileId(Guid.Empty), null);
+            var command = new RemovePersonsFileCommand("authId", new TreeId(Guid.Empty), new FileId(Guid.Empty), null);
 
             Assert.False(Validator.Validate(command).IsValid);
         }
@@ -29,7 +29,7 @@ namespace TreeOfAKind.UnitTests.Validators
         [Fact]
         private void Validate_NoFileId_ValidationPasses()
         {
-            var command = new RemovePersonsFileCommand("asdf", new TreeId(Guid.Empty), null, new PersonId(Guid.Empty));
+            var command = new RemovePersonsFileCommand("authId", new TreeId(Guid.Empty), null, new PersonId(Guid.Empty));
 
             Assert.False(Validator.Validate(command).IsValid);
         }

@@ -66,7 +66,7 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
 
                 b.OwnsMany(p => p.Files, b =>
                 {
-                    b.ToTable("PersonsMainFiles", SchemaNames.Trees);
+                    b.ToTable("PersonsFiles", SchemaNames.Trees);
                     FileBuildAction(b);
                 });
             });
