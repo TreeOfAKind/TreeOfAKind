@@ -96,7 +96,7 @@ void main() {
         ),
       ));
 
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
       expect(find.byType(HomePage), findsOneWidget);
     });
   });
