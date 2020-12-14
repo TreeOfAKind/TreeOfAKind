@@ -15,6 +15,7 @@ import { TokenInterceptor } from './authentication/shared/token-interceptor';
 import { UserProfileFormComponent } from './user-profile/user-profile-form/user-profile-form.component';
 import { TreesListComponent } from './tree/trees-list/trees-list.component'
 import { CommonModule } from '@angular/common';
+import { TreeCreateComponent } from './tree/tree-create/tree-create.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { CommonModule } from '@angular/common';
     HomeComponent,
     UserProfileFormComponent,
     TreesListComponent,
+    TreeCreateComponent,
   ],
   imports: [
     BrowserModule,

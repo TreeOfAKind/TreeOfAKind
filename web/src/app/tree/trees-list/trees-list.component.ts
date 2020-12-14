@@ -15,8 +15,12 @@ export class TreesListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.onModelChange();
+  }
+
+  onModelChange() {
     this.service.getMyTrees().subscribe(result => {
-      this.treesList = this.treesList.concat(result.trees);
+      this.treesList = result.trees;
     });
   }
 }

@@ -13,12 +13,9 @@
     </div>
 
     <div class="col mb-4">
-      <a href="#" class="link-unstyled">
+      <a class="link-unstyled">
         <div class="card">
-          <img class="card-img-top" src="../../../assets/add-black-18dp.svg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title text-center">Add tree</h5>
-          </div>
+          <app-tree-create class="card-body" (submitted)="onModelChange()"></app-tree-create>
         </div>
       </a>
     </div>
