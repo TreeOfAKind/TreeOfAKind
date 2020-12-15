@@ -5,6 +5,7 @@ import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/features/common/generic_error.dart';
 import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
+import 'package:tree_of_a_kind/features/tree/view/tree_graph_view.dart';
 
 class TreePage extends StatefulWidget {
   const TreePage({Key key, @required this.treeItem}) : super(key: key);
@@ -42,7 +43,8 @@ class _TreePageState extends State<TreePage> {
             } else if (state is UnknownErrorState) {
               return GenericError();
             } else if (state is PresentingTree) {
-              return Container();
+              return TreeGraphView(
+                  tree: state.tree, treeGraph: state.treeGraph);
             } else {
               return Container();
             }
