@@ -68,9 +68,9 @@ namespace TreeOfAKind.API
         }
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry();
-
-            services.AddControllers().AddJsonOptions(opts =>
+            services.AddControllers(
+                opts => opts.Filters.Add(typeof(ValidateModelStateAttribute))
+                    ).AddJsonOptions(opts =>
             {
                 ConfigureSerializerSettings(opts.JsonSerializerOptions);
             });
