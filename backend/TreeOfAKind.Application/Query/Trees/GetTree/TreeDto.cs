@@ -22,11 +22,18 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         public Guid? Mother { get; set; }
         public Guid? Father { get; set; }
         public List<Guid> Spouses { get; set; } = new List<Guid>();
+        public List<Guid> Children { get; set; } = new List<Guid>();
         public List<Guid> UnknownRelations { get; set; } = new List<Guid>();
-
         private static List<Guid> GetRelations(PersonId id, RelationType relationType, TreeRelations treeRelations)
         {
             return treeRelations.Relations.Where(r => r.From == id && r.RelationType == relationType)
+                .Select(t => t.To.Value).ToList();
+        }
+
+        private static List<Guid> GetChildren(PersonId id, TreeRelations treeRelations)
+        {
+            return treeRelations.Relations.Where(r =>
+                    r.To == id && (r.RelationType == RelationType.Father || r.RelationType == RelationType.Mother))
                 .Select(t => t.To.Value).ToList();
         }
 
@@ -44,6 +51,8 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
             Mother = GetRelations(person.Id, RelationType.Mother, treeRelations).Cast<Guid?>().FirstOrDefault();
             Father = GetRelations(person.Id, RelationType.Father, treeRelations).Cast<Guid?>().FirstOrDefault();
             Spouses = GetRelations(person.Id, RelationType.Spouse, treeRelations);
+            Children = GetChildren(person.Id, treeRelations);
+
             UnknownRelations = GetRelations(person.Id, RelationType.Unknown, treeRelations);
         }
     }
