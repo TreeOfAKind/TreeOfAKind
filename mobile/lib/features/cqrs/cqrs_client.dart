@@ -35,9 +35,13 @@ class CqrsClient {
     final response = await _send(command);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return SuccessCommandResult.fromJson(jsonDecode(response.body));
+      return response.body.isEmpty
+          ? SuccessCommandResult()
+          : SuccessCommandResult.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 422) {
-      return FailureCommandResult.fromJson(jsonDecode(response.body));
+      return response.body.isEmpty
+          ? FailureCommandResult()
+          : FailureCommandResult.fromJson(jsonDecode(response.body));
     } else {
       throw HttpException(
           'Could not run command with code ${response.statusCode}',

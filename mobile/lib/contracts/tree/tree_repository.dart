@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:tree_of_a_kind/contracts/common/base_repository.dart';
+import 'package:tree_of_a_kind/contracts/owners/contracts.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_client.dart';
 
 import 'contracts.dart';
@@ -16,5 +17,9 @@ class TreeRepository extends BaseRepository {
 
   Future<BaseCommandResult> addTree({@required String treeName}) {
     return run(CreateTree()..treeName = treeName);
+  }
+
+  Future<BaseCommandResult> deleteTree({@required String treeId}) {
+    return run(RemoveTreeOwner()..treeId = treeId);
   }
 }
