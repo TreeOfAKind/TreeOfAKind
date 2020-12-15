@@ -116,6 +116,12 @@ namespace TreeOfAKind.IntegrationTests
             await CommandsExecutor.Execute(
                 new AddRelationCommand(AuthId, treeId, princeId, queenId, RelationType.Mother));
 
+            var tree = await QueriesExecutor.Execute(
+                new GetTreeQuery(AuthId, treeId));
+
+            Assert.NotNull(tree.People.First(p => p.Id == princeId.Value).Mother);
+            Assert.Single(tree.People.First(p => p.Id == queenId.Value).Children);
+
             await Assert.ThrowsAsync<BusinessRuleValidationException>(async () =>
                 await CommandsExecutor.Execute(
                     new AddRelationCommand(AuthId, treeId, princeId, queenId, RelationType.Mother)));
