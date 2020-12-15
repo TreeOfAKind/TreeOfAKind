@@ -21,10 +21,10 @@ namespace TreeOfAKind.API
                 sb.AppendLine("Errors:");
                 foreach (var error in context.ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    sb.AppendLine(error.ErrorMessage);
+                    sb.Append(error.ErrorMessage);
                 }
                 var errors = sb.ToString();
-                _logger.Error("Invalid request: {errors}", errors);
+                _logger.Error("Invalid request: {@Errors}", errors);
                 throw new InvalidCommandException("Invalid command", errors);
             }
             base.OnActionExecuted(context);
