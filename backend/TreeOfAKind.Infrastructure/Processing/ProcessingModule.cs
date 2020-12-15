@@ -20,7 +20,7 @@ namespace TreeOfAKind.Infrastructure.Processing
                 .AsClosedTypesOf(typeof(IDomainEventNotification<>)).InstancePerDependency();
 
             builder.RegisterGenericDecorator(
-                typeof(DomainEventsDispatcherNotificationHandlerDecorator<>), 
+                typeof(DomainEventsDispatcherNotificationHandlerDecorator<>),
                 typeof(INotificationHandler<>));
 
             builder.RegisterGenericDecorator(
@@ -34,10 +34,6 @@ namespace TreeOfAKind.Infrastructure.Processing
             builder.RegisterType<CommandsScheduler>()
                 .As<ICommandsScheduler>()
                 .InstancePerLifetimeScope();
-            
-            builder.RegisterGenericDecorator(
-                typeof(LoggingCommandHandlerWithResultDecorator<,>),
-                typeof(IRequestHandler<,>));
         }
     }
 }
