@@ -32,12 +32,12 @@ class TreesListDTO {
 
 @JsonSerializable()
 class TreeDTO {
-  final String id;
+  final String treeId;
   final String photoUri;
   final String treeName;
   final List<PersonDTO> people;
 
-  TreeDTO({this.id, this.photoUri, this.treeName, this.people});
+  TreeDTO({this.treeId, this.photoUri, this.treeName, this.people});
 
   factory TreeDTO.fromJson(Map<String, dynamic> json) =>
       _$TreeDTOFromJson(json);

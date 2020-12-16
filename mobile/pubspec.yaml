@@ -31,13 +31,14 @@ dependencies:
   flutter_bloc: ^6.1.0
   flutter_slidable: ^0.5.7
   formz: ^0.2.0
-  graphite: ^0.2.2
+  graphite: ^0.2.3
   http: ^0.12.0+4
   json_annotation: ^3.1.0
   meta: ^1.2.3
   pedantic: ^1.9.0
   progress_indicators: ^0.1.5
   provider: ^4.3.2+2
+  random_color: ^1.0.5
 
   authentication_repository:
     path: packages/authentication_repository

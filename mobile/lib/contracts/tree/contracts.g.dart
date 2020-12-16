@@ -37,7 +37,7 @@ Map<String, dynamic> _$TreesListDTOToJson(TreesListDTO instance) =>
 
 TreeDTO _$TreeDTOFromJson(Map<String, dynamic> json) {
   return TreeDTO(
-    id: json['id'] as String,
+    treeId: json['treeId'] as String,
     photoUri: json['photoUri'] as String,
     treeName: json['treeName'] as String,
     people: (json['people'] as List)
@@ -48,7 +48,7 @@ TreeDTO _$TreeDTOFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TreeDTOToJson(TreeDTO instance) => <String, dynamic>{
-      'id': instance.id,
+      'treeId': instance.treeId,
       'photoUri': instance.photoUri,
       'treeName': instance.treeName,
       'people': instance.people,

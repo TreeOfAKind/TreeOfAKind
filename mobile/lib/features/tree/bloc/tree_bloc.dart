@@ -29,11 +29,15 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
   }
 
   List<NodeInput> _treeToGraph(TreeDTO tree) {
-    return tree.people.map((person) => NodeInput(id: person.id, next: [
-          person.father,
-          person.mother,
-          ...person.spouses,
-        ]));
+    return tree.people
+        .map((person) => NodeInput(
+            id: person.id,
+            next: [
+              person.father,
+              person.mother,
+              if (person.spouses.isNotEmpty) person.spouses.first,
+            ].where((element) => element != null).toList()))
+        .toList();
   }
 
   Stream<TreeState> _handleFetchTree(String treeId) async* {

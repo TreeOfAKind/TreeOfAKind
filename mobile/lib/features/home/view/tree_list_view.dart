@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
+import 'package:tree_of_a_kind/features/tree/view/tree_page.dart';
 
 class TreeListView extends StatelessWidget {
   TreeListView(
@@ -28,6 +29,10 @@ class _TreeItem extends StatelessWidget {
   _TreeItem({@required this.treeItem});
 
   final TreeItemDTO treeItem;
+
+  void _listTap(BuildContext context) {
+    Navigator.of(context).push<void>(TreePage.route(treeItem));
+  }
 
   void _deleteTreeDialog(BuildContext context, TreeListBloc bloc) {
     final theme = Theme.of(context);
@@ -71,6 +76,7 @@ class _TreeItem extends StatelessWidget {
                 color: theme.accentColor,
               ),
               title: Text(treeItem.treeName, style: theme.textTheme.headline6),
+              onTap: () => _listTap(context),
               trailing: Icon(Icons.keyboard_arrow_right),
             )),
         secondaryActions: [
