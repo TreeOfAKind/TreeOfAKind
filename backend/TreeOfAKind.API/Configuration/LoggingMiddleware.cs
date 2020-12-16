@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Serilog;
@@ -5,6 +6,9 @@ using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
 using TreeOfAKind.Application.Configuration;
+using TreeOfAKind.Application.Configuration.Authorization;
+using TreeOfAKind.Application.Configuration.Validation;
+using TreeOfAKind.Domain.SeedWork;
 
 namespace TreeOfAKind.API.Configuration
 {
@@ -28,12 +32,25 @@ namespace TreeOfAKind.API.Configuration
             {
                 context.Request.Headers.TryGetValue("Content-Type", out var contentType);
 
-                _logger.Verbose("Processing request {@Path} with content type {@ContentType}", context.Request.Path.Value,
-                    contentType);
-                await _next(context);
-
-                _logger.Verbose("Processed request {@Path} with status code {@StatusCode}", context.Request.Path.Value,
-                    context.Response.StatusCode);
+                _logger.Verbose("Processing request {@Path} with content type {@ContentType} and method {@Method}", context.Request.Path.Value,
+                    contentType, context.Request.Method);
+                try
+                {
+                    await _next(context);
+                }
+                catch (Exception exception)
+                    when (exception is not InvalidCommandException &&
+                          exception is not BusinessRuleValidationException &&
+                          exception is not UnauthorizedException)
+                {
+                    _logger.Error(exception, "Unexpected exception");
+                    throw;
+                }
+                finally
+                {
+                    _logger.Verbose("Processed request {@Path} with status code {@StatusCode}", context.Request.Path.Value,
+                        context.Response.StatusCode);
+                }
             }
         }
 
