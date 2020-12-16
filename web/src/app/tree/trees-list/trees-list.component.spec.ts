@@ -14,12 +14,12 @@ describe('TreesListComponent', () => {
   let trees: TreesListResponse = {
     trees: [
       {
-        treeId: "1",
+        id: "1",
         treeName: "Tree 0",
         photoUri: null
       },
       {
-        treeId: "2",
+        id: "2",
         treeName: "Tree 1",
         photoUri: null
       }
