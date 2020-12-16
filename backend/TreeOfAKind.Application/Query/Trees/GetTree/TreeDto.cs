@@ -34,7 +34,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         {
             return treeRelations.Relations.Where(r =>
                     r.To == id && (r.RelationType == RelationType.Father || r.RelationType == RelationType.Mother))
-                .Select(t => t.To.Value).ToList();
+                .Select(t => t.From.Value).ToList();
         }
 
         public PersonDto(Person person, TreeRelations treeRelations)
