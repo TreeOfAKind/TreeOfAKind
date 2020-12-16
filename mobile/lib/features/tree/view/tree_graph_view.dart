@@ -7,22 +7,21 @@ import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 
 class TreeGraphView extends StatelessWidget {
   TreeGraphView({Key key, @required this.tree, @required this.treeGraph})
-      : super(key: key) {
-    randomColors = RandomColor(tree.treeId.codeUnits
-        .fold(0, (previousValue, element) => previousValue + element));
-  }
+      : randomColors = RandomColor(tree.treeId.codeUnits
+            .fold(0, (previousValue, element) => previousValue + element)),
+        super(key: key);
 
   final TreeDTO tree;
   final List<NodeInput> treeGraph;
 
-  RandomColor randomColors;
+  final RandomColor randomColors;
 
   @override
   Widget build(BuildContext context) {
     return DirectGraph(
       list: treeGraph,
       cellWidth: 140.0,
-      cellPadding: 24.0,
+      cellPadding: 20.0,
       orientation: MatrixOrientation.Vertical,
       builder: (context, node) => _PersonNode(
           person: tree.people.firstWhere((person) => person.id == node.id),

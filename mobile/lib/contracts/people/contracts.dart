@@ -15,6 +15,7 @@ class PersonDTO {
   final String mother;
   final String father;
   final List<String> spouses;
+  final List<String> children;
   final List<String> unknownRelations;
 
   PersonDTO(
@@ -29,6 +30,7 @@ class PersonDTO {
       this.mother,
       this.father,
       this.spouses,
+      this.children,
       this.unknownRelations});
 
   factory PersonDTO.fromJson(Map<String, dynamic> json) =>

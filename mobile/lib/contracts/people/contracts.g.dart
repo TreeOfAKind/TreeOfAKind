@@ -23,6 +23,7 @@ PersonDTO _$PersonDTOFromJson(Map<String, dynamic> json) {
     mother: json['mother'] as String,
     father: json['father'] as String,
     spouses: (json['spouses'] as List)?.map((e) => e as String)?.toList(),
+    children: (json['children'] as List)?.map((e) => e as String)?.toList(),
     unknownRelations:
         (json['unknownRelations'] as List)?.map((e) => e as String)?.toList(),
   );
@@ -40,5 +41,6 @@ Map<String, dynamic> _$PersonDTOToJson(PersonDTO instance) => <String, dynamic>{
       'mother': instance.mother,
       'father': instance.father,
       'spouses': instance.spouses,
+      'children': instance.children,
       'unknownRelations': instance.unknownRelations,
     };
