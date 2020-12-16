@@ -12,8 +12,6 @@ class UserProfileView extends StatelessWidget {
       @required this.userProfile,
       @required this.canSave});
 
-  final _formKey = GlobalKey<FormState>();
-
   final User user;
   final UserProfileDTO userProfile;
   final bool canSave;

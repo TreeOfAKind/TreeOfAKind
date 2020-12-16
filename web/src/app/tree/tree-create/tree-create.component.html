@@ -1,0 +1,18 @@
+<div class="container">
+  <form #createTreeForm (ngSubmit)="onSubmit()">
+    <h1 class="text-center">Create new tree</h1>
+
+    <div class="form-group">
+      <label for="treeName">
+        Tree name
+      </label>
+      <input id="treeName" name="treeName" class="form-control" type="text" [(ngModel)]="model.treeName">
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary" type="submit" name="createTreeButton">Submit</button>
+    </div>
+
+  </form>
+</div>
+

@@ -64,9 +64,9 @@ namespace TreeOfAKind.API
         }
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry();
-
-            services.AddControllers().AddJsonOptions(opts =>
+            services.AddControllers(
+                opts => opts.Filters.Add(typeof(ValidateModelStateAttribute))
+                    ).AddJsonOptions(opts =>
             {
                 ConfigureSerializerSettings(opts.JsonSerializerOptions);
             });
@@ -135,6 +135,7 @@ namespace TreeOfAKind.API
             });
 
             app.UseMiddleware<CorrelationMiddleware>();
+            app.UseMiddleware<LoggingMiddleware>();
 
             app.UseAuthentication();
 
@@ -161,10 +162,11 @@ namespace TreeOfAKind.API
         private ILogger ConfigureLogger(IWebHostEnvironment env)
         {
             var loggerConfiguration = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
                 .ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
-                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{Context}] {Message:lj}{NewLine}{Exception}")
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{CorrelationId}] {Message:lj}{NewLine}{Exception}")
                 .WriteTo.RollingFile(new JsonFormatter(), "logs/logs");
 
             if (env.IsProduction())

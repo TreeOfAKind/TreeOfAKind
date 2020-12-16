@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from  "@angular/router";
 import { AngularFireAuth } from  "@angular/fire/auth";
-import { User } from 'firebase';
+import { User } from './user.model';
 import { from, Observable } from 'rxjs';
 
 @Injectable({
@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   private setUserData(user) {
-    this.user = user;
+    this.user = { email: user.email };
     localStorage.setItem('user', JSON.stringify(this.user));
   }
 }

@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3">
+    <div class="col mb-4" *ngFor="let tree of treesList let treeIndex = index" [attr.data-index]="treeIndex">
+      <a href="#" class="link-unstyled">
+        <div class="card">
+          <img class="card-img-top" [src]="tree.photoUri" alt="Card image cap" *ngIf="tree.photoUri">
+          <img class="card-img-top" src="../../../assets/nature-24px.svg" alt="Card image cap" *ngIf="!tree.photoUri">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ tree.treeName }}</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col mb-4">
+      <a class="link-unstyled">
+        <div class="card">
+          <app-tree-create class="card-body" (submitted)="onModelChange()"></app-tree-create>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

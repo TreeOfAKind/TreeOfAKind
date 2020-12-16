@@ -13,13 +13,14 @@ class UserProfilePage extends StatefulWidget {
 
   static Route route() {
     return MaterialPageRoute<void>(
-        builder: (context) => BlocProvider<UserProfileBloc>(
-              create: (context) => UserProfileBloc(
-                  userProfileRepository:
-                      RepositoryProvider.of<UserProfileRepository>(context))
-                ..add(const FetchUserProfile()),
-              child: UserProfilePage(),
-            ));
+      builder: (context) => BlocProvider<UserProfileBloc>(
+        create: (context) => UserProfileBloc(
+            userProfileRepository:
+                RepositoryProvider.of<UserProfileRepository>(context))
+          ..add(const FetchUserProfile()),
+        child: UserProfilePage(),
+      ),
+    );
   }
 }
 
@@ -28,21 +29,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     final user = BlocProvider.of<AuthenticationBloc>(context).state.user;
 
-    return BlocBuilder<UserProfileBloc, UserProfileState>(
-      builder: (context, state) {
-        if (state is LoadingState) {
-          return Center(child: LoadingIndicator());
-        } else if (state is UnknownErrorState) {
-          return GenericError();
-        } else if (state is PresentingData) {
-          return UserProfileView(
-              user: user,
-              userProfile: state.userProfile,
-              canSave: state.hasChanged);
-        } else {
-          return Container();
-        }
-      },
-    );
+    return Scaffold(
+        appBar: AppBar(title: const Text('My profile')),
+        body: BlocBuilder<UserProfileBloc, UserProfileState>(
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return Center(child: LoadingIndicator());
+            } else if (state is UnknownErrorState) {
+              return GenericError();
+            } else if (state is PresentingData) {
+              return UserProfileView(
+                  user: user,
+                  userProfile: state.userProfile,
+                  canSave: state.hasChanged);
+            } else {
+              return Container();
+            }
+          },
+        ));
   }
 }

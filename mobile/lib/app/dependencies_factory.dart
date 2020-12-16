@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tree_of_a_kind/app/config.dart';
+import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/contracts/user_profile/user_profile_repository.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_client.dart';
 
@@ -18,6 +18,7 @@ abstract class DependenciesFactory {
 
   AuthenticationRepository authenticationRepository();
   UserProfileRepository userProfileRepository(CqrsClient cqrs);
+  TreeRepository treeRepository(CqrsClient cqrs);
 }
 
 class AppDependenciesFactory extends DependenciesFactory {
@@ -30,6 +31,11 @@ class AppDependenciesFactory extends DependenciesFactory {
   @override
   UserProfileRepository userProfileRepository(CqrsClient cqrs) {
     return UserProfileRepository(cqrs);
+  }
+
+  @override
+  TreeRepository treeRepository(CqrsClient cqrs) {
+    return TreeRepository(cqrs);
   }
 
   @override

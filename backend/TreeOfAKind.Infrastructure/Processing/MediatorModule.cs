@@ -12,6 +12,7 @@ using TreeOfAKind.Application.Command.Trees;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.Application.Query.Trees;
+using TreeOfAKind.Infrastructure.Logging;
 using Module = Autofac.Module;
 
 namespace TreeOfAKind.Infrastructure.Processing
@@ -69,6 +70,7 @@ namespace TreeOfAKind.Infrastructure.Processing
                 return t => c.Resolve(t);
             });
 
+            builder.RegisterGeneric(typeof(LoggingBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(CommandValidationBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             ValidatorOptions.Global.LanguageManager.Enabled = false;
             builder.RegisterGeneric(typeof(RequestAuthorizationBehavior<,>)).As(typeof(IPipelineBehavior<,>));

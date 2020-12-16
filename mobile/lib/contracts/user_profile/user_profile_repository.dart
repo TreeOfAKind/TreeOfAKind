@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 import 'package:tree_of_a_kind/contracts/common/base_repository.dart';
 import 'package:tree_of_a_kind/contracts/user_profile/contracts.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_client.dart';

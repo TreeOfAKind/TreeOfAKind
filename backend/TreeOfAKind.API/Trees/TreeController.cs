@@ -10,6 +10,7 @@ using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
+using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
@@ -85,7 +86,7 @@ namespace TreeOfAKind.API.Trees
 
             var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId));
 
-            return Created(string.Empty,new IdDto{ Id = result.Value});
+            return Created(string.Empty, new IdDto {Id = result.Value});
         }
 
         /// <summary>
@@ -120,7 +121,6 @@ namespace TreeOfAKind.API.Trees
 
             return Ok(result);
         }
-
 
 
         /// <summary>
@@ -169,6 +169,7 @@ namespace TreeOfAKind.API.Trees
         ///        "removedUserId": "72bef03b-62c2-4829-9917-bed803397de5"
         ///     }
         ///
+        /// If `removedUserId` is empty, the requester will be removed.
         /// </remarks>
         /// <param name="request"></param>
         /// <response code="200">Tree owner removed</response>
@@ -185,8 +186,15 @@ namespace TreeOfAKind.API.Trees
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            await _mediator.Send(new RemoveTreeOwnerCommand(authId, new TreeId(request.TreeId),
-                new UserId(request.RemovedUserId)));
+            if (request.RemovedUserId.HasValue)
+            {
+                await _mediator.Send(new RemoveTreeOwnerCommand(authId, new TreeId(request.TreeId),
+                    new UserId(request.RemovedUserId.Value)));
+            }
+            else
+            {
+                await _mediator.Send(new RemoveMyselfFromTreeOwnersCommand(authId, new TreeId(request.TreeId)));
+            }
 
             return Ok();
         }
@@ -211,7 +219,7 @@ namespace TreeOfAKind.API.Trees
         /// <response code="422">Business rule broken</response>
         [HttpPost]
         [Authorize]
-        [ProducesResponseType(typeof(UriDto),StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(UriDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]

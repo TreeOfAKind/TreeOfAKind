@@ -10,5 +10,7 @@ class SuccessCommandResult extends CommandResult {
 }
 
 class FailureCommandResult extends CommandResult {
+  FailureCommandResult();
+
   FailureCommandResult.fromJson(Map<String, dynamic> json);
 }
