@@ -31,10 +31,10 @@ namespace TreeOfAKind.Domain.Trees.Rules
                     .ToDictionary(r => r.Key, r => r.ToList().Select(rt => rt.To));
 
             HashSet<PersonId> allIds = new HashSet<PersonId>(allIdsInChildParentRelation);
-            HashSet<PersonId> heads = new HashSet<PersonId>();
 
             while (allIds.Any())
             {
+                HashSet<PersonId> peopleFoundInCurrentSearch = new HashSet<PersonId>();
                 var head = allIds.First();
 
                 Queue<PersonId> queue = new Queue<PersonId>();
@@ -44,9 +44,9 @@ namespace TreeOfAKind.Domain.Trees.Rules
                 {
                     var elem = queue.Dequeue();
 
-                    if (heads.Contains(elem)) continue;
+                    if(!allIds.Remove(elem)) continue;
 
-                    if (!allIds.Remove(elem)) return true;
+                    if (!peopleFoundInCurrentSearch.Add(elem)) return true;
 
                     if(!childParent.ContainsKey(elem)) continue;
 
@@ -55,8 +55,6 @@ namespace TreeOfAKind.Domain.Trees.Rules
                         queue.Enqueue(parent);
                     }
                 }
-
-                heads.Add(head);
             }
 
             return false;

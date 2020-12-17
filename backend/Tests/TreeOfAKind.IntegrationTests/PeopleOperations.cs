@@ -62,7 +62,7 @@ namespace TreeOfAKind.IntegrationTests
                 new GetTreeQuery(AuthId, treeId));
 
             Assert.Equal(2, tree.People.Count);
-            Assert.Equal(1, tree.People.FirstOrDefault()?.Spouses.Count);
+            Assert.NotNull(tree.People.FirstOrDefault()?.Spouse);
             Assert.Null(tree.People.FirstOrDefault()?.Mother);
             Assert.Null(tree.People.FirstOrDefault()?.Father);
 
@@ -113,14 +113,30 @@ namespace TreeOfAKind.IntegrationTests
                     "Some biography of Filip",
                     null));
 
+            var princeId2 = await CommandsExecutor.Execute(
+                new AddPersonCommand(
+                    AuthId,
+                    treeId,
+                    "Queens child",
+                    null,
+                    Gender.Male,
+                    new DateTime(1955, 5, 10),
+                    null,
+                    "Prince2",
+                    "Some biography of Filip",
+                    null));
+
             await CommandsExecutor.Execute(
                 new AddRelationCommand(AuthId, treeId, princeId, queenId, RelationType.Mother));
+
+            await CommandsExecutor.Execute(
+                new AddRelationCommand(AuthId, treeId, princeId2, queenId, RelationType.Mother));
 
             var tree = await QueriesExecutor.Execute(
                 new GetTreeQuery(AuthId, treeId));
 
             Assert.NotNull(tree.People.First(p => p.Id == princeId.Value).Mother);
-            Assert.Single(tree.People.First(p => p.Id == queenId.Value).Children);
+            Assert.Equal(2, tree.People.First(p => p.Id == queenId.Value).Children.Count);
 
             await Assert.ThrowsAsync<BusinessRuleValidationException>(async () =>
                 await CommandsExecutor.Execute(

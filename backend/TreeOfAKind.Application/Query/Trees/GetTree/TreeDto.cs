@@ -21,7 +21,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         public string Biography { get; set; }
         public Guid? Mother { get; set; }
         public Guid? Father { get; set; }
-        public List<Guid> Spouses { get; set; } = new List<Guid>();
+        public Guid? Spouse { get; set; }
         public List<Guid> Children { get; set; } = new List<Guid>();
         public List<Guid> UnknownRelations { get; set; } = new List<Guid>();
         private static List<Guid> GetRelations(PersonId id, RelationType relationType, TreeRelations treeRelations)
@@ -50,7 +50,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
 
             Mother = GetRelations(person.Id, RelationType.Mother, treeRelations).Cast<Guid?>().FirstOrDefault();
             Father = GetRelations(person.Id, RelationType.Father, treeRelations).Cast<Guid?>().FirstOrDefault();
-            Spouses = GetRelations(person.Id, RelationType.Spouse, treeRelations);
+            Spouse = GetRelations(person.Id, RelationType.Spouse, treeRelations).FirstOrDefault();
             Children = GetChildren(person.Id, treeRelations);
 
             UnknownRelations = GetRelations(person.Id, RelationType.Unknown, treeRelations);
