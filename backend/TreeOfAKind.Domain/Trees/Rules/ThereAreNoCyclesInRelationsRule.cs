@@ -44,9 +44,9 @@ namespace TreeOfAKind.Domain.Trees.Rules
                 {
                     var elem = queue.Dequeue();
 
-                    if(!allIds.Remove(elem)) continue;
-
                     if (!peopleFoundInCurrentSearch.Add(elem)) return true;
+
+                    if(!allIds.Remove(elem)) continue;
 
                     if(!childParent.ContainsKey(elem)) continue;
 
