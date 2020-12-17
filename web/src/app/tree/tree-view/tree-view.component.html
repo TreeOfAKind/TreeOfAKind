@@ -4,12 +4,17 @@
     <thead>
       <tr>
         <th class="font-weight-lighter">Last Name</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr class="bg-light border border-white" *ngFor="let person of model.people">
         <td class="list-table__table-cell font-weight-bold border-right">
           <a class="text-dark" [routerLink]="['person-form', person.id]">{{ person.lastName }}</a>
+        </td>
+
+        <td class="list-table__table-cell font-weight-bold border-right">
+          <a class="text-dark" (click)="deletePerson(person)">delete</a>
         </td>
       </tr>
     </tbody>

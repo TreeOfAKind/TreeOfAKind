@@ -21,7 +21,7 @@
       </label>
       <select id="gender" name="gender" class="form-control" [(ngModel)]="model.gender" #genderDropdown>
         <option *ngFor="let key of keys">
-          {{ gender[key] }}
+          {{ Gender[key] }}
         </option>
       </select>
     </div>
@@ -52,6 +52,42 @@
         Biography
       </label>
       <textarea id="biography" name="biography" class="form-control" [(ngModel)]="model.biography"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="mother">
+        Mother
+      </label>
+      <select id="mother" name="mother" class="form-control" [(ngModel)]="model.mother">
+        <option [ngValue]="null">None</option>
+        <option *ngFor="let person of people" [ngValue]="person.id">
+          {{ person | person }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="father">
+        Father
+      </label>
+      <select id="father" name="father" class="form-control" [(ngModel)]="model.father">
+        <option [ngValue]="null">None</option>
+        <option *ngFor="let person of people" [ngValue]="person.id">
+          {{ person | person }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="spouse">
+        Spouse
+      </label>
+      <select id="spouse" name="spouse" class="form-control" [(ngModel)]="model.spouse">
+        <option [ngValue]="null">None</option>
+        <option *ngFor="let person of people" [ngValue]="person.id">
+          {{ person | person }}
+        </option>
+      </select>
     </div>
 
     <div class="text-center" *ngIf="formAction === FormAction.Add">

@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { TreeCreateComponent } from './tree/tree-create/tree-create.component';
 import { TreeViewComponent } from './tree/tree-view/tree-view.component';
 import { PersonFormComponent } from './people/person-form/person-form.component';
+import { PersonPipe } from './people/shared/person.pipe';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { PersonFormComponent } from './people/person-form/person-form.component'
     TreeCreateComponent,
     TreeViewComponent,
     PersonFormComponent,
+    PersonPipe
   ],
   imports: [
     BrowserModule,

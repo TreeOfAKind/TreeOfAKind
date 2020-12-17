@@ -8,4 +8,7 @@ export interface PersonForm {
   deathDate: Date,
   description: string,
   biography: string,
+  mother: string,
+  father: string,
+  spouse: string
 }
