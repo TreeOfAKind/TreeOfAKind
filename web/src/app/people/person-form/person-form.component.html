@@ -1,0 +1,62 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="firstName">
+        First name
+      </label>
+      <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="model.name">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">
+        Last name
+      </label>
+      <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="model.lastName">
+    </div>
+
+    <div class="form-group">
+      <label for="gender">
+        Gender
+      </label>
+      <select id="gender" name="gender" class="form-control" [(ngModel)]="model.gender" #genderDropdown>
+        <option *ngFor="let key of keys">
+          {{ gender[key] }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="birthDate">
+        Birth date
+      </label>
+      <input id="birthDate" name="birthDate" class="form-control" type="date" [(ngModel)]="model.birthDate">
+    </div>
+
+    <div class="form-group">
+      <label for="deathDate">
+        Death date
+      </label>
+      <input id="deathDate" name="deathDate" class="form-control" type="date" [(ngModel)]="model.deathDate">
+    </div>
+
+    <div class="form-group">
+      <label for="description">
+        Description
+      </label>
+      <textarea id="description" name="description" class="form-control" [(ngModel)]="model.description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="biography">
+        Biography
+      </label>
+      <textarea id="biography" name="biography" class="form-control" [(ngModel)]="model.biography"></textarea>
+    </div>
+
+    <div class="text-center" *ngIf="formAction === FormAction.Add">
+      <button class="btn btn-primary" type="submit" name="submitPersonButton">Submit</button>
+    </div>
+
+  </form>
+</div>

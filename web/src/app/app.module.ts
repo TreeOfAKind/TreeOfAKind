@@ -16,6 +16,8 @@ import { UserProfileFormComponent } from './user-profile/user-profile-form/user-
 import { TreesListComponent } from './tree/trees-list/trees-list.component'
 import { CommonModule } from '@angular/common';
 import { TreeCreateComponent } from './tree/tree-create/tree-create.component';
+import { TreeViewComponent } from './tree/tree-view/tree-view.component';
+import { PersonFormComponent } from './people/person-form/person-form.component';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import { TreeCreateComponent } from './tree/tree-create/tree-create.component';
     UserProfileFormComponent,
     TreesListComponent,
     TreeCreateComponent,
+    TreeViewComponent,
+    PersonFormComponent,
   ],
   imports: [
     BrowserModule,
