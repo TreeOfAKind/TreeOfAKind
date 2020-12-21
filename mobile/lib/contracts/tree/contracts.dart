@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_action.dart';
 
 part 'contracts.g.dart';
@@ -30,6 +31,21 @@ class TreesListDTO {
 }
 
 @JsonSerializable()
+class TreeDTO {
+  final String treeId;
+  final String photoUri;
+  final String treeName;
+  final List<PersonDTO> people;
+
+  TreeDTO({this.treeId, this.photoUri, this.treeName, this.people});
+
+  factory TreeDTO.fromJson(Map<String, dynamic> json) =>
+      _$TreeDTOFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TreeDTOToJson(this);
+}
+
+@JsonSerializable()
 class GetMyTrees extends Query<TreesListDTO> {
   @override
   String get endpointRoute => "Tree/GetMyTrees";
@@ -39,6 +55,22 @@ class GetMyTrees extends Query<TreesListDTO> {
 
   @override
   Map<String, dynamic> toJson() => _$GetMyTreesToJson(this);
+}
+
+@JsonSerializable()
+class GetTree extends Query<TreeDTO> {
+  String treeId;
+
+  @override
+  String get endpointRoute => "Tree/GetTree";
+
+  GetTree({this.treeId});
+
+  @override
+  TreeDTO deserializeResult(json) => TreeDTO.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$GetTreeToJson(this);
 }
 
 @JsonSerializable()
