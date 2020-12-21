@@ -34,8 +34,14 @@ class _TreePageState extends State<TreePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
         appBar: AppBar(title: Text(treeItem.treeName)),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () => {},
+        ),
         body: BlocBuilder<TreeBloc, TreeState>(
           builder: (context, state) {
             if (state is InitialLoadingState) {
@@ -43,8 +49,17 @@ class _TreePageState extends State<TreePage> {
             } else if (state is UnknownErrorState) {
               return GenericError();
             } else if (state is PresentingTree) {
-              return TreeGraphView(
-                  tree: state.tree, treeGraph: state.treeGraph);
+              return state.treeGraph.isEmpty
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        "Your family members will be here, once you add them ☺",
+                        style: theme.textTheme.headline3,
+                        textAlign: TextAlign.center,
+                      ),
+                    ))
+                  : TreeGraphView(tree: state.tree, treeGraph: state.treeGraph);
             } else {
               return Container();
             }

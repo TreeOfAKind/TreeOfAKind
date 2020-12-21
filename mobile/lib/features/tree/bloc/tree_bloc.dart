@@ -33,9 +33,8 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
         .map((person) => NodeInput(
             id: person.id,
             next: [
-              person.father,
-              person.mother,
-              if (person.spouses.isNotEmpty) person.spouses.first,
+              // if (person.spouses?.isNotEmpty ?? false) person.spouses.first,
+              ...person.children,
             ].where((element) => element != null).toList()))
         .toList();
   }
