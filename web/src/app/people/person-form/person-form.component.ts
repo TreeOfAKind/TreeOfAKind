@@ -17,16 +17,20 @@ export class PersonFormComponent implements OnInit {
     treeId: null,
     name: null,
     lastName: null,
-    gender: null,
+    gender: "Unknown",
     birthDate: null,
     deathDate: null,
     description: null,
     biography: null,
+    mother: null,
+    father: null,
+    spouse: null
   };
-  gender = Gender;
+  Gender = Gender;
   keys = [];
   treeId: string;
   personId: string;
+  people: PersonForm[];
   formAction: FormAction;
   FormAction = FormAction;
 
@@ -38,17 +42,19 @@ export class PersonFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.keys = Object.keys(this.gender);
+    this.keys = Object.keys(Gender);
     this.treeId = this.route.parent.snapshot.paramMap.get('id');
     this.model.treeId = this.treeId;
     this.formAction = this.route.snapshot.data["formAction"];
 
-    if (this.formAction == FormAction.Edit) {
-      this.personId = this.route.snapshot.paramMap.get('id');
-      this.treeService.getTree(this.treeId).subscribe(tree => {
+    this.personId = this.route.snapshot.paramMap.get('id');
+    this.treeService.getTree(this.treeId).subscribe(tree => {
+      this.people = tree.people.filter(person => person.id !== this.personId);
+
+      if (this.formAction == FormAction.Edit) {
         this.model = tree.people.find(person => person.id == this.personId);
-      });
-    }
+      }
+    });
   }
 
   onSubmit() {

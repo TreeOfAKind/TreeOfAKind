@@ -16,4 +16,9 @@ export class PeopleService {
   addPerson(person: PersonForm) {
     return this.httpClient.post(`${this.url}/AddPerson`, person);
   }
+
+  removePerson(personId: string, treeId: string) {
+    return this.httpClient.post(`${this.url}/RemovePerson`, { treeId: treeId, personId: personId});
+  }
+
 }
