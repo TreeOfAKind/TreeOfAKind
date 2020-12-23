@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using TreeOfAKind.API.SeedWork;
 using TreeOfAKind.Application.Configuration.Validation;
-using TreeOfAKind.Application.Ping;
 
 namespace TreeOfAKind.API
 {

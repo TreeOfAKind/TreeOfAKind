@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +10,6 @@ using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Emails;
 using TreeOfAKind.Application.Services;
 using TreeOfAKind.Infrastructure;
-using TreeOfAKind.Infrastructure.Emails;
 using TreeOfAKind.Infrastructure.FileStorage;
 
 namespace TreeOfAKind.IntegrationTests

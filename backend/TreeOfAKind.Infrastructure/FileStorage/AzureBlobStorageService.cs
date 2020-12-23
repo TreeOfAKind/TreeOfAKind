@@ -9,7 +9,6 @@ using Azure.Storage.Blobs.Models;
 using MimeTypes;
 using Serilog;
 using TreeOfAKind.Application.Services;
-using TreeOfAKind.Domain.Trees;
 
 namespace TreeOfAKind.Infrastructure.FileStorage
 {

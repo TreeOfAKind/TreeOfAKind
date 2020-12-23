@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.API.SeedWork;
-using TreeOfAKind.API.UserProfiles;
-using TreeOfAKind.Application.Command.Trees.AddPerson;
-using TreeOfAKind.Application.Command.Trees.AddRelation;
-using TreeOfAKind.Application.Command.Trees.RemovePerson;
-using TreeOfAKind.Application.Command.Trees.RemoveRelation;
+using TreeOfAKind.Application.Command.Trees.People.AddPerson;
+using TreeOfAKind.Application.Command.Trees.People.AddRelation;
+using TreeOfAKind.Application.Command.Trees.People.RemovePerson;
+using TreeOfAKind.Application.Command.Trees.People.RemoveRelation;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 

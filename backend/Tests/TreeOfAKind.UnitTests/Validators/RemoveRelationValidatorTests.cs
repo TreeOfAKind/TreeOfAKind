@@ -1,8 +1,7 @@
 
 
 using AutoFixture;
-using TreeOfAKind.Application.Command.Trees.AddRelation;
-using TreeOfAKind.Application.Command.Trees.RemoveRelation;
+using TreeOfAKind.Application.Command.Trees.People.RemoveRelation;
 using TreeOfAKind.Domain.Trees.People;
 using Xunit;
 

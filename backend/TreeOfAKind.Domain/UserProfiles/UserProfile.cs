@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
 using TreeOfAKind.Domain.SeedWork;
-using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles.Events;
 using TreeOfAKind.Domain.UserProfiles.Rules;
 

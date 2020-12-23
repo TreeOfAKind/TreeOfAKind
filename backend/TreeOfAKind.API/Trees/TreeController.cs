@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.API.SeedWork;
 using TreeOfAKind.Application.Command;
-using TreeOfAKind.Application.Command.Trees.AddOrChangeTreePhoto;
-using TreeOfAKind.Application.Command.Trees.AddTreeOwner;
-using TreeOfAKind.Application.Command.Trees.CreateTree;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePhoto;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
 using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
-using TreeOfAKind.Application.Command.Trees.RemoveTreeOwner;
-using TreeOfAKind.Application.Command.Trees.RemoveTreePhoto;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
@@ -229,7 +229,7 @@ namespace TreeOfAKind.API.Trees
 
             var image = request.Image;
             var uri = await _mediator.Send(new AddOrChangeTreePhotoCommand(authId, new TreeId(request.TreeId),
-                new Document(image.OpenReadStream(), image.ContentType)));
+                new Document(image.OpenReadStream(), image.ContentType, "Name.jpg")));
 
             return Created(string.Empty, new UriDto {Uri = uri});
         }

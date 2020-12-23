@@ -11,4 +11,10 @@ namespace TreeOfAKind.API
     {
         public Uri Uri { get; set; }
     }
+
+    public class IdUriDto
+    {
+        public Guid Id { get; set; }
+        public Uri Uri { get; set; }
+    }
 }

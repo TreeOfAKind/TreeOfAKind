@@ -1,7 +1,5 @@
 ﻿using Autofac;
 using TreeOfAKind.Application.Services;
-using TreeOfAKind.Domain.Trees;
-using Module = Autofac.Module;
 
 namespace TreeOfAKind.Infrastructure.FileStorage
 {

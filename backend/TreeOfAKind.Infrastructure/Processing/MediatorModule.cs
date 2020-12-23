@@ -13,10 +13,11 @@ using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.Application.Query.Trees;
 using TreeOfAKind.Infrastructure.Logging;
+using Module = Autofac.Module;
 
 namespace TreeOfAKind.Infrastructure.Processing
 {
-    public class MediatorModule : Autofac.Module
+    public class MediatorModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

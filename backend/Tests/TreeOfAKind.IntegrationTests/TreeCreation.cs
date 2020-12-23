@@ -1,22 +1,16 @@
 using System;
-using System.IO;
-using System.Linq;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using NSubstitute.Exceptions;
-using TreeOfAKind.Application.Command.Trees.AddTreeOwner;
-using TreeOfAKind.Application.Command.Trees.CreateTree;
-using TreeOfAKind.Application.Command.Trees.RemoveTreeOwner;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
-using TreeOfAKind.Application.Query.Trees.GetTree;
-using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Infrastructure.Processing;
 using Xunit;
 

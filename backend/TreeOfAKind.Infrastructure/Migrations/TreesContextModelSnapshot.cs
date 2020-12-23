@@ -160,6 +160,81 @@ namespace TreeOfAKind.Infrastructure.Migrations
                             b1.WithOwner("Tree")
                                 .HasForeignKey("TreeId");
 
+                            b1.OwnsMany("TreeOfAKind.Domain.Trees.People.File", "Files", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("FileUri")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<string>("MimeType")
+                                        .IsRequired()
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<Guid>("OwnerId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("OwnerId");
+
+                                    b2.ToTable("PersonsFiles", "trees");
+
+                                    b2.WithOwner("Owner")
+                                        .HasForeignKey("OwnerId");
+
+                                    b2.Navigation("Owner");
+                                });
+
+                            b1.OwnsOne("TreeOfAKind.Domain.Trees.People.File", "MainPhoto", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("FileUri")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<string>("MimeType")
+                                        .IsRequired()
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<Guid>("OwnerId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("OwnerId")
+                                        .IsUnique();
+
+                                    b2.ToTable("PersonsMainPhotos", "trees");
+
+                                    b2.WithOwner("Owner")
+                                        .HasForeignKey("OwnerId");
+
+                                    b2.Navigation("Owner");
+                                });
+
+                            b1.Navigation("Files");
+
+                            b1.Navigation("MainPhoto");
+
                             b1.Navigation("Tree");
                         });
 

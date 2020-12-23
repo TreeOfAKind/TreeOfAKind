@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using MediatR;
-using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Application.Configuration.DomainEvents;
 using TreeOfAKind.Application.Configuration.Processing;
 using TreeOfAKind.Infrastructure.Logging;

@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 using TreeOfAKind.Application.Configuration;
-using TreeOfAKind.Domain.Trees;
-using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Application.Command.Trees
 {

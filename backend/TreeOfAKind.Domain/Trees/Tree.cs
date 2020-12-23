@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees.Events;
@@ -15,10 +14,13 @@ namespace TreeOfAKind.Domain.Trees
         public TreeId Id { get; private set; }
         public string Name { get; private set; }
         public Uri? Photo { get; set; }
+
         public IReadOnlyCollection<TreeUserProfile> TreeOwners =>
             _treeOwners;
+
         public IReadOnlyCollection<Person> People =>
             _people;
+
         public TreeRelations TreeRelations { get; private set; }
 
 
@@ -31,8 +33,8 @@ namespace TreeOfAKind.Domain.Trees
 
         private Tree()
         {
-			Id = default!;
-			Name = default!;
+            Id = default!;
+            Name = default!;
             TreeRelations = default!;
         }
 
@@ -99,7 +101,7 @@ namespace TreeOfAKind.Domain.Trees
             CheckRule(new TreeMustContainPersonRule(People, from));
             CheckRule(new TreeMustContainPersonRule(People, to));
 
-            TreeRelations.AddRelation(from,to,relationType);
+            TreeRelations.AddRelation(from, to, relationType);
         }
 
         public void RemoveRelation(PersonId first, PersonId second)
@@ -121,6 +123,29 @@ namespace TreeOfAKind.Domain.Trees
         public void RemoveTreePhoto()
         {
             Photo = null!;
+        }
+
+        public File AddPersonsFile(PersonId personId, string name, string mimeType, Uri fileUri)
+        {
+            CheckRule(new TreeMustContainPersonRule(People, personId));
+            var person = _people.First(p => p.Id == personId);
+            var fileId = person.AddFile(name, mimeType, fileUri);
+            return fileId;
+        }
+
+        public File AddOrChangePersonsMainPhoto(PersonId personId, string name, string mimeType, Uri fileUri)
+        {
+            CheckRule(new TreeMustContainPersonRule(People, personId));
+            var person = _people.First(p => p.Id == personId);
+            var file = person.AddOrChangeMainPhoto(name, mimeType, fileUri);
+            return file;
+        }
+
+        public void RemovePersonsFile(PersonId personId, FileId fileId)
+        {
+            CheckRule(new TreeMustContainPersonRule(People, personId));
+            var person = _people.First(p => p.Id == personId);
+            person.RemoveFile(fileId);
         }
     }
 }

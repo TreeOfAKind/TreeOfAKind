@@ -6,11 +6,13 @@ namespace TreeOfAKind.Application.Command
     {
         public Stream Content { get; }
         public string ContentType { get; }
+        public string Name { get; }
 
-        public Document(Stream content, string contentType)
+        public Document(Stream content, string contentType, string name)
         {
             this.Content = content;
             ContentType = contentType;
+            Name = name;
         }
     }
 }

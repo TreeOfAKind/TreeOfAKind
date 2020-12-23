@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.Application.Configuration.Authorization;
 
 namespace TreeOfAKind.API.SeedWork
 {
-    public class UnauthorizedProblemDetails : Microsoft.AspNetCore.Mvc.ProblemDetails
+    public class UnauthorizedProblemDetails : ProblemDetails
     {
         public UnauthorizedProblemDetails(UnauthorizedException exception)
         {

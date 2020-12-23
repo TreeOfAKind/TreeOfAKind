@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using TreeOfAKind.Domain.SeedWork;
 
 namespace TreeOfAKind.Domain.Trees.People
@@ -15,6 +17,12 @@ namespace TreeOfAKind.Domain.Trees.People
         public DateTime? DeathDate { get; private set; }
         public string Description { get; private set; }
         public string Biography { get; private set; }
+        public File? MainPhoto { get; private set; }
+        public IReadOnlyCollection<File> Files =>
+            _files;
+
+        private readonly List<File>_files
+            = new List<File>();
 
 
         private Person()
@@ -64,6 +72,26 @@ namespace TreeOfAKind.Domain.Trees.People
             CheckRule(new NameOrLastNameMustBeSpecifiedRule(name, lastName));
             CheckRule(new BirthDateMustBeBeforeDeathDateRule(birthDate, deathDate));
             return new Person(tree, name, lastName, gender, birthDate, deathDate, description, biography);
+        }
+
+        public File AddFile(string name, string mimeType, Uri fileUri)
+        {
+            var file = new File(name, mimeType, fileUri, this);
+            _files.Add(file);
+            return file;
+        }
+
+        public void RemoveFile(FileId fileId)
+        {
+            AddDomainEvent(new FileRemovedEvent(fileId));
+            _files.RemoveAll(f => f.Id == fileId);
+            if (MainPhoto?.Id == fileId) MainPhoto = null;
+        }
+
+        public File AddOrChangeMainPhoto(string name, string mimeType, Uri fileUri)
+        {
+            MainPhoto = new File(name, mimeType, fileUri, this);
+            return MainPhoto;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.Application.Configuration.Validation;
 
 namespace TreeOfAKind.API.SeedWork
 {
-    public class InvalidCommandProblemDetails : Microsoft.AspNetCore.Mvc.ProblemDetails
+    public class InvalidCommandProblemDetails : ProblemDetails
     {
         public InvalidCommandProblemDetails(InvalidCommandException exception)
         {

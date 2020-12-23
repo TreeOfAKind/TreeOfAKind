@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using TreeOfAKind.Application.Command.Trees;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.Trees;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using NodaTime;
 using TreeOfAKind.Application.Configuration;
@@ -9,6 +10,21 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Application.Query.Trees.GetTree
 {
+    public class FileDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string ContentType { get; set; }
+        public Uri Uri { get; set; }
+
+        public FileDto(File file)
+        {
+            Id = file.Id.Value;
+            Name = file.Name;
+            ContentType = file.MimeType;
+            Uri = file.FileUri;
+        }
+    }
     public class PersonDto
     {
         public Guid Id { get; set; }
@@ -24,6 +40,9 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         public Guid? Spouse { get; set; }
         public List<Guid> Children { get; set; } = new List<Guid>();
         public List<Guid> UnknownRelations { get; set; } = new List<Guid>();
+        public FileDto MainPhoto { get; set; }
+        public List<FileDto> Files { get; set; }
+
         private static List<Guid> GetRelations(PersonId id, RelationType relationType, TreeRelations treeRelations)
         {
             return treeRelations.Relations.Where(r => r.From == id && r.RelationType == relationType)
@@ -54,6 +73,9 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
             Children = GetChildren(person.Id, treeRelations);
 
             UnknownRelations = GetRelations(person.Id, RelationType.Unknown, treeRelations);
+
+            MainPhoto = person.MainPhoto is null ? null : new FileDto(person.MainPhoto);
+            Files = person.Files.Select(f => new FileDto(f)).ToList();
         }
     }
 

@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Quartz.Impl.AdoJobStore;
 
 namespace TreeOfAKind.API.SeedWork
 {
