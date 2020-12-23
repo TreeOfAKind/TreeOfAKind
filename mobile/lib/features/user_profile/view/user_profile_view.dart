@@ -26,11 +26,13 @@ class UserProfileView extends StatelessWidget {
       helpText: 'Select your birthdate',
     );
 
-    bloc.add(UserProfileFieldChanged(UserProfileDTO(
-        id: userProfile.id,
-        firstName: userProfile.firstName,
-        lastName: userProfile.lastName,
-        birthDate: picked)));
+    if (picked != null) {
+      bloc.add(UserProfileFieldChanged(UserProfileDTO(
+          id: userProfile.id,
+          firstName: userProfile.firstName,
+          lastName: userProfile.lastName,
+          birthDate: picked)));
+    }
   }
 
   @override

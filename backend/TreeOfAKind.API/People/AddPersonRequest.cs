@@ -24,7 +24,8 @@ namespace TreeOfAKind.API.People
         [DataType(DataType.Date)] public DateTime? DeathDate { get; set; }
         public string Description { get; set; }
         public string Biography { get; set; }
-
-        public List<Relation> Relations { get; set; } = new List<Relation>();
+        public Guid? Mother { get; set; }
+        public Guid? Father { get; set; }
+        public Guid? Spouse { get; set; }
     }
 }

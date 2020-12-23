@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -39,27 +41,8 @@ namespace TreeOfAKind.API.People
         ///          "birthDate": "1998-12-04",
         ///          "description": "Some guy",
         ///          "biography": "Loves his job 😍💕 at 🍑♻",
-        ///          "relations": [
-        ///             {
-        ///                 "secondPerson": "72bef03b-62c2-4829-9917-bed803397de5",
-        ///                 "direction": "FromAddedPerson",
-        ///                 "relationType": "Father"
-        ///             }
-        ///          ]
+        ///          "mother": "72bef03b-62c2-4829-9917-bed803397de5"
         ///     }
-        ///
-        /// Direction specifies direction of a relation eg.
-        ///
-        /// for `direction = FromAddedPerson` and `relationType = Father`
-        /// newly added person will be a father of a person with id specified
-        /// in `secondPerson` property.
-        ///
-        /// similarly
-        ///
-        /// for `direction = ToAddedPerson` and `relationType = Father`
-        /// newly added person will be a child of a person with id specified
-        /// in `secondPerson` property (`secondPerson` will be father of newly
-        /// added person)
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Uuid of created person</returns>
@@ -77,9 +60,24 @@ namespace TreeOfAKind.API.People
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            var relations = request.Relations?.Select(r =>
-                new AddPersonCommand.Relation(new PersonId(r.SecondPerson), r.Direction,
-                    r.RelationType));
+            var relations = new List<AddPersonCommand.Relation>();
+
+            if (request.Mother.HasValue)
+            {
+                relations.Add(new AddPersonCommand.Relation(new PersonId(request.Mother.Value),
+                    RelationDirection.FromAddedPerson, RelationType.Mother));
+            }
+            if (request.Father.HasValue)
+            {
+                relations.Add(new AddPersonCommand.Relation(new PersonId(request.Father.Value),
+                    RelationDirection.FromAddedPerson, RelationType.Father));
+            }
+            if (request.Spouse.HasValue)
+            {
+                relations.Add(new AddPersonCommand.Relation(new PersonId(request.Spouse.Value),
+                    RelationDirection.FromAddedPerson, RelationType.Spouse));
+            }
+
 
             var result = await _mediator.Send(
                 new AddPersonCommand(authId, new TreeId(request.TreeId), request.Name, request.LastName, request.Gender,

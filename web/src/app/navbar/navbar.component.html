@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
   <a class="navbar-brand" href="#">
     Tree of a kind
   </a>
@@ -8,15 +8,7 @@
   </button>
 
   <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Item 1</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="#">Item 2</a>
-      </li>
-    </ul>
+    <ul class="navbar-nav mr-auto"></ul>
 
     <div class="navbar-nav" *ngIf="isLoggedIn()">
       <a class="nav-item nav-link" *ngIf="getUserEmail() != null" href="/user-profile"> {{ getUserEmail() }} </a>

@@ -21,10 +21,6 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
   ) async* {
     if (event is FetchTreeList) {
       yield* _handleFetchTreeList();
-    } else if (event is OpenNewTreeForm) {
-      yield PresentingNewTreeForm(_treeList);
-    } else if (event is CloseNewTreeForm) {
-      yield PresentingList(_treeList);
     } else if (event is SaveNewTree) {
       yield* _handleSaveNewTree(event.treeName);
     } else if (event is DeleteTree) {
