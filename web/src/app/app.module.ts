@@ -19,6 +19,7 @@ import { TreeCreateComponent } from './tree/tree-create/tree-create.component';
 import { TreeViewComponent } from './tree/tree-view/tree-view.component';
 import { PersonFormComponent } from './people/person-form/person-form.component';
 import { PersonPipe } from './people/shared/person.pipe';
+import { HttpErrorInterceptor } from './helpers/error-interceptor';
 
 
 @NgModule({
@@ -50,6 +51,11 @@ import { PersonPipe } from './people/shared/person.pipe';
       useClass: TokenInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
