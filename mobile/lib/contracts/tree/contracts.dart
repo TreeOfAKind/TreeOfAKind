@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_action.dart';
+import 'package:http_parser/http_parser.dart';
 
 part 'contracts.g.dart';
 
@@ -83,4 +89,29 @@ class CreateTree extends Command {
   CreateTree({this.treeName});
 
   Map<String, dynamic> toJson() => _$CreateTreeToJson(this);
+}
+
+class AddOrChangeTreePhoto extends CommandWithFile {
+  AddOrChangeTreePhoto(
+      {@required String treeId, @required PlatformFile image}) {
+    data['TreeId'] = treeId;
+    data['Image'] = MultipartFile.fromFile(image.path,
+        filename: image.name,
+        contentType: MediaType.parse('image/${image.extension}'));
+  }
+
+  @override
+  String get endpointRoute => "Tree/AddOrChangeTreePhoto";
+}
+
+@JsonSerializable()
+class RemoveTreePhoto extends Command {
+  String treeId;
+
+  @override
+  String get endpointRoute => "Tree/RemoveTreePhoto";
+
+  RemoveTreePhoto({this.treeId});
+
+  Map<String, dynamic> toJson() => _$RemoveTreePhotoToJson(this);
 }

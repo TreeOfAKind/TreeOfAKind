@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:tree_of_a_kind/contracts/common/base_repository.dart';
 import 'package:tree_of_a_kind/contracts/owners/contracts.dart';
@@ -25,6 +26,13 @@ class TreeRepository extends BaseRepository {
 
   Future<BaseCommandResult> addTree({@required String treeName}) {
     return run(CreateTree()..treeName = treeName);
+  }
+
+  Future<BaseCommandResult> updateTreePhoto(
+      {@required String treeId, PlatformFile image}) {
+    return image != null
+        ? runWithFile(AddOrChangeTreePhoto(treeId: treeId, image: image))
+        : run(RemoveTreePhoto(treeId: treeId));
   }
 
   Future<BaseCommandResult> deleteTree({@required String treeId}) {

@@ -21,7 +21,10 @@ class _AddTreeDialogState extends State<AddTreeDialog> {
   PlatformFile _selectedTreePhoto;
 
   Future<void> _pickTreePhoto() async {
-    final result = await FilePicker.platform.pickFiles();
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
 
     setState(() {
       _selectedTreePhoto = result?.files?.single;

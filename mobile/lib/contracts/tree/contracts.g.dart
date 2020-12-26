@@ -85,3 +85,15 @@ Map<String, dynamic> _$CreateTreeToJson(CreateTree instance) =>
       'treeName': instance.treeName,
       'endpointRoute': instance.endpointRoute,
     };
+
+RemoveTreePhoto _$RemoveTreePhotoFromJson(Map<String, dynamic> json) {
+  return RemoveTreePhoto(
+    treeId: json['treeId'] as String,
+  )..endpointRoute = json['endpointRoute'] as String;
+}
+
+Map<String, dynamic> _$RemoveTreePhotoToJson(RemoveTreePhoto instance) =>
+    <String, dynamic>{
+      'treeId': instance.treeId,
+      'endpointRoute': instance.endpointRoute,
+    };
