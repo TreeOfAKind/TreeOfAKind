@@ -7,6 +7,7 @@ import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
 import 'package:tree_of_a_kind/features/user_profile/view/user_profile_page.dart';
 
+import 'add_tree_dialog.dart';
 import 'tree_list_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,46 +42,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _newTreeDialog(BuildContext context, TreeListBloc bloc) {
-    final controller = TextEditingController();
-    final treeNameFieldKey = GlobalKey<FormState>();
-
-    showDialog(
-        context: context,
-        builder: (context) => new AlertDialog(
-              title: Text('Add your new family tree'),
-              titleTextStyle: Theme.of(context).textTheme.headline4,
-              content: Form(
-                  key: treeNameFieldKey,
-                  child: TextFormField(
-                    controller: controller,
-                    validator: (text) => text.isEmpty
-                        ? 'Please provide family tree title'
-                        : null,
-                    decoration: const InputDecoration(
-                        labelText: 'Title',
-                        helperText: 'Your new family tree title'),
-                  )),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text('Add'),
-                  onPressed: () {
-                    if (treeNameFieldKey.currentState.validate()) {
-                      Navigator.of(context).pop();
-                      bloc.add(SaveNewTree(controller.text));
-                    }
-                  },
-                ),
-              ],
-            ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,10 +60,11 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () =>
-              _newTreeDialog(context, BlocProvider.of<TreeListBloc>(context)),
-        ),
+            child: Icon(Icons.add),
+            onPressed: () => showDialog(
+                context: context,
+                builder: (_) =>
+                    AddTreeDialog(BlocProvider.of<TreeListBloc>(context)))),
         body: BlocBuilder<TreeListBloc, TreeListState>(
           builder: (context, state) {
             if (state is InitialLoadingState) {
