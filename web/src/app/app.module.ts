@@ -20,6 +20,7 @@ import { TreeViewComponent } from './tree/tree-view/tree-view.component';
 import { PersonFormComponent } from './people/person-form/person-form.component';
 import { PersonPipe } from './people/shared/person.pipe';
 import { TreePhotoComponent } from './tree/tree-photo/tree-photo.component';
+import { PeopleListComponent } from './people/people-list/people-list.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { TreePhotoComponent } from './tree/tree-photo/tree-photo.component';
     TreeViewComponent,
     PersonFormComponent,
     PersonPipe,
-    TreePhotoComponent
+    TreePhotoComponent,
+    PeopleListComponent
   ],
   imports: [
     BrowserModule,

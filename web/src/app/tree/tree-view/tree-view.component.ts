@@ -30,12 +30,6 @@ export class TreeViewComponent implements OnInit {
     this.loadModel();
   }
 
-  deletePerson(person: PersonForm) {
-    this.peopleService.removePerson(person.id, this.treeId).subscribe(result => {
-      this.loadModel();
-    });
-  }
-
   private loadModel() {
     this.service.getTree(this.treeId).subscribe(result => {
       this.model = result;

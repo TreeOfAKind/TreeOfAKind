@@ -1,26 +1,7 @@
 <div class="container row">
   <div class=".col-4">
     <app-tree-photo [treeId]="treeId"></app-tree-photo>
-    <a class="btn btn-primary mt-3" routerLink="add-person">Add person</a>
-    <table class="list-table table table-borderless">
-      <thead>
-        <tr>
-          <th class="font-weight-lighter">People</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="bg-light border border-white" *ngFor="let person of model.people">
-          <td class="list-table__table-cell font-weight-bold border-right">
-            <a class="text-dark" [routerLink]="['person-form', person.id]">{{ person | person }}</a>
-          </td>
-
-          <td class="list-table__table-cell font-weight-bold border-right">
-            <a class="text-dark" (click)="deletePerson(person)"> delete </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <app-people-list [treeId]="treeId"></app-people-list>
   </div>
   <div class=".col-8">
     <p>Graph placeholder</p>
