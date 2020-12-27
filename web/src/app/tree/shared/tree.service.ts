@@ -27,4 +27,8 @@ export class TreeService {
   createTree(request: TreeCreateRequest) {
     return this.httpClient.post(`${this.url}CreateTree`, request);
   }
+
+  changePhoto(request: FormData) {
+    return this.httpClient.post(`${this.url}AddOrChangeTreePhoto`, request);
+  }
 }
