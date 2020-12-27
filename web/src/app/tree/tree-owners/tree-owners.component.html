@@ -1,0 +1,21 @@
+<div class="container">
+  <form #addOwnerForm (ngSubmit)="addOwner()">
+    <p class="text-center">Add tree owner</p>
+
+    <div class="form-group">
+      <label for="email">
+        Tree owner email
+      </label>
+      <input id="email" name="email" class="form-control" type="text" [(ngModel)]="email">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Add owner</button>
+  </form>
+
+  <!-- TODO: owners table -->
+
+  <button class="btn btn-danger my-4" (click)="leaveTree()">Leave tree</button>
+</div>
+
+
+
