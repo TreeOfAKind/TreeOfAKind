@@ -21,6 +21,7 @@ import { PersonFormComponent } from './people/person-form/person-form.component'
 import { PersonPipe } from './people/shared/person.pipe';
 import { TreePhotoComponent } from './tree/tree-photo/tree-photo.component';
 import { PeopleListComponent } from './people/people-list/people-list.component';
+import { HttpErrorInterceptor } from './helpers/error-interceptor';
 
 
 @NgModule({
@@ -54,6 +55,11 @@ import { PeopleListComponent } from './people/people-list/people-list.component'
       useClass: TokenInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

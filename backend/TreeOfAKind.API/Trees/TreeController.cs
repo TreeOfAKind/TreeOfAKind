@@ -205,7 +205,6 @@ namespace TreeOfAKind.API.Trees
         /// <remarks>
         /// Accepted content types are:
         ///
-        ///     image/jpg
         ///     image/jpeg
         ///     image/png
         ///

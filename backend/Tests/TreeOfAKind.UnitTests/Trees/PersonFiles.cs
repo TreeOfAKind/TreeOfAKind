@@ -16,7 +16,7 @@ namespace TreeOfAKind.UnitTests.Trees
         [Fact]
         private void AddPersonFile_PersonNotInTree_ThrowsException()
         {
-            Assert.Throws<BusinessRuleValidationException>(() => _tree.AddPersonsFile(new PersonId(Guid.Empty), "ASDF.jpg", "image/jpg",
+            Assert.Throws<BusinessRuleValidationException>(() => _tree.AddPersonsFile(new PersonId(Guid.Empty), "ASDF.jpg", "image/jpeg",
                 _fixture.Create<Uri>()));
         }
 
@@ -58,7 +58,7 @@ namespace TreeOfAKind.UnitTests.Trees
             Assert.Null(person.MainPhoto);
 
             var mainPhoto = _tree.AddOrChangePersonsMainPhoto(person.Id, "ASDF.png", "image/png",_fixture.Create<Uri>());
-            var file = _tree.AddPersonsFile(person.Id, "ASDF2.jpg", "image/jpg",_fixture.Create<Uri>());
+            var file = _tree.AddPersonsFile(person.Id, "ASDF2.jpg", "image/jpeg",_fixture.Create<Uri>());
 
             _tree.RemovePersonsFile(person.Id, mainPhoto.Id);
             Assert.Null(person.MainPhoto);

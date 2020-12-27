@@ -29,7 +29,6 @@ namespace TreeOfAKind.API.PersonsFiles
         /// <remarks>
         /// Accepted content types are:
         ///
-        ///     image/jpg
         ///     image/jpeg
         ///     image/png
         ///     application/pdf
@@ -66,7 +65,6 @@ namespace TreeOfAKind.API.PersonsFiles
         /// <remarks>
         /// Accepted content types are:
         ///
-        ///     image/jpg
         ///     image/jpeg
         ///     image/png
         ///
