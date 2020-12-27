@@ -36,6 +36,25 @@ abstract class BaseRepository {
       return BaseCommandResult.unexpectedError();
     }
   }
+
+  Future<BaseCommandResult> runWithFile(CommandWithFile command) async {
+    try {
+      final result = await cqrs.runWithFile(command);
+
+      if (result.runtimeType == SuccessCommandResult) {
+        print('Command ${command.runtimeType} executed successfully.');
+        var success = result as SuccessCommandResult;
+        return BaseCommandResult.successful(success.entityId);
+      } else {
+        // TODO: Add validation handling
+        print('Command ${command.runtimeType} failed.');
+        return BaseCommandResult.unexpectedError();
+      }
+    } catch (e) {
+      print('Command ${command.runtimeType} failed unexpectedly.');
+      return BaseCommandResult.unexpectedError();
+    }
+  }
 }
 
 class BaseQueryResult<T> {

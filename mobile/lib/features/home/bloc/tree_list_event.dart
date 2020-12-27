@@ -9,9 +9,10 @@ class FetchTreeList extends TreeListEvent {
 }
 
 class SaveNewTree extends TreeListEvent {
-  const SaveNewTree(this.treeName);
+  const SaveNewTree(this.treeName, this.treePhoto);
 
   final String treeName;
+  final PlatformFile treePhoto;
 }
 
 class DeleteTree extends TreeListEvent {

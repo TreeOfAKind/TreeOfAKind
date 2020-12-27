@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:tree_of_a_kind/features/cqrs/command_result.dart';
@@ -49,6 +50,28 @@ class CqrsClient {
     }
   }
 
+  Future<CommandResult> runWithFile<T>(CommandWithFile command) async {
+    assert(command != null);
+
+    final formData = new FormData.fromMap(command.data);
+    final token = await _firebaseAuth.currentUser.getIdToken();
+
+    final response = await Dio(BaseOptions(headers: {
+      HttpHeaders.contentTypeHeader: 'multipart/form-data',
+      HttpHeaders.authorizationHeader: "Bearer $token"
+    })).post(_apiUri.resolve(command.endpointRoute).toString(), data: formData);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return SuccessCommandResult.fromJson(response.data);
+    } else if (response.statusCode == 422) {
+      return FailureCommandResult.fromJson(response.data);
+    } else {
+      throw HttpException(
+          'Could not run command with code ${response.statusCode}',
+          uri: response.request.uri);
+    }
+  }
+
   Future<Map<String, dynamic>> runSpecial<T>(Command command) async {
     assert(command != null);
 
@@ -63,7 +86,7 @@ class CqrsClient {
     }
   }
 
-  Future<http.Response> _send(CqrsAction cqrsAction) async {
+  Future<http.Response> _send(JsonCqrsAction cqrsAction) async {
     assert(cqrsAction != null);
 
     final token = await _firebaseAuth.currentUser.getIdToken();

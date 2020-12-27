@@ -4,7 +4,7 @@ class SuccessCommandResult extends CommandResult {
   SuccessCommandResult({this.entityId});
 
   SuccessCommandResult.fromJson(Map<String, dynamic> json)
-      : entityId = json['Id'] as String;
+      : entityId = json['id'] as String;
 
   final String entityId;
 }
