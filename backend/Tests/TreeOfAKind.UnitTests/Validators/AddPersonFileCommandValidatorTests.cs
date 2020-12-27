@@ -11,7 +11,6 @@ namespace TreeOfAKind.UnitTests.Validators
     public class AddPersonFileCommandValidatorTests : ValidatorTestsBase<AddPersonsFileCommandValidator>
     {
         [Theory]
-        [InlineData("image/jpg")]
         [InlineData("image/jpeg")]
         [InlineData("image/png")]
         [InlineData("application/pdf")]

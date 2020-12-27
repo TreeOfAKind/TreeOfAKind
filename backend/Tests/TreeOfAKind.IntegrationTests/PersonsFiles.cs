@@ -55,7 +55,7 @@ namespace TreeOfAKind.IntegrationTests
                 .Returns(_uriExample);
 
             var fileId = await CommandsExecutor.Execute(
-                new AddPersonsFileCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpg", "file"), _queenId));
+                new AddPersonsFileCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpeg", "file"), _queenId));
 
             Assert.NotNull(fileId);
 
@@ -75,7 +75,7 @@ namespace TreeOfAKind.IntegrationTests
                 .Returns(_uriExample);
 
             var fileId = await CommandsExecutor.Execute(
-                new AddOrChangePersonsPhotoCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpg", "jeden"), _queenId));
+                new AddOrChangePersonsPhotoCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpeg", "jeden"), _queenId));
 
             Assert.NotNull(fileId);
 
@@ -89,7 +89,7 @@ namespace TreeOfAKind.IntegrationTests
 
 
             var fileId2 = await CommandsExecutor.Execute(
-                new AddOrChangePersonsPhotoCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpg", "dwa"), _queenId));
+                new AddOrChangePersonsPhotoCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpeg", "dwa"), _queenId));
 
             var tree2 = await QueriesExecutor.Execute(
                 new GetTreeQuery(AuthId, _treeId));
@@ -108,7 +108,7 @@ namespace TreeOfAKind.IntegrationTests
                 .Returns(_uriExample);
 
             var file = await CommandsExecutor.Execute(
-                new AddPersonsFileCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpg", "file"), _queenId));
+                new AddPersonsFileCommand(AuthId, _treeId, new Document(Stream.Null, "image/jpeg", "file"), _queenId));
 
             await CommandsExecutor.Execute(
                 new RemovePersonsFileCommand(AuthId, _treeId, file.Id, _queenId));

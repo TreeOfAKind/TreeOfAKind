@@ -9,7 +9,6 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTr
     {
         private readonly IEnumerable<string> AcceptedMimeTypes = new string[]
         {
-            "image/jpg",
             "image/jpeg",
             "image/png",
         };

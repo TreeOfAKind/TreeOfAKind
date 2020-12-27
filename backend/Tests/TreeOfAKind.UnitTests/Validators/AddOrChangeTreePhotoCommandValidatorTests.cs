@@ -12,7 +12,6 @@ namespace TreeOfAKind.UnitTests.Validators
     public class AddOrChangeTreePhotoCommandValidatorTests : ValidatorTestsBase<AddOrChangeTreePhotoCommandValidator>
     {
         [Theory]
-        [InlineData("image/jpg")]
         [InlineData("image/jpeg")]
         [InlineData("image/png")]
         private void Validate_ValidData_ValidationPasses(string contentType)
