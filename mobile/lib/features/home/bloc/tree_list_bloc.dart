@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
@@ -22,7 +23,7 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
     if (event is FetchTreeList) {
       yield* _handleFetchTreeList();
     } else if (event is SaveNewTree) {
-      yield* _handleSaveNewTree(event.treeName);
+      yield* _handleSaveNewTree(event.treeName, event.treePhoto);
     } else if (event is DeleteTree) {
       yield* _handleDeleteTree(event.treeId);
     } else {
@@ -45,21 +46,31 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
     }
   }
 
-  Stream<TreeListState> _handleSaveNewTree(String treeName) async* {
+  Stream<TreeListState> _handleSaveNewTree(
+      String treeName, PlatformFile treePhoto) async* {
     yield RefreshLoadingState(_treeList, null);
 
-    final result = await treeRepository.addTree(treeName: treeName);
+    var result = await treeRepository.addTree(treeName: treeName);
 
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else {
-      final queryResult = await treeRepository.getMyTrees();
+      if (treePhoto != null) {
+        result = await treeRepository.updateTreePhoto(
+            treeId: result.entityId, image: treePhoto);
+      }
 
-      if (queryResult.unexpectedError) {
+      if (result.unexpectedError) {
         yield const UnknownErrorState();
       } else {
-        _treeList = queryResult.data;
-        yield PresentingList(_treeList);
+        final queryResult = await treeRepository.getMyTrees();
+
+        if (queryResult.unexpectedError) {
+          yield const UnknownErrorState();
+        } else {
+          _treeList = queryResult.data;
+          yield PresentingList(_treeList);
+        }
       }
     }
   }

@@ -54,9 +54,12 @@ class CqrsClient {
     assert(command != null);
 
     final formData = new FormData.fromMap(command.data);
-    final response = await Dio().post(
-        _apiUri.resolve(command.endpointRoute).toString(),
-        data: formData);
+    final token = await _firebaseAuth.currentUser.getIdToken();
+
+    final response = await Dio(BaseOptions(headers: {
+      HttpHeaders.contentTypeHeader: 'multipart/form-data',
+      HttpHeaders.authorizationHeader: "Bearer $token"
+    })).post(_apiUri.resolve(command.endpointRoute).toString(), data: formData);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return SuccessCommandResult.fromJson(response.data);

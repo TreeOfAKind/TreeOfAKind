@@ -13,5 +13,5 @@ abstract class Query<T> extends JsonCqrsAction {
 abstract class Command extends JsonCqrsAction {}
 
 abstract class CommandWithFile extends CqrsAction {
-  Map<String, dynamic> data;
+  Map<String, dynamic> data = {};
 }

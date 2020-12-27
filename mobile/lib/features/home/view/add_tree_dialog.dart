@@ -68,7 +68,7 @@ class _AddTreeDialogState extends State<AddTreeDialog> {
           onPressed: () {
             if (treeNameFieldKey.currentState.validate()) {
               Navigator.of(context).pop();
-              bloc.add(SaveNewTree(controller.text));
+              bloc.add(SaveNewTree(controller.text, _selectedTreePhoto));
               _selectedTreePhoto = null;
             }
           },
