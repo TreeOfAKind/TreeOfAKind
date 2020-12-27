@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:mime/mime.dart';
 import 'package:tree_of_a_kind/contracts/common/base_repository.dart';
 import 'package:tree_of_a_kind/contracts/owners/contracts.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_client.dart';
@@ -37,7 +38,7 @@ class TreeRepository extends BaseRepository {
             treeId: treeId,
             image: await MultipartFile.fromFile(image.path,
                 filename: image.name,
-                contentType: MediaType.parse('image/${image.extension}'))))
+                contentType: MediaType.parse(lookupMimeType(image.name)))))
         : run(RemoveTreePhoto(treeId: treeId));
   }
 
