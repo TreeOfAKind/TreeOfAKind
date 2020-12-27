@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PeopleService } from 'src/app/people/shared/people.service';
-import { PersonForm } from 'src/app/people/shared/person-form.model';
 import { Tree } from '../shared/tree.model';
 import { TreeService } from '../shared/tree.service';
 
@@ -21,7 +19,6 @@ export class TreeViewComponent implements OnInit {
 
   constructor(
     private service: TreeService,
-    private peopleService: PeopleService,
     private route: ActivatedRoute
   ) { }
 
