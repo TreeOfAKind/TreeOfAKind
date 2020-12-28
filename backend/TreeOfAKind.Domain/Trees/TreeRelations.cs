@@ -41,5 +41,11 @@ namespace TreeOfAKind.Domain.Trees
         {
             _relations.RemoveAll(r => r.From == personId || r.To == personId);
         }
+
+        public void RemoveFromPersonRelations(PersonId personId)
+        {
+            _relations.RemoveAll(r => r.From == personId);
+            _relations.RemoveAll(r => r.To == personId && r.RelationType == RelationType.Spouse);
+        }
     }
 }
