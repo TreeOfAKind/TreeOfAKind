@@ -27,8 +27,6 @@ export class PersonFilesFormComponent implements OnInit {
     this.personId = this.route.snapshot.paramMap.get('id');
 
     this.treeService.getTree(this.treeId).subscribe(tree => {
-      const people = tree.people.filter(person => person.id !== this.personId);
-
       const person = tree.people.find(per => per.id == this.personId);
       if(person.mainPhoto != null) {
         this.mainPhotoUrl = person.mainPhoto.uri;
@@ -76,7 +74,6 @@ export class PersonFilesFormComponent implements OnInit {
 
   private updateFilesList() {
     this.treeService.getTree(this.treeId).subscribe(tree => {
-      const people = tree.people.filter(person => person.id !== this.personId);
       const person = tree.people.find(per => per.id == this.personId);
       this.files = person.files;
     });
