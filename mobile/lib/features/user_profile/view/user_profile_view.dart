@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/contracts/user_profile/contracts.dart';
 import 'package:tree_of_a_kind/features/user_profile/bloc/user_profile_bloc.dart';
 
-import 'avatar.dart';
+import '../../common/avatar.dart';
 
 class UserProfileView extends StatelessWidget {
   UserProfileView(
@@ -46,7 +46,7 @@ class UserProfileView extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            Avatar(photo: user.photoURL),
+            Avatar(photo: user.photoURL, avatarSize: 48),
             const SizedBox(height: 4.0),
             Text(user.email, style: theme.textTheme.headline6),
             const SizedBox(height: 8.0),
