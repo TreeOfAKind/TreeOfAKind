@@ -1,8 +1,8 @@
-import { PersonForm } from "src/app/people/shared/person-form.model";
+import { PersonResponse } from "src/app/people/shared/person-response.model";
 
 export interface Tree {
   treeId: string,
   treeName: string,
   photoUri: string,
-  people: PersonForm[]
+  people: PersonResponse[]
 }

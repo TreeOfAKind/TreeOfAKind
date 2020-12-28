@@ -1,0 +1,9 @@
+<div class="container">
+
+  <div class="form-group">
+    <label for="photo">Main photo</label>
+    <input class="form-control-file" type="file" id="photo" (change)="uploadPhoto($event.target.files)">
+    <img [src]="mainPhotoUrl" class="my-3" height="200">
+  </div>
+
+</div>
