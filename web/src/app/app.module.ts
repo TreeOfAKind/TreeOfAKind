@@ -22,6 +22,7 @@ import { PersonPipe } from './people/shared/person.pipe';
 import { TreePhotoComponent } from './tree/tree-photo/tree-photo.component';
 import { PeopleListComponent } from './people/people-list/people-list.component';
 import { HttpErrorInterceptor } from './helpers/error-interceptor';
+import { PersonFilesFormComponent } from './people/person-files-form/person-files-form.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { HttpErrorInterceptor } from './helpers/error-interceptor';
     PersonFormComponent,
     PersonPipe,
     TreePhotoComponent,
-    PeopleListComponent
+    PeopleListComponent,
+    PersonFilesFormComponent
   ],
   imports: [
     BrowserModule,
