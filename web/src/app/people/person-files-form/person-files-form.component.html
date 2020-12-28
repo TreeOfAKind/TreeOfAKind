@@ -6,4 +6,29 @@
     <img [src]="mainPhotoUrl" class="my-3" height="200">
   </div>
 
+  <div class="form-group">
+    <label for="files">Files</label>
+    <input class="form-control-file" type="file" id="files" (change)="uploadFile($event.target.files)">
+  </div>
+
+  <table class="list-table table table-borderless">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-light border border-white" *ngFor="let file of files">
+        <td class="list-table__table-cell font-weight-bold border-right">
+          <a class="text-dark" href="{{ file.uri }}" target="_blank">{{ file.name }}</a>
+        </td>
+
+        <td class="list-table__table-cell font-weight-bold border-right table-fit">
+          <a class="text-dark" (click)="deleteFile(file)"> delete </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
