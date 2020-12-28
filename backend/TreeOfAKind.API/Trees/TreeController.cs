@@ -11,6 +11,7 @@ using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
 using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.UpdateTreeName;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
@@ -87,6 +88,39 @@ namespace TreeOfAKind.API.Trees
             var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId));
 
             return Created(string.Empty, new IdDto {Id = result.Value});
+        }
+
+        /// <summary>
+        /// Updates name of tree
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "treeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///        "treeName": "hmm"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <response code="200">Tree name updated</response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> UpdateTreeName([FromBody] UpdateTreeName request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+
+            await _mediator.Send(new UpdateTreeNameCommand(authId, new TreeId(request.TreeId), request.TreeName));
+
+            return Ok();
         }
 
         /// <summary>
