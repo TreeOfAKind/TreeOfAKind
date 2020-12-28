@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PeopleService } from 'src/app/people/shared/people.service';
-import { PersonForm } from 'src/app/people/shared/person-form.model';
 import { Tree } from '../shared/tree.model';
 import { TreeService } from '../shared/tree.service';
 
@@ -21,19 +19,12 @@ export class TreeViewComponent implements OnInit {
 
   constructor(
     private service: TreeService,
-    private peopleService: PeopleService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.treeId = this.route.snapshot.paramMap.get('id');
     this.loadModel();
-  }
-
-  deletePerson(person: PersonForm) {
-    this.peopleService.removePerson(person.id, this.treeId).subscribe(result => {
-      this.loadModel();
-    });
   }
 
   private loadModel() {

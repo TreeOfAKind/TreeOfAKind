@@ -19,6 +19,8 @@ import { TreeCreateComponent } from './tree/tree-create/tree-create.component';
 import { TreeViewComponent } from './tree/tree-view/tree-view.component';
 import { PersonFormComponent } from './people/person-form/person-form.component';
 import { PersonPipe } from './people/shared/person.pipe';
+import { TreePhotoComponent } from './tree/tree-photo/tree-photo.component';
+import { PeopleListComponent } from './people/people-list/people-list.component';
 import { HttpErrorInterceptor } from './helpers/error-interceptor';
 
 
@@ -34,7 +36,9 @@ import { HttpErrorInterceptor } from './helpers/error-interceptor';
     TreeCreateComponent,
     TreeViewComponent,
     PersonFormComponent,
-    PersonPipe
+    PersonPipe,
+    TreePhotoComponent,
+    PeopleListComponent
   ],
   imports: [
     BrowserModule,
