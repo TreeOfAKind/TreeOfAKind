@@ -18,7 +18,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
   _AddOrUpdatePersonViewState({@required this.treeId, this.person}) {
     if (person == null) {
       adding = true;
-      person = PersonDTO();
+      person = PersonDTO()..gender = _mapGenderToString(Gender.unknown);
     } else {
       adding = false;
     }
