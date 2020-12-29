@@ -93,6 +93,41 @@ class AddPerson extends Command {
 }
 
 @JsonSerializable()
+class UpdatePerson extends Command {
+  final String treeId;
+  final String personId;
+  final String name;
+  final String lastName;
+  final String gender;
+  final DateTime birthDate;
+  final DateTime deathDate;
+  final String description;
+  final String biography;
+  final String mother;
+  final String father;
+  final String spouse;
+
+  @override
+  String get endpointRoute => "People/UpdatePerson";
+
+  UpdatePerson(
+      {this.treeId,
+      this.personId,
+      this.name,
+      this.lastName,
+      this.gender,
+      this.birthDate,
+      this.deathDate,
+      this.description,
+      this.biography,
+      this.mother,
+      this.father,
+      this.spouse});
+
+  Map<String, dynamic> toJson() => _$UpdatePersonToJson(this);
+}
+
+@JsonSerializable()
 class RemovePerson extends Command {
   String treeId;
   String personId;

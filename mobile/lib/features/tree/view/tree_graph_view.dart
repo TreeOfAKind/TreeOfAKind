@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphite/core/matrix.dart';
 import 'package:graphite/graphite.dart';
 import 'package:random_color/random_color.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
+import 'package:tree_of_a_kind/features/people/view/update_person_page.dart';
+import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
 
 class TreeGraphView extends StatelessWidget {
   TreeGraphView({Key key, @required this.tree, @required this.treeGraph})
@@ -18,11 +21,17 @@ class TreeGraphView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: close_sinks
     return DirectGraph(
       list: treeGraph,
       cellWidth: 140.0,
       cellPadding: 20.0,
       orientation: MatrixOrientation.Vertical,
+      onNodeLongPressStart: (_, node) => Navigator.of(context).push<void>(
+          UpdatePersonPage.route(
+              BlocProvider.of<TreeBloc>(context),
+              tree.treeId,
+              tree.people.firstWhere((person) => person.id == node.id))),
       builder: (context, node) => _PersonNode(
           person: tree.people.firstWhere((person) => person.id == node.id),
           color: randomColors.randomColor(

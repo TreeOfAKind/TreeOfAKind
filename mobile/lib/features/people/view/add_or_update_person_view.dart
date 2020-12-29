@@ -204,10 +204,9 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                       color: theme.accentColor,
                       disabledColor: theme.disabledColor,
                       onPressed: () {
-                        if (adding) {
-                          bloc.add(PersonAdded(person));
-                        }
-
+                        bloc.add(adding
+                            ? PersonAdded(person)
+                            : PersonUpdated(person));
                         Navigator.of(context).pop();
                       }),
                 ]),

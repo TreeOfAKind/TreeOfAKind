@@ -29,6 +29,8 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
       yield* _handleFetchTree(event.treeId);
     } else if (event is PersonAdded) {
       yield* _handlePersonAdded(event.person);
+    } else if (event is PersonUpdated) {
+      yield* _handlePersonUpdated(event.person);
     } else {
       throw new Exception("Unhandled event.");
     }
@@ -64,6 +66,19 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
 
     final result =
         await peopleRepository.addPerson(treeId: _tree.treeId, person: person);
+
+    if (result.unexpectedError) {
+      yield const UnknownErrorState();
+    } else {
+      yield* _handleFetchTree(_tree.treeId);
+    }
+  }
+
+  Stream<TreeState> _handlePersonUpdated(PersonDTO person) async* {
+    yield const LoadingState();
+
+    final result = await peopleRepository.updatePerson(
+        treeId: _tree.treeId, person: person);
 
     if (result.unexpectedError) {
       yield const UnknownErrorState();

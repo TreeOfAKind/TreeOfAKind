@@ -16,6 +16,12 @@ class PersonAdded extends TreeEvent {
   final PersonDTO person;
 }
 
+class PersonUpdated extends TreeEvent {
+  const PersonUpdated(this.person);
+
+  final PersonDTO person;
+}
+
 class RemovePerson extends TreeEvent {
   const RemovePerson(this.personId);
 
