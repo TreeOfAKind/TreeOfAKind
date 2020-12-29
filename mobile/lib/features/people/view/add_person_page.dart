@@ -29,7 +29,7 @@ class _AddPersonPageState extends State<AddPersonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('New family member')),
+        appBar: AppBar(title: Text('Add a new member to your family')),
         body: AddOrUpdatePersonView(treeId: treeId));
   }
 }

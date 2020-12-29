@@ -106,7 +106,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
               key: formKey,
               child: Column(children: [
                 Text(
-                  "Provide as much information about the family member as you want, you can always come back later here ☺",
+                  "Provide as much information as you want, you can always come back to edit this family member ☺",
                   style: theme.textTheme.headline5,
                   textAlign: TextAlign.center,
                 ),
@@ -118,6 +118,8 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                     initialValue: person.name,
                     onChanged: (firstname) =>
                         setState(() => person.name = firstname),
+                    validator: (text) =>
+                        text.isEmpty ? 'Please provide their firstname' : null,
                     decoration: const InputDecoration(
                       labelText: 'firstname',
                     ),
@@ -127,6 +129,8 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                     initialValue: person.lastName,
                     onChanged: (lastName) =>
                         setState(() => person.lastName = lastName),
+                    validator: (text) =>
+                        text.isEmpty ? 'Please provide their lastname' : null,
                     decoration: const InputDecoration(
                       labelText: 'lastname',
                     ),
@@ -204,10 +208,12 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                       color: theme.accentColor,
                       disabledColor: theme.disabledColor,
                       onPressed: () {
-                        bloc.add(adding
-                            ? PersonAdded(person)
-                            : PersonUpdated(person));
-                        Navigator.of(context).pop();
+                        if (formKey.currentState.validate()) {
+                          bloc.add(adding
+                              ? PersonAdded(person)
+                              : PersonUpdated(person));
+                          Navigator.of(context).pop();
+                        }
                       }),
                 ]),
               ]),
