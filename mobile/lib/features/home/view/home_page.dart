@@ -44,6 +44,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
         appBar: AppBar(
           leading: const Icon(Icons.nature_people),
@@ -54,7 +56,13 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.more_vert),
               onSelected: (item) => _menuAction(item, context),
               itemBuilder: (context) => _menuItems
-                  .map((item) => PopupMenuItem(value: item, child: Text(item)))
+                  .map((item) => PopupMenuItem(
+                      value: item,
+                      child: Text(item,
+                          style: TextStyle(
+                              color: item != _signOut
+                                  ? theme.textTheme.bodyText1.color
+                                  : theme.errorColor))))
                   .toList(),
             )
           ],

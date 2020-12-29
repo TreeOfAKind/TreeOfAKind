@@ -39,7 +39,7 @@ class PeopleRepository extends BaseRepository {
         spouse: person.spouse));
   }
 
-  Future<BaseCommandResult> deleteTree(
+  Future<BaseCommandResult> removePerson(
       {@required String treeId, @required String personId}) {
     return run(RemovePerson()
       ..treeId = treeId

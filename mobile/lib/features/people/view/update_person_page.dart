@@ -29,13 +29,43 @@ class UpdatePersonPage extends StatefulWidget {
 class _UpdatePersonPageState extends State<UpdatePersonPage> {
   _UpdatePersonPageState(this.treeId, this.person);
 
+  static const String _deletePerson = 'Delete family member';
+
+  static const List<String> _menuItems = <String>[_deletePerson];
+
   final String treeId;
   final PersonDTO person;
 
+  void _menuAction(String item, BuildContext context) {
+    if (item == _deletePerson) {
+      BlocProvider.of<TreeBloc>(context).add(PersonRemoved(person.id));
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-        appBar: AppBar(title: Text('Family member details')),
+        appBar: AppBar(
+          title: Text('Family member details'),
+          actions: <Widget>[
+            PopupMenuButton(
+              icon: const Icon(Icons.more_vert),
+              onSelected: (item) => _menuAction(item, context),
+              itemBuilder: (context) => _menuItems
+                  .map((item) => PopupMenuItem(
+                      value: item,
+                      child: Text(item,
+                          style: TextStyle(
+                              color: item != _deletePerson
+                                  ? theme.textTheme.bodyText1.color
+                                  : theme.errorColor))))
+                  .toList(),
+            )
+          ],
+        ),
         body: AddOrUpdatePersonView(treeId: treeId, person: person));
   }
 }
