@@ -43,7 +43,7 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
         .map((person) => NodeInput(
             id: person.id,
             next: [
-              // if (person.spouses?.isNotEmpty ?? false) person.spouses.first,
+              // if (person.spouse != null) person.spouse,
               ...person.children,
             ].where((element) => element != null).toList()))
         .toList();
@@ -58,6 +58,8 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
       yield const UnknownErrorState();
     } else {
       _tree = result.data;
+      _tree.people
+          .sort((p1, p2) => (p1.spouse ?? '').compareTo(p2.spouse ?? ''));
       _treeGraph = _treeToGraph(_tree);
       yield PresentingTree(_tree, _treeGraph);
     }
