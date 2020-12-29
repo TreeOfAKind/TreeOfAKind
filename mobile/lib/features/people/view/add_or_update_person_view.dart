@@ -67,7 +67,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
       initialDate: person.birthDate ?? DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      initialEntryMode: DatePickerEntryMode.input,
+      initialEntryMode: DatePickerEntryMode.calendar,
       helpText: 'Select family members birthdate',
     );
 
@@ -82,7 +82,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
       initialDate: person.deathDate ?? DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      initialEntryMode: DatePickerEntryMode.input,
+      initialEntryMode: DatePickerEntryMode.calendar,
       helpText: 'Select family members death date',
     );
 
@@ -113,7 +113,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                 const SizedBox(height: 8.0),
                 Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   Avatar(photo: person.mainPhoto?.uri, avatarSize: 48),
-                  const SizedBox(height: 4.0),
+                  const SizedBox(height: 16.0),
                   TextFormField(
                     initialValue: person.name,
                     onChanged: (firstname) =>
@@ -158,6 +158,8 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                         const SizedBox(width: 20.0),
                         RaisedButton(
                             onPressed: () => _selectBirthDate(context),
+                            onLongPress: () =>
+                                setState(() => person.birthDate = null),
                             child: Text(_dateToText(person.birthDate))),
                       ]),
                   const SizedBox(height: 8.0),
@@ -171,6 +173,8 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                         const SizedBox(width: 20.0),
                         RaisedButton(
                             onPressed: () => _selectDeathDate(context),
+                            onLongPress: () =>
+                                setState(() => person.deathDate = null),
                             child: Text(_dateToText(person.deathDate))),
                       ]),
                   const SizedBox(height: 8.0),
