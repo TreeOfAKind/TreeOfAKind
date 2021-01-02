@@ -19,5 +19,5 @@ class FailureCommandResult extends CommandResult {
   FailureCommandResult.fromJson(Map<String, dynamic> json)
       : errorCode = json['errorCode'] as String,
         title = json['title'] as String,
-        details = json['details'] as String;
+        details = json['detail'] as String;
 }
