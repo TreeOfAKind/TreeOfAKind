@@ -1,12 +1,12 @@
-﻿using FluentValidation;
+using FluentValidation;
+using TreeOfAKind.Application.Command.Trees.People.AddPerson;
 using TreeOfAKind.Application.Configuration;
 
-namespace TreeOfAKind.Application.Command.Trees.People.AddPerson
+namespace TreeOfAKind.Application.Command.Trees.People.UpdatePerson
 {
-    public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
+    public class UpdatePersonCommandValidator : AbstractValidator<AddPersonCommand>
     {
-
-        public AddPersonCommandValidator()
+        public UpdatePersonCommandValidator()
         {
             RuleFor(x => x.Name)
                 .MaximumLength(StringLengths.VeryShort);
