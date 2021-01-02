@@ -8,15 +8,21 @@ using System.Xml.Serialization;
 using Gx.Types;
 using NSubstitute;
 using TreeOfAKind.Application.Command;
+using TreeOfAKind.Application.Command.Trees.People;
 using TreeOfAKind.Application.Command.Trees.People.AddPerson;
+using TreeOfAKind.Application.Command.Trees.People.AddRelation;
+using TreeOfAKind.Application.Command.Trees.People.UpdatePerson;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePhoto;
+using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
+using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Infrastructure.Processing;
 using Xunit;
+using Relation = TreeOfAKind.Application.Command.Trees.People.Relation;
 
 namespace TreeOfAKind.IntegrationTests
 {
@@ -75,7 +81,7 @@ namespace TreeOfAKind.IntegrationTests
         }
 
         [Fact]
-        private async Task fdsa()
+        private async Task ExportFile_HappyPath_FileIsExportetAndContainsProperData()
         {
             var treeId = await CreateTree();
 
@@ -103,9 +109,9 @@ namespace TreeOfAKind.IntegrationTests
                     null,
                     "Prince",
                     "Some biography of Filip",
-                    new List<AddPersonCommand.Relation>
+                    new List<Relation>
                     {
-                        new AddPersonCommand.Relation(queenId, RelationDirection.FromAddedPerson, RelationType.Spouse)
+                        new Relation(queenId, RelationDirection.FromAddedPerson, RelationType.Spouse)
                     }));
 
             var tree = await QueriesExecutor.Execute(
