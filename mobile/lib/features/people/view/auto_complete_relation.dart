@@ -18,8 +18,11 @@ class AutoCompleteRelation extends StatefulWidget {
 }
 
 class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
+  final TextEditingController textController = TextEditingController();
+
   String _getFullname(PersonDTO person) => '${person.name} ${person.lastName}';
 
+  // ignore: missing_return
   String _getRelatedPersonId() {
     switch (widget.relation) {
       case Relation.mother:
@@ -34,7 +37,7 @@ class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
     }
   }
 
-  String _getInitialValue() {
+  String _getRelatedPersonFullName() {
     final personId = _getRelatedPersonId();
 
     return personId == null
@@ -44,16 +47,22 @@ class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    textController.text = _getRelatedPersonFullName();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TypeAheadFormField<PersonDTO>(
-        initialValue: _getInitialValue(),
         textFieldConfiguration: TextFieldConfiguration(
+            controller: textController,
             decoration: new InputDecoration(
                 labelText: EnumToString.convertToString(widget.relation,
                     camelCase: true),
                 helperText:
                     'Select ${EnumToString.convertToString(widget.relation)} of this family member',
-                suffixIcon: const Icon(Icons.delete))),
+                suffixIcon: const Icon(Icons.clear))),
         onSuggestionSelected: (person) => setState(() {
               switch (widget.relation) {
                 case Relation.mother:
@@ -66,6 +75,8 @@ class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
                   widget.relatingPerson.spouse = person.id;
                   break;
               }
+
+              textController.text = _getRelatedPersonFullName();
             }),
         itemBuilder: (context, person) =>
             ListTile(title: Text(_getFullname(person))),
