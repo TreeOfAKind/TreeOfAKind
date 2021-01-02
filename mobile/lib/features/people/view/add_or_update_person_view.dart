@@ -12,19 +12,20 @@ class AddOrUpdatePersonView extends StatefulWidget {
   AddOrUpdatePersonView({@required this.tree, PersonDTO person})
       : adding = person == null,
         person = person ?? PersonDTO()
-          ..gender;
+          ..gender = mapGenderToString(Gender.unknown);
 
   final TreeDTO tree;
   final PersonDTO person;
   final bool adding;
 
-  String mapGenderToString(Gender gender) {
-    return EnumToString.convertToString(gender);
+  static String mapGenderToString(Gender gender) {
+    return EnumToString.convertToString(gender, camelCase: true);
   }
 
-  Gender mapStringToGender(String string) {
+  static Gender mapStringToGender(String string) {
     return Gender.values.firstWhere(
-        (gender) => mapGenderToString(gender) == string?.toLowerCase(),
+        (gender) =>
+            mapGenderToString(gender).toLowerCase() == string?.toLowerCase(),
         orElse: () => Gender.unknown);
   }
 
@@ -123,14 +124,17 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                       child: Column(
                           children: Gender.values
                               .map((gender) => RadioListTile<Gender>(
-                                    title:
-                                        Text(widget.mapGenderToString(gender)),
+                                    title: Text(
+                                        AddOrUpdatePersonView.mapGenderToString(
+                                            gender)),
                                     value: gender,
-                                    groupValue: widget.mapStringToGender(
-                                        widget.person.gender),
-                                    onChanged: (gender) => setState(() =>
-                                        widget.person.gender =
-                                            widget.mapGenderToString(gender)),
+                                    groupValue:
+                                        AddOrUpdatePersonView.mapStringToGender(
+                                            widget.person.gender),
+                                    onChanged: (gender) => setState(() => widget
+                                            .person.gender =
+                                        AddOrUpdatePersonView.mapGenderToString(
+                                            gender)),
                                   ))
                               .toList())),
                   const SizedBox(height: 8.0),
@@ -182,28 +186,14 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                     ),
                   ),
                   ...Relation.values
-                      .map((relation) => [
+                      .expand((relation) => [
                             const SizedBox(height: 8.0),
                             AutoCompleteRelation(
                               relation: relation,
                               relatingPerson: widget.person,
                               otherPeople: widget.tree.people,
-                              onSubmitted: (person) => setState(() {
-                                switch (relation) {
-                                  case Relation.mother:
-                                    widget.person.mother = person.id;
-                                    break;
-                                  case Relation.father:
-                                    widget.person.father = person.id;
-                                    break;
-                                  case Relation.spouse:
-                                    widget.person.spouse = person.id;
-                                    break;
-                                }
-                              }),
                             )
                           ])
-                      .expand((e) => e)
                       .toList(),
                   const SizedBox(height: 8.0),
                   RaisedButton(
@@ -212,7 +202,6 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       color: theme.accentColor,
-                      disabledColor: theme.disabledColor,
                       onPressed: () {
                         if (formKey.currentState.validate()) {
                           bloc.add(widget.adding

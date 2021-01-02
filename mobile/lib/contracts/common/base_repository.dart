@@ -22,13 +22,12 @@ abstract class BaseRepository {
     try {
       final result = await cqrs.run(command);
 
-      if (result.runtimeType is SuccessCommandResult) {
+      if (result is SuccessCommandResult) {
         print('Command ${command.runtimeType} executed successfully.');
-        return BaseCommandResult.successful(result as SuccessCommandResult);
+        return BaseCommandResult.successful(result);
       } else {
         print('Command ${command.runtimeType} did not pass validation.');
-        return BaseCommandResult.validationError(
-            result as FailureCommandResult);
+        return BaseCommandResult.validationError(result);
       }
     } catch (e) {
       print('Command ${command.runtimeType} failed unexpectedly.');
@@ -40,13 +39,12 @@ abstract class BaseRepository {
     try {
       final result = await cqrs.runWithFile(command);
 
-      if (result.runtimeType is SuccessCommandResult) {
+      if (result is SuccessCommandResult) {
         print('Command ${command.runtimeType} executed successfully.');
-        return BaseCommandResult.successful(result as SuccessCommandResult);
+        return BaseCommandResult.successful(result);
       } else {
         print('Command ${command.runtimeType} did not pass validation.');
-        return BaseCommandResult.validationError(
-            result as FailureCommandResult);
+        return BaseCommandResult.validationError(result);
       }
     } catch (e) {
       print('Command ${command.runtimeType} failed unexpectedly.');
