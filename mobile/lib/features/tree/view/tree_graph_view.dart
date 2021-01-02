@@ -28,9 +28,7 @@ class TreeGraphView extends StatelessWidget {
       cellPadding: 20.0,
       orientation: MatrixOrientation.Vertical,
       onNodeLongPressStart: (_, node) => Navigator.of(context).push<void>(
-          UpdatePersonPage.route(
-              BlocProvider.of<TreeBloc>(context),
-              tree.treeId,
+          UpdatePersonPage.route(BlocProvider.of<TreeBloc>(context), tree,
               tree.people.firstWhere((person) => person.id == node.id))),
       builder: (context, node) => _PersonNode(
           person: tree.people.firstWhere((person) => person.id == node.id),

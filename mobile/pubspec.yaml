@@ -24,8 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  autocomplete_textfield: ^1.7.3
   bloc: ^6.1.0
   dio: ^3.0.10
+  enum_to_string: ^1.0.14
   equatable: ^1.2.5
   file_picker: ^2.1.4
   firebase_auth: ^0.18.0+1
@@ -42,6 +44,7 @@ dependencies:
   progress_indicators: ^0.1.5
   provider: ^4.3.2+2
   random_color: ^1.0.5
+  recase: ^3.0.1
 
   authentication_repository:
     path: packages/authentication_repository

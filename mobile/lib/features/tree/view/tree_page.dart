@@ -43,8 +43,14 @@ class _TreePageState extends State<TreePage> {
         appBar: AppBar(title: Text(treeItem.treeName)),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () => Navigator.of(context).push<void>(AddPersonPage.route(
-              BlocProvider.of<TreeBloc>(context), treeItem.id)),
+          onPressed: () {
+            // ignore: close_sinks
+            final bloc = BlocProvider.of<TreeBloc>(context);
+            if (bloc.state is PresentingTree) {
+              Navigator.of(context).push<void>(AddPersonPage.route(
+                  bloc, (bloc.state as PresentingTree).tree));
+            }
+          },
         ),
         body: BlocBuilder<TreeBloc, TreeState>(
           builder: (context, state) {
