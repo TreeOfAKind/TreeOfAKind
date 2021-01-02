@@ -1,19 +1,21 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using Gx.Conclusion;
-using Gx.Rs.Api;
-using Gx.Rs.Api.Util;
-using Gx.Types;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 using Person = Gx.Conclusion.Person;
 
 namespace TreeOfAKind.Application.DomainServices
 {
-    public class FamilyTreeFileExporter
+    public class FamilyTreeFileExporter : IFamilyTreeFileExporter
     {
-        public Gx.Gedcomx Create(Tree tree)
+        private readonly IGedcomToXmlStreamConverter _converter;
+
+        public FamilyTreeFileExporter(IGedcomToXmlStreamConverter converter)
+        {
+            _converter = converter;
+        }
+
+        public Stream Export(Tree tree)
         {
             var idPersonDict = CreatePeople(tree);
 
@@ -32,7 +34,7 @@ namespace TreeOfAKind.Application.DomainServices
                 gx.AddRelation(relation, from, to);
             }
 
-            return gx;
+            return _converter.ToXmlStream(gx);
         }
 
         private static Dictionary<PersonId, Person> CreatePeople(Tree tree)

@@ -13,6 +13,7 @@ using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
 using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
+using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles;
 
@@ -263,6 +264,38 @@ namespace TreeOfAKind.API.Trees
             await _mediator.Send(new RemoveTreePhotoCommand(authId, new TreeId(request.TreeId)));
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Gets file export of a tree.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "treeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <response code="200"></response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> GetTreeFileExport([FromBody] GetTreeFileExport request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+
+            var stream = await _mediator.Send(new GetTreeFileExportQuery(authId, new TreeId(request.TreeId)));
+
+            return File(stream, "text/xml", request.TreeId.ToString() + ".xml");
         }
     }
 }

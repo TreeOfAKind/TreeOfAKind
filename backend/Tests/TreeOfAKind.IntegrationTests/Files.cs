@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Gx.Types;
 using NSubstitute;
 using TreeOfAKind.Application.Command;
+using TreeOfAKind.Application.Command.Trees.People.AddPerson;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePhoto;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
+using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
 using TreeOfAKind.Domain.Trees;
+using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Infrastructure.Processing;
 using Xunit;
 
@@ -66,6 +72,63 @@ namespace TreeOfAKind.IntegrationTests
                 new GetTreeQuery(AuthId, treeId));
 
             Assert.Equal(_uriExample, tree.PhotoUri);
+        }
+
+        [Fact]
+        private async Task fdsa()
+        {
+            var treeId = await CreateTree();
+
+            var queenId = await CommandsExecutor.Execute(
+                new AddPersonCommand(
+                    AuthId,
+                    treeId,
+                    "Elżbieta",
+                    "II",
+                    Gender.Female,
+                    new DateTime(1926, 4, 21),
+                    null,
+                    "Queen",
+                    "Some biography"));
+
+
+            var princeId = await CommandsExecutor.Execute(
+                new AddPersonCommand(
+                    AuthId,
+                    treeId,
+                    "Filip",
+                    null,
+                    Gender.Male,
+                    new DateTime(1921, 5, 10),
+                    null,
+                    "Prince",
+                    "Some biography of Filip",
+                    new List<AddPersonCommand.Relation>
+                    {
+                        new AddPersonCommand.Relation(queenId, RelationDirection.FromAddedPerson, RelationType.Spouse)
+                    }));
+
+            var tree = await QueriesExecutor.Execute(
+                new GetTreeQuery(AuthId, treeId));
+
+            var stream = await QueriesExecutor.Execute(
+                new GetTreeFileExportQuery(AuthId, treeId));
+
+            var serializer = new XmlSerializer(typeof(Gx.Gedcomx));
+
+            var gedcom = (Gx.Gedcomx) serializer.Deserialize(stream);
+
+
+            Assert.NotNull(gedcom);
+            Assert.Equal(2, gedcom.Persons.Count);
+
+
+            Assert.Single(gedcom.Persons,
+                p => p.Names.SelectMany(name => name.NameForm.Parts).Any(np => string.Equals(np.Value, "Elżbieta")));
+
+            Assert.NotNull(gedcom.Relationships);
+
+            Assert.Equal(RelationshipType.Couple, gedcom.Relationships.First().KnownType);
         }
     }
 }
