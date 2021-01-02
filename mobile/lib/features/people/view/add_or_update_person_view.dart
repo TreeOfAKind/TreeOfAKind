@@ -185,6 +185,8 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                       labelText: 'biography',
                     ),
                   ),
+                  const SizedBox(height: 16.0),
+                  Text('Family member relatives:'),
                   ...Relation.values
                       .expand((relation) => [
                             const SizedBox(height: 8.0),
@@ -195,7 +197,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                             )
                           ])
                       .toList(),
-                  const SizedBox(height: 8.0),
+                  const SizedBox(height: 12.0),
                   RaisedButton(
                       child: Text(widget.adding ? 'ADD' : 'SAVE'),
                       shape: RoundedRectangleBorder(

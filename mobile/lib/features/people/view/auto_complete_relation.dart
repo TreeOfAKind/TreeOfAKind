@@ -20,7 +20,8 @@ class AutoCompleteRelation extends StatefulWidget {
 class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
   final TextEditingController textController = TextEditingController();
 
-  String _getFullname(PersonDTO person) => '${person.name} ${person.lastName}';
+  String _getFullname(PersonDTO person) =>
+      person == null ? null : '${person.name} ${person.lastName}';
 
   // ignore: missing_return
   String _getRelatedPersonId() {
@@ -37,6 +38,20 @@ class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
     }
   }
 
+  void _setRelatedPersonId({String id}) {
+    switch (widget.relation) {
+      case Relation.mother:
+        widget.relatingPerson.mother = id;
+        break;
+      case Relation.father:
+        widget.relatingPerson.father = id;
+        break;
+      case Relation.spouse:
+        widget.relatingPerson.spouse = id;
+        break;
+    }
+  }
+
   String _getRelatedPersonFullName() {
     final personId = _getRelatedPersonId();
 
@@ -46,10 +61,19 @@ class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
             widget.otherPeople.firstWhere((person) => person.id == personId));
   }
 
+  Iterable<PersonDTO> _getPossiblePeople() => widget.otherPeople
+      .where((person) => _getFullname(person) == textController.text);
+
   @override
   void initState() {
     super.initState();
     textController.text = _getRelatedPersonFullName();
+    textController.addListener(() {
+      final possiblePeople = _getPossiblePeople();
+
+      _setRelatedPersonId(
+          id: possiblePeople.isNotEmpty ? possiblePeople.first.id : null);
+    });
   }
 
   @override
@@ -58,31 +82,33 @@ class _AutoCompleteRelationState extends State<AutoCompleteRelation> {
         textFieldConfiguration: TextFieldConfiguration(
             controller: textController,
             decoration: new InputDecoration(
-                labelText: EnumToString.convertToString(widget.relation,
-                    camelCase: true),
-                helperText:
-                    'Select ${EnumToString.convertToString(widget.relation)} of this family member',
-                suffixIcon: const Icon(Icons.clear))),
+              labelText: EnumToString.convertToString(widget.relation,
+                  camelCase: true),
+              suffixIcon: FlatButton(
+                  child: const Icon(Icons.clear),
+                  onPressed: () => textController.clear()),
+            )),
+        validator: (text) => text.isNotEmpty && _getPossiblePeople().isEmpty
+            ? 'Provide full name of ${EnumToString.convertToString(widget.relation)} or leave this field empty'
+            : null,
         onSuggestionSelected: (person) => setState(() {
-              switch (widget.relation) {
-                case Relation.mother:
-                  widget.relatingPerson.mother = person.id;
-                  break;
-                case Relation.father:
-                  widget.relatingPerson.father = person.id;
-                  break;
-                case Relation.spouse:
-                  widget.relatingPerson.spouse = person.id;
-                  break;
-              }
-
+              _setRelatedPersonId(id: person.id);
               textController.text = _getRelatedPersonFullName();
             }),
         itemBuilder: (context, person) =>
             ListTile(title: Text(_getFullname(person))),
-        suggestionsCallback: (query) => widget.otherPeople.where((person) =>
-            widget.relatingPerson.id != person.id &&
-            _getFullname(person).toLowerCase().contains(query.toLowerCase())));
+        suggestionsCallback: (query) => query?.isEmpty ?? true
+            ? List()
+            : widget.otherPeople
+                .where((person) =>
+                    widget.relatingPerson.id != person.id &&
+                    _getFullname(person)
+                        .toLowerCase()
+                        .contains(query.toLowerCase()))
+                .take(5)
+                .toList()
+          ..sort((person1, person2) =>
+              _getFullname(person1).compareTo(_getFullname(person2))));
   }
 }
 
