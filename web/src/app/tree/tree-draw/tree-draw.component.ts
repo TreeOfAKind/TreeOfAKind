@@ -335,14 +335,10 @@ function setupParents(diagram) {
       var link = findMarriage(diagram, mother, father);
       if (link === null) {
         // or warn no known mother or no known father or no known marriage between them
-        if (mother != null) {
           var cdata = { from: mother, to: key };
           myDiagram.model.addLinkData(cdata);
-        }
-        if (father != null) {
-          var cdata = { from: father, to: key };
+          cdata = { from: father, to: key };
           myDiagram.model.addLinkData(cdata);
-        }
         continue;
       }
       var mdata = link.data;
