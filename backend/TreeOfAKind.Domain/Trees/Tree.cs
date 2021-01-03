@@ -147,5 +147,31 @@ namespace TreeOfAKind.Domain.Trees
             var person = _people.First(p => p.Id == personId);
             person.RemoveFile(fileId);
         }
+
+        public void UpdatePerson(PersonId personId,
+            string? name,
+            string? lastName,
+            Gender gender,
+            DateTime? birthDate,
+            DateTime? deathDate,
+            string? description,
+            string? biography)
+        {
+            CheckRule(new TreeMustContainPersonRule(People, personId));
+            var person = _people.First(p => p.Id == personId);
+
+            person.Name = name ?? "";
+            person.LastName = lastName ?? "";
+            person.Gender = gender;
+            person.BirthDate = birthDate;
+            person.DeathDate = deathDate;
+            person.Description = description ?? "";
+            person.Biography = biography ?? "";
+        }
+
+        public void RemoveFromPersonRelations(PersonId personId)
+        {
+            TreeRelations.RemoveFromPersonRelations(personId);
+        }
     }
 }

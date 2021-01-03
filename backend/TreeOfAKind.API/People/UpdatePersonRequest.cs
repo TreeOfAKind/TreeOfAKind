@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.DataAnnotations;
-using TreeOfAKind.Application.Command.Trees.People.AddPerson;
-using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.API.People
 {
-    public class AddPersonRequest
+    public class UpdatePersonRequest
     {
+        [Required] public Guid PersonId { get; set; }
         [Required] public Guid TreeId { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }

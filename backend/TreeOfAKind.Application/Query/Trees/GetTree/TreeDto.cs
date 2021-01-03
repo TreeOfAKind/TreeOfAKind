@@ -69,7 +69,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
 
             Mother = GetRelations(person.Id, RelationType.Mother, treeRelations).Cast<Guid?>().FirstOrDefault();
             Father = GetRelations(person.Id, RelationType.Father, treeRelations).Cast<Guid?>().FirstOrDefault();
-            Spouse = GetRelations(person.Id, RelationType.Spouse, treeRelations).FirstOrDefault();
+            Spouse = GetRelations(person.Id, RelationType.Spouse, treeRelations).Cast<Guid?>().FirstOrDefault();
             Children = GetChildren(person.Id, treeRelations);
 
             UnknownRelations = GetRelations(person.Id, RelationType.Unknown, treeRelations);

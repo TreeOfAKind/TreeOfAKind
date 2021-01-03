@@ -53,7 +53,21 @@ export class PersonFormComponent implements OnInit {
       this.people = tree.people.filter(person => person.id !== this.personId);
 
       if (this.formAction == FormAction.Edit) {
-        this.model = tree.people.find(person => person.id == this.personId);
+        const person = tree.people.find(per => per.id == this.personId);
+        this.model = {
+          id: person.id,
+          treeId: person.treeId,
+          name: person.name,
+          lastName: person.lastName,
+          gender: person.gender,
+          birthDate: person.birthDate,
+          deathDate: person.deathDate,
+          description: person.description,
+          biography: person.biography,
+          mother: person.mother,
+          father: person.father,
+          spouse: person.spouse
+        };
       }
     });
   }
