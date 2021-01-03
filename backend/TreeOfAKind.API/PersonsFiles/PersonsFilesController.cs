@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TreeOfAKind.API.SeedWork;
 using TreeOfAKind.Application.Command;
 using TreeOfAKind.Application.Command.Trees.People.AddOrChangePersonsPhoto;
-using TreeOfAKind.Application.Command.Trees.People.AddPersonFile;
+using TreeOfAKind.Application.Command.Trees.People.AddPersonsFile;
 using TreeOfAKind.Application.Command.Trees.People.RemovePersonsFile;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;

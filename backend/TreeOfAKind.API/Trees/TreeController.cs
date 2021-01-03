@@ -8,10 +8,11 @@ using TreeOfAKind.Application.Command;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePhoto;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFromFile;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
-using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.UpdateTreeName;
+using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
@@ -331,5 +332,18 @@ namespace TreeOfAKind.API.Trees
 
             return File(stream, "text/xml", request.TreeId.ToString() + ".xml");
         }
+
+
+        public async Task<IActionResult> CreateTreeFromFile([FromForm] CreateTreeFromFileRequest request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+
+            var stream = await _mediator.Send(new CreateTreeFromFileCommand(authId, new))
+
+        }
+    }
+
+    public class CreateTreeFromFileRequest
+    {
     }
 }

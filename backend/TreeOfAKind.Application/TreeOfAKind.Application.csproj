@@ -28,8 +28,4 @@
     <ProjectReference Include="..\TreeOfAKind.Domain\TreeOfAKind.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Command\Trees\TreeAdministration" />
-  </ItemGroup>
-
 </Project>

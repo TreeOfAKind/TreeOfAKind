@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using TreeOfAKind.Application.Command.Trees.People.AddPersonFile;
 using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Application.Services;
 using TreeOfAKind.Domain.Trees;
@@ -19,7 +18,7 @@ namespace TreeOfAKind.Application.Command.Trees.People.AddPersonsFile
             _fileSaver = fileSaver;
         }
 
-        public async Task<File> Handle(People.AddPersonFile.AddPersonsFileCommand request, CancellationToken cancellationToken)
+        public async Task<File> Handle(AddPersonsFileCommand request, CancellationToken cancellationToken)
         {
             var document = request.Document;
             var fileUri = await _fileSaver.UploadFile(request.TreeId.Value.ToString(), document.ContentType,

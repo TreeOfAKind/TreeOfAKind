@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using FluentValidation;
 
-namespace TreeOfAKind.Application.Command.Trees.People.AddPersonFile
+namespace TreeOfAKind.Application.Command.Trees.People.AddPersonsFile
 {
     public class AddPersonsFileCommandValidator : AbstractValidator<AddPersonsFileCommand>
     {

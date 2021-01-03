@@ -45,6 +45,7 @@ namespace TreeOfAKind.Application.DomainServices
             {
                 var personModel = (Person) new Person()
                     .AddNameLastname(person)
+                    .AddGender(person)
                     .AddDeathDate(person)
                     .AddBirthDate(person)
                     .AddBiography(person)

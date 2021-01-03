@@ -1,6 +1,6 @@
 using TreeOfAKind.Domain.Trees;
 
-namespace TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners
+namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveMyselfFromTreeOwners
 {
     public class RemoveMyselfFromTreeOwnersCommand : TreeOperationCommandBase
     {
