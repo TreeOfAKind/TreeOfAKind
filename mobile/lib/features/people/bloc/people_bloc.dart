@@ -74,11 +74,11 @@ class PeopleBloc extends Bloc<PeopleEvent, PeopleState> {
       if (event.deletePhoto && event.person.mainPhoto?.id != null) {
         result = await peopleRepository.removePersonsFile(
             treeId: treeId,
-            personId: result.entityId,
+            personId: event.person.id,
             fileId: event.person.mainPhoto.id);
       } else if (event.mainPhoto != null) {
         result = await peopleRepository.updatePersonsMainPhoto(
-            treeId: treeId, personId: result.entityId, file: event.mainPhoto);
+            treeId: treeId, personId: event.person.id, file: event.mainPhoto);
       }
 
       if (result.unexpectedError) {

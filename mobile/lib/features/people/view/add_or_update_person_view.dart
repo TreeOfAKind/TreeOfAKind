@@ -40,7 +40,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
   final formKey = GlobalKey<FormState>();
 
   PlatformFile _selectedMainPhoto;
-  bool _photoDeleted;
+  bool _photoDeleted = false;
 
   String _dateToText(DateTime dateTime) {
     return dateTime == null
@@ -76,6 +76,18 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
     if (picked != null) {
       setState(() => widget.person.deathDate = picked);
     }
+  }
+
+  Future<void> _pickMainPhoto() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
+
+    setState(() {
+      _selectedMainPhoto = result?.files?.single;
+      _photoDeleted = false;
+    });
   }
 
   @override
@@ -125,7 +137,29 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                   ),
                   const SizedBox(height: 8.0),
                   Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                    Avatar(photo: widget.person.mainPhoto?.uri, avatarSize: 48),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 48.0),
+                            child: FlatButton(
+                              onPressed: () => _pickMainPhoto(),
+                              child: Avatar(
+                                  photo: _photoDeleted
+                                      ? null
+                                      : _selectedMainPhoto?.path ??
+                                          widget.person.mainPhoto?.uri,
+                                  avatarSize: 48.0),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                            iconSize: 20.0,
+                            icon: Icon(Icons.clear),
+                            onPressed: () =>
+                                setState(() => _photoDeleted = true))
+                      ],
+                    ),
                     const SizedBox(height: 16.0),
                     TextFormField(
                       initialValue: widget.person.name,
