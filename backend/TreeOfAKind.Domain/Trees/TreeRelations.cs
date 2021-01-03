@@ -24,7 +24,7 @@ namespace TreeOfAKind.Domain.Trees
 
             CheckRule(new ThereIsNoExistingRelationBetweenRule(Relations, from, to));
             CheckRule(new ThereAreOnlyOneParentOfEachGender(Relations, from, to, relationType));
-
+            CheckRule(new ThereAreOnlyOneSpouseRule(Relations, from, to, relationType));
             _relations.Add(relation);
             if (relationType == RelationType.Spouse) _relations.Add(new Relation(to,from,relationType));
 
