@@ -22,6 +22,7 @@
     "@angular/router": "~11.0.3",
     "bootstrap": "^4.5.2",
     "firebase": "^7.0.0 || ^8.0.0",
+    "gojs": "^2.1.32",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
