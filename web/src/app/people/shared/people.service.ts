@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FileResponse } from './file-response.model';
 import { PersonForm } from './person-form.model';
+import { PersonUpdate } from './person-update.model';
 import { RemovePersonsFileRequest } from './remove-persons-file.model';
 
 @Injectable({
@@ -25,6 +26,10 @@ export class PeopleService {
     return this.httpClient.post(`${this.url}/RemovePerson`, { treeId: treeId, personId: personId});
   }
 
+  updatePerson(person: PersonUpdate) {
+    return this.httpClient.post(`${this.url}/UpdatePerson`, person, { observe: 'response' });
+  }
+  
   addPersonsFile(request: FormData) {
     return this.httpClient.post(`${this.filesUrl}/AddPersonsFile`, request);
   }
