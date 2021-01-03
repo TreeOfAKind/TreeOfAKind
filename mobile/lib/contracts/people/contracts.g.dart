@@ -156,3 +156,19 @@ Map<String, dynamic> _$RemovePersonToJson(RemovePerson instance) =>
       'personId': instance.personId,
       'endpointRoute': instance.endpointRoute,
     };
+
+RemovePersonsFile _$RemovePersonsFileFromJson(Map<String, dynamic> json) {
+  return RemovePersonsFile(
+    treeId: json['treeId'] as String,
+    personId: json['personId'] as String,
+    fileId: json['fileId'] as String,
+  )..endpointRoute = json['endpointRoute'] as String;
+}
+
+Map<String, dynamic> _$RemovePersonsFileToJson(RemovePersonsFile instance) =>
+    <String, dynamic>{
+      'treeId': instance.treeId,
+      'personId': instance.personId,
+      'fileId': instance.fileId,
+      'endpointRoute': instance.endpointRoute,
+    };
