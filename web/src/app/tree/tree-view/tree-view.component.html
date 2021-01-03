@@ -1,9 +1,11 @@
-<div class="container row">
-  <div class=".col-4">
-    <app-tree-photo [treeId]="treeId"></app-tree-photo>
-    <app-people-list [treeId]="treeId"></app-people-list>
-  </div>
-  <div class=".col-8">
-    <app-tree-draw></app-tree-draw>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4">
+      <app-tree-photo [treeId]="treeId"></app-tree-photo>
+      <app-people-list [treeId]="treeId"></app-people-list>
+    </div>
+    <div class="col-lg-8">
+      <app-tree-draw></app-tree-draw>
+    </div>
   </div>
 </div>
