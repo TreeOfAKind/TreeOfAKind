@@ -9,3 +9,9 @@ class FetchTree extends TreeEvent {
 
   final String treeId;
 }
+
+class PersonRemoved extends TreeEvent {
+  const PersonRemoved(this.personId);
+
+  final String personId;
+}

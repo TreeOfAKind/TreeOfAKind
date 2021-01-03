@@ -4,8 +4,8 @@ abstract class TreeState {
   const TreeState();
 }
 
-class InitialLoadingState extends TreeState {
-  const InitialLoadingState();
+class LoadingState extends TreeState {
+  const LoadingState();
 }
 
 class PresentingTree extends TreeState {
