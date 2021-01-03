@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
+using TreeOfAKind.Application.Query.Trees.GetTree;
+using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Infrastructure.Processing;
 using Xunit;
 
@@ -48,6 +51,13 @@ namespace TreeOfAKind.IntegrationTests
             var tree = myTrees.Trees[0];
             Assert.Equal(tree.Id, treeId.Value);
             Assert.Equal(TreeName, tree.TreeName);
+
+
+            var treeQuery = await QueriesExecutor.Execute(
+                new GetTreeQuery(AuthId, treeId));
+
+            Assert.Equal(userId.Value, treeQuery.Owners.FirstOrDefault()?.Id);
+
         }
 
         [Fact]

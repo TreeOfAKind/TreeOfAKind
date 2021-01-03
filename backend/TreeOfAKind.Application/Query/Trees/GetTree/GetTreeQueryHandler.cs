@@ -1,24 +1,23 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using TreeOfAKind.Application.Configuration.Queries;
+using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Domain.Trees;
 
 namespace TreeOfAKind.Application.Query.Trees.GetTree
 {
     public class GetTreeQueryHandler : IQueryHandler<GetTreeQuery, TreeDto>
     {
-        private readonly ITreeRepository _treeRepository;
+        private readonly ITreeQueryRepository _treeQueryRepository;
 
-        public GetTreeQueryHandler(ITreeRepository treeRepository)
+        public GetTreeQueryHandler(ITreeQueryRepository treeQueryRepository)
         {
-            _treeRepository = treeRepository;
+            _treeQueryRepository = treeQueryRepository;
         }
 
         public async Task<TreeDto> Handle(GetTreeQuery request, CancellationToken cancellationToken)
         {
-            var tree = await _treeRepository.GetByIdAsync(request.TreeId, cancellationToken);
-
-            return tree is null ? null : new TreeDto(tree);
+            return await _treeQueryRepository.GetTree(request.TreeId, cancellationToken);
         }
     }
 }

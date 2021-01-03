@@ -1,6 +1,7 @@
 ﻿using System;
 using NodaTime;
 using TreeOfAKind.Application.Configuration;
+using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.Query.UserProfiles.GetMyUserProfile
 {
@@ -17,6 +18,14 @@ namespace TreeOfAKind.Application.Query.UserProfiles.GetMyUserProfile
             FirstName = firstName;
             LastName = lastName;
             BirthDate = birthDate?.GetDate();
+        }
+
+        public UserProfileDto(UserProfile userProfile)
+        {
+            Id = userProfile.Id.Value;
+            FirstName = userProfile.FirstName;
+            LastName = userProfile.LastName;
+            BirthDate = userProfile.BirthDate?.GetDate();
         }
     }
 }
