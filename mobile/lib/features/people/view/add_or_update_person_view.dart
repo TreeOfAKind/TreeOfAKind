@@ -1,4 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
@@ -37,6 +38,9 @@ class AddOrUpdatePersonView extends StatefulWidget {
 
 class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
   final formKey = GlobalKey<FormState>();
+
+  PlatformFile _selectedMainPhoto;
+  bool _photoDeleted;
 
   String _dateToText(DateTime dateTime) {
     return dateTime == null
@@ -239,8 +243,10 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                             onPressed: () {
                               if (formKey.currentState.validate()) {
                                 bloc.add(widget.adding
-                                    ? PersonAdded(widget.person)
-                                    : PersonUpdated(widget.person));
+                                    ? PersonAdded(
+                                        widget.person, _selectedMainPhoto)
+                                    : PersonUpdated(widget.person,
+                                        _selectedMainPhoto, _photoDeleted));
                               }
                             }),
                   ]),
