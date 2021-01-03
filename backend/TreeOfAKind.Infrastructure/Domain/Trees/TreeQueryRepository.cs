@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
+using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.Database;
@@ -30,6 +31,20 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                 .Where(t => t.TreeOwners.Any(o => o.UserId == user.Id))
                 .OrderBy(t => t.Name)
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<TreeDto> GetTree(TreeId treeId, CancellationToken cancellationToken = default)
+        {
+            var trees = await _treesContext.Trees
+                .Where(t => t.Id == treeId)
+                .SelectMany(t => t.TreeOwners, (t, profile) => new {tree = t, profileId = profile.UserId})
+                .Join(_treesContext.Users, arg => arg.profileId, profile => profile.Id,
+                    (arg, userProfile) => new {arg.tree, userProfile})
+                .ToListAsync(cancellationToken);
+
+            var tree = trees.FirstOrDefault()?.tree;
+
+            return tree is null ? null : new TreeDto(tree, trees.Select(t => t.userProfile));
         }
     }
 }
