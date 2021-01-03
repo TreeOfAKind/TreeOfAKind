@@ -12,7 +12,7 @@ namespace TreeOfAKind.Domain.Trees
     public class Tree : Entity, IAggregateRoot
     {
         public TreeId Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public Uri? Photo { get; set; }
 
         public IReadOnlyCollection<TreeUserProfile> TreeOwners =>
