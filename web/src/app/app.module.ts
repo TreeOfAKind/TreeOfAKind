@@ -24,6 +24,7 @@ import { PeopleListComponent } from './people/people-list/people-list.component'
 import { HttpErrorInterceptor } from './helpers/error-interceptor';
 import { PersonFilesFormComponent } from './people/person-files-form/person-files-form.component';
 import { TreeDrawComponent } from './tree/tree-draw/tree-draw.component';
+import { LicensesComponent } from './licenses/licenses.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { TreeDrawComponent } from './tree/tree-draw/tree-draw.component';
     TreePhotoComponent,
     PeopleListComponent,
     PersonFilesFormComponent,
-    TreeDrawComponent
+    TreeDrawComponent,
+    LicensesComponent
   ],
   imports: [
     BrowserModule,
