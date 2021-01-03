@@ -22,9 +22,9 @@ namespace TreeOfAKind.Domain.Trees.Rules
         public bool IsBroken()
         {
             if (RelationType != RelationType.Spouse) return false;
-
-            var spouseOfFirstPerson = Relations.FirstOrDefault(r => r.From == Person1);
-            var spouseOfSecondPerson = Relations.FirstOrDefault(r => r.From == Person2);
+            var spouseRelations = Relations.Where(r => r.RelationType == RelationType.Spouse);
+            var spouseOfFirstPerson = spouseRelations.FirstOrDefault(r => r.From == Person1);
+            var spouseOfSecondPerson = spouseRelations.FirstOrDefault(r => r.From == Person2);
 
             return spouseOfFirstPerson is not null || spouseOfSecondPerson is not null;
         }
