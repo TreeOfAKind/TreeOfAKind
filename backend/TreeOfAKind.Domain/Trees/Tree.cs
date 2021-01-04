@@ -160,6 +160,8 @@ namespace TreeOfAKind.Domain.Trees
             CheckRule(new TreeMustContainPersonRule(People, personId));
             var person = _people.First(p => p.Id == personId);
 
+            CheckRule(new NameOrLastNameMustBeSpecifiedRule(name, lastName));
+            CheckRule(new BirthDateMustBeBeforeDeathDateRule(birthDate, deathDate));
             person.Name = name ?? "";
             person.LastName = lastName ?? "";
             person.Gender = gender;
