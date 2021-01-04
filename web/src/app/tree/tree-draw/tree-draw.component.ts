@@ -36,9 +36,12 @@ export class TreeDrawComponent implements OnInit, OnChanges {
         key: i,
         n: `${person.name} ${person.lastName}`,
         s: 'M',
-        m: person.mother ? this.people.findIndex(p => p.id === person.mother) : null,
-        f: person.father ? this.people.findIndex(p => p.id === person.father) : null,
-        ux: person.spouse ? this.people.findIndex(p => p.id === person.spouse) : null,
+        m: person.mother && this.people.find(p => p.id === person.mother) ?
+          this.people.findIndex(p => p.id === person.mother) : null,
+        f: person.father && this.people.find(p => p.id === person.father) ?
+          this.people.findIndex(p => p.id === person.father) : null,
+        ux: person.spouse && this.people.find(p => p.id === person.spouse) ?
+          this.people.findIndex(p => p.id === person.spouse) : null,
         photo: person.mainPhoto ? person.mainPhoto.uri : '../../../assets/person-black-18dp.svg'
       }
       diagramMembers.push(diagramMember);
