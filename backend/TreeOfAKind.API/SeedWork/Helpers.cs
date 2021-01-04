@@ -9,7 +9,17 @@ namespace TreeOfAKind.API.SeedWork
         {
             if (httpContext.User.Identity is ClaimsIdentity identity)
             {
-                return identity.FindFirst("user_id").Value;
+                return identity.FindFirst("user_id")?.Value;
+            }
+
+            return null;
+        }
+
+        public static string GetUserEmail(this HttpContext httpContext)
+        {
+            if (httpContext.User.Identity is ClaimsIdentity identity)
+            {
+                return identity.FindFirst(ClaimTypes.Email)?.Value;
             }
 
             return null;

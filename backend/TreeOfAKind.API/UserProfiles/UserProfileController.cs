@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Net.Mail;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -49,11 +50,13 @@ namespace TreeOfAKind.API.UserProfiles
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateOrUpdateUserProfile([FromBody] CreateOrUpdateUserProfileRequest request)
         {
-            var userAuthId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userAuthId = HttpContext.GetFirebaseUserAuthId();
+            var mail = HttpContext.GetUserEmail();
 
             var userId = await _mediator.Send(
                 new CreateOrUpdateUserProfileCommand(
                     userAuthId,
+                    new MailAddress(mail),
                     request.FirstName,
                     request.LastName,
                     request.BirthDate));

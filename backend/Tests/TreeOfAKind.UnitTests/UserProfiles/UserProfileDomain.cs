@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using NSubstitute;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.UserProfiles;
@@ -32,6 +33,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         {
             return UserProfile.CreateUserProfile(
                 AuthId,
+                new MailAddress("example@example.com"),
                 FirstName,
                 LastName,
                 BirthDate,
@@ -50,13 +52,13 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         public void CreateUserProfile_ValidData_PropertiesProperlyInitialized()
         {
             var u = CreateValidUserProfile();
-                        
+
             Assert.Equal(u.UserAuthId, AuthId);
             Assert.Equal(u.FirstName, FirstName);
             Assert.Equal(u.LastName, u.LastName);
             Assert.Equal(u.BirthDate, BirthDate);
         }
-        
+
         [Fact]
         public void CreateUserProfile_ValidData_UserProfileCreatedDomainEventAdded()
         {
@@ -76,14 +78,14 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             Assert.Throws<BusinessRuleValidationException>(() => _ = this.CreateUserProfileFromProperties());
         }
 
-        
+
         [Theory]
         [InlineData(null)]
         [InlineData("")]
         public void CreteUserProfile_AuthIdNotProvided_ThrowsBusinessRuleException(string authId)
         {
             this.AuthId = authId;
-            
+
             Assert.Throws<BusinessRuleValidationException>(() => _ = this.CreateUserProfileFromProperties());
         }
     }
