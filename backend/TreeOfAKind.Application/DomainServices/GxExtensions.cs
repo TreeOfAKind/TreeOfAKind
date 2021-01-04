@@ -118,8 +118,7 @@ namespace TreeOfAKind.Application.DomainServices
                 RelationType.Father => rel.SetType(RelationshipType.ParentChild),
                 RelationType.Mother => rel.SetType(RelationshipType.ParentChild),
                 RelationType.Spouse => rel.SetType(RelationshipType.Couple),
-                _ => throw new ArgumentOutOfRangeException(nameof(relation.RelationType), relation.RelationType,
-                    "Relation unsupported")
+                _ => rel.SetType(RelationshipType.NULL),
             };
 
             return gx.SetRelationship(rel);

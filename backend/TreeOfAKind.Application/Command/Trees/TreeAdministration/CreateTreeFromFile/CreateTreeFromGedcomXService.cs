@@ -6,20 +6,22 @@ using Gx.Conclusion;
 using Gx.Source;
 using Gx.Types;
 using TreeOfAKind.Domain.Trees;
+using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Domain.UserProfiles;
 using Gender = TreeOfAKind.Domain.Trees.People.Gender;
+using Person = Gx.Conclusion.Person;
 
 namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFromFile
 {
     public interface IGedcomXGenderConverter
     {
-        public Gender ConvertGender(Gx.Conclusion.Gender gender);
+        public Gender ConvertGender(GenderType gender);
     }
 
     public class GedcomXGenderConverter : IGedcomXGenderConverter
     {
-        public Gender ConvertGender(Gx.Conclusion.Gender gender)
-            => gender?.KnownType switch
+        public Gender ConvertGender(GenderType gender)
+            => gender switch
             {
                 GenderType.NULL => Gender.Unknown,
                 GenderType.Male => Gender.Male,
@@ -33,6 +35,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
     public interface IGedcomXNameExtractor
     {
         public string ExtractName(Person gxPerson, NamePartType namePartType);
+        public string ExtractFullName(Person gxPerson);
     }
 
     public class GedcomXNameExtractor : IGedcomXNameExtractor
@@ -41,6 +44,11 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
         {
             return gxPerson.Names?.FirstOrDefault()?.NameForm?.Parts
                 ?.FirstOrDefault(p => p.KnownType == namePartType)?.Value ?? "";
+        }
+
+        public string ExtractFullName(Person gxPerson)
+        {
+            return gxPerson.Names?.FirstOrDefault()?.NameForm?.FullText;
         }
     }
 
@@ -74,7 +82,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
 
     public interface IGedcomXToDomainPersonConverter
     {
-        void AddPeopleToTree(Gx.Gedcomx gx, Tree tree);
+        Dictionary<string, PersonId> AddPeopleToTree(Gx.Gedcomx gx, Tree tree);
     }
 
     public class GedcomXToDomainPersonConverter : IGedcomXToDomainPersonConverter
@@ -85,7 +93,8 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
         private readonly IGedcomXNoteExtractor _noteExtractor;
 
         public GedcomXToDomainPersonConverter(IGedcomXGenderConverter gedcomXGenderConverter,
-            IGedcomXNameExtractor nameExtractor, IGedcomXDateExtractor dateExtractor, IGedcomXNoteExtractor noteExtractor)
+            IGedcomXNameExtractor nameExtractor, IGedcomXDateExtractor dateExtractor,
+            IGedcomXNoteExtractor noteExtractor)
         {
             _nameExtractor = nameExtractor;
             _dateExtractor = dateExtractor;
@@ -93,21 +102,30 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
             _genderConverter = gedcomXGenderConverter;
         }
 
-        public void AddPeopleToTree(Gx.Gedcomx gx, Tree tree)
+        public Dictionary<string, PersonId> AddPeopleToTree(Gx.Gedcomx gx, Tree tree)
         {
+            var gxIdToPersonId = new Dictionary<string, PersonId>();
             foreach (var gxPerson in gx.Persons)
             {
                 var name = _nameExtractor.ExtractName(gxPerson, NamePartType.Given);
                 var surname = _nameExtractor.ExtractName(gxPerson, NamePartType.Surname);
 
+                if (name is null && surname is null)
+                {
+                    surname = _nameExtractor.ExtractFullName(gxPerson);
+                }
+
                 var person = tree.AddPerson(
                     name,
-                    surname, _genderConverter.ConvertGender(gxPerson.Gender),
+                    surname, _genderConverter.ConvertGender(gxPerson.Gender?.KnownType ?? GenderType.NULL),
                     _dateExtractor.GetDate(gxPerson, FactType.Birth),
                     _dateExtractor.GetDate(gxPerson, FactType.Death),
                     _noteExtractor.GetNote(gxPerson.Notes, "Description"),
                     _noteExtractor.GetNote(gxPerson.Notes, "Biography")
                 );
+
+                gxIdToPersonId.Add(gxPerson.Id ?? Guid.NewGuid().ToString(), person.Id);
+
                 foreach (var source in gxPerson.Sources ?? Enumerable.Empty<SourceReference>())
                 {
                     var mainPhoto = source.Qualifiers?.Any(q => q.Name == "MainPhoto" && bool.Parse(q.Value)) ?? false;
@@ -127,27 +145,88 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
                     }
                 }
             }
+
+            return gxIdToPersonId;
+        }
+    }
+
+    public interface IGedcomXToDomainRelationConverter
+    {
+        void AddRelations(Gx.Gedcomx gx, Dictionary<string, PersonId> gxIdToPersonId, Tree tree);
+    }
+
+    public interface IGedcomXToDomainRelationTypeConverter
+    {
+        RelationType ConvertRelationType(RelationshipType knownType, IReadOnlyCollection<Domain.Trees.People.Person> people, PersonId to);
+    }
+    public class GedcomXToDomainRelationTypeConverter : IGedcomXToDomainRelationTypeConverter
+    {
+        public RelationType ConvertRelationType(RelationshipType knownType, IReadOnlyCollection<Domain.Trees.People.Person> people, PersonId to)
+        {
+            return knownType switch
+            {
+                RelationshipType.Couple => RelationType.Spouse,
+                RelationshipType.ParentChild => ParentChildRelationConverter(people, to),
+                _ => RelationType.Unknown
+            };
+        }
+
+        private static RelationType ParentChildRelationConverter(IReadOnlyCollection<Domain.Trees.People.Person> people,
+            PersonId to)
+        {
+            var toPersonGender = people.FirstOrDefault(p => p.Id == to)?.Gender;
+            return toPersonGender ==
+                   Gender.Female
+                ? RelationType.Mother
+                : RelationType.Father;
+        }
+    }
+
+    public class GedcomXToDomainRelationConverter : IGedcomXToDomainRelationConverter
+    {
+        private readonly IGedcomXToDomainRelationTypeConverter _gedcomXToDomainRelationTypeConverter;
+
+        public GedcomXToDomainRelationConverter(IGedcomXToDomainRelationTypeConverter gedcomXToDomainRelationTypeConverter)
+        {
+            _gedcomXToDomainRelationTypeConverter = gedcomXToDomainRelationTypeConverter;
+        }
+
+        public void AddRelations(Gx.Gedcomx gx, Dictionary<string, PersonId> gxIdToPersonId, Tree tree)
+        {
+            var people = tree.People;
+            foreach (var relationship in gx.Relationships)
+            {
+                if (gxIdToPersonId.TryGetValue(relationship.Person2.ResourceId, out var from)
+                    && gxIdToPersonId.TryGetValue(relationship.Person1.ResourceId, out var to))
+                {
+                    var rel = _gedcomXToDomainRelationTypeConverter.ConvertRelationType(relationship.KnownType, people, to);
+                    tree.AddRelation(from, to, rel);
+                }
+            }
         }
     }
 
     public class CreateTreeFromGedcomXService
     {
+        private readonly IGedcomXToDomainRelationConverter _gedcomXToDomainRelationConverter;
         private readonly IGedcomXToDomainPersonConverter _gedcomXToDomainPersonConverter;
 
-        public CreateTreeFromGedcomXService(IGedcomXToDomainPersonConverter gedcomXToDomainPersonConverter)
+        public CreateTreeFromGedcomXService(IGedcomXToDomainPersonConverter gedcomXToDomainPersonConverter,
+            IGedcomXToDomainRelationConverter gedcomXToDomainRelationConverter)
         {
             _gedcomXToDomainPersonConverter = gedcomXToDomainPersonConverter;
+            _gedcomXToDomainRelationConverter = gedcomXToDomainRelationConverter;
         }
 
         public Tree Create(UserId userId, Gx.Gedcomx gx, string treeName)
         {
             var tree = Tree.CreateNewTree(treeName, userId);
 
-            _gedcomXToDomainPersonConverter.AddPeopleToTree(gx, tree);
+            var gxIdToPersonId = _gedcomXToDomainPersonConverter.AddPeopleToTree(gx, tree);
 
-            return null;
+            _gedcomXToDomainRelationConverter.AddRelations(gx, gxIdToPersonId, tree);
+
+            return tree;
         }
-
-
     }
 }

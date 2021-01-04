@@ -5,7 +5,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
 {
     public class CreateTreeFromFileCommandValidator : AbstractValidator<CreateTreeFromFileCommand>
     {
-        private static readonly IEnumerable<string> AcceptedMimeTypes = new string[]
+        private readonly IEnumerable<string> AcceptedMimeTypes = new string[]
         {
             "text/xml",
         };

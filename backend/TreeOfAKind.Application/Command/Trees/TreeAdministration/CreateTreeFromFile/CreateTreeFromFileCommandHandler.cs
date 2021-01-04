@@ -16,7 +16,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
 
         public Task<TreeId> Handle(CreateTreeFromFileCommand request, CancellationToken cancellationToken)
         {
-
+            return Task.FromResult<TreeId>(null);
         }
     }
 }
