@@ -22,7 +22,7 @@ export class TreeDrawComponent implements OnInit, OnChanges {
   }
 
   private drawDiagram() {
-    if (this.people.length > 0) {
+    if (this.people?.length > 0) {
       this.convertPeopleToDiagramMembers();
       init();
     }
