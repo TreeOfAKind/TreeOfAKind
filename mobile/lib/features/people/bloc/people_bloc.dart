@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
-import 'package:tree_of_a_kind/main_dev.dart';
 
 part 'people_event.dart';
 part 'people_state.dart';
@@ -43,6 +40,7 @@ class PeopleBloc extends Bloc<PeopleEvent, PeopleState> {
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else if (!result.wasSuccessful) {
+      yield ValidationErrorState(result.errorText);
     } else {
       if (event.mainPhoto != null) {
         result = await peopleRepository.updatePersonsMainPhoto(
