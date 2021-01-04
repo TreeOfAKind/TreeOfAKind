@@ -5,14 +5,16 @@ import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/features/people/bloc/people_bloc.dart';
 import 'package:tree_of_a_kind/features/people/view/add_or_update_person_view.dart';
+import 'package:tree_of_a_kind/features/person_files/view/person_files_page.dart';
 import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
 
 class UpdatePersonPage extends StatelessWidget {
   const UpdatePersonPage({Key key, @required this.tree, @required this.person})
       : super(key: key);
 
+  static const String _manageFiles = 'Manage family member files';
   static const String _deletePerson = 'Delete family member';
-  static const List<String> _menuItems = <String>[_deletePerson];
+  static const List<String> _menuItems = <String>[_manageFiles, _deletePerson];
 
   final TreeDTO tree;
   final PersonDTO person;
@@ -32,6 +34,8 @@ class UpdatePersonPage extends StatelessWidget {
     if (item == _deletePerson) {
       BlocProvider.of<TreeBloc>(context).add(PersonRemoved(person.id));
       Navigator.of(context).pop();
+    } else if (item == _manageFiles) {
+      Navigator.of(context).push(PersonFilesPage.route(tree.treeId, person));
     }
   }
 

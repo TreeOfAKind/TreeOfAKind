@@ -5,7 +5,9 @@ abstract class PersonFilesState {
 }
 
 class PresentingFiles extends PersonFilesState {
-  const PresentingFiles();
+  const PresentingFiles(this.files);
+
+  final List<FileDTO> files;
 }
 
 class LoadingState extends PersonFilesState {

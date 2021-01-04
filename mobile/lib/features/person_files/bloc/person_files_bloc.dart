@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 
 part 'person_files_event.dart';
@@ -9,12 +10,12 @@ part 'person_files_state.dart';
 class PersonFilesBloc extends Bloc<PersonFilesEvent, PersonFilesState> {
   PersonFilesBloc(
       {@required this.treeId,
-      @required this.personId,
+      @required this.person,
       @required this.peopleRepository})
-      : super(PresentingFiles());
+      : super(PresentingFiles(person.files));
 
   final String treeId;
-  final String personId;
+  PersonDTO person;
   final PeopleRepository peopleRepository;
 
   @override
@@ -34,12 +35,12 @@ class PersonFilesBloc extends Bloc<PersonFilesEvent, PersonFilesState> {
     yield const LoadingState(null);
 
     final result = await peopleRepository.addPersonsFile(
-        treeId: treeId, personId: personId, file: event.file);
+        treeId: treeId, personId: person.id, file: event.file);
 
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else {
-      yield const PresentingFiles();
+      yield* _fetchFiles();
     }
   }
 
@@ -47,12 +48,25 @@ class PersonFilesBloc extends Bloc<PersonFilesEvent, PersonFilesState> {
     yield LoadingState(event.fileId);
 
     final result = await peopleRepository.removePersonsFile(
-        treeId: treeId, personId: personId, fileId: event.fileId);
+        treeId: treeId, personId: person.id, fileId: event.fileId);
 
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else {
-      yield const PresentingFiles();
+      yield* _fetchFiles();
     }
+  }
+
+  Stream<PersonFilesState> _fetchFiles() async* {
+    // final result = await peopleRepository.fetchPerson();
+
+    // if (result.unexpectedError) {
+    //   yield const UnknownErrorState();
+    // } else {
+    //   person = result.data;
+    //   yield PresentingFiles(_treeList);
+    // }
+
+    yield PresentingFiles(person.files);
   }
 }
