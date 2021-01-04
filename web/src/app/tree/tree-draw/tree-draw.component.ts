@@ -1,28 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as go from 'gojs';
 import { PersonResponse } from 'src/app/people/shared/person-response.model';
 import { DiagramMember } from '../shared/diagram-member.model';
-import { TreeService } from '../shared/tree.service';
 
 @Component({
   selector: 'app-tree-draw',
   templateUrl: './tree-draw.component.html',
   styleUrls: ['./tree-draw.component.scss']
 })
-export class TreeDrawComponent implements OnInit {
-  @Input() treeId: string;
-  people: PersonResponse[];
+export class TreeDrawComponent implements OnInit, OnChanges {
+  @Input() people: PersonResponse[];
 
-  constructor(
-    private service: TreeService
-  ) {}
+  constructor() { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.drawDiagram();
+  }
 
   ngOnInit() {
-    this.service.getTree(this.treeId).subscribe(result => {
-      this.people = result.people;
+    this.drawDiagram();
+  }
+
+  private drawDiagram() {
+    if (this.people.length > 0) {
       this.convertPeopleToDiagramMembers();
       init();
-    });
+    }
   }
 
   private convertPeopleToDiagramMembers() {
@@ -55,6 +58,9 @@ var myDiagram;
 function init() {
   //if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
   var $ = go.GraphObject.make;
+  if (myDiagram != null) {
+    myDiagram.div = null;
+  }
   myDiagram =
     $(go.Diagram, "myDiagramDiv",
       {
