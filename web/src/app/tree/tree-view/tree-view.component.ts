@@ -13,10 +13,11 @@ export class TreeViewComponent implements OnInit {
     treeId: null,
     treeName: null,
     photoUri: null,
-    people: []
+    people: [],
+    owners: []
   };
   treeId: string;
-  expanded: string[];
+  expanded: string[] = new Array(3);
 
   constructor(
     private service: TreeService,
