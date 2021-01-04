@@ -10,6 +10,7 @@ import { PersonFormComponent } from './people/person-form/person-form.component'
 import { TreeViewComponent } from './tree/tree-view/tree-view.component';
 import { TreesListComponent } from './tree/trees-list/trees-list.component';
 import { UserProfileFormComponent } from './user-profile/user-profile-form/user-profile-form.component';
+import { PosterComponent } from './import-export/poster/poster.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'person-form/:id', component: PersonFormComponent, data: { formAction: FormAction.Edit } },
       { path: 'add-person', component: PersonFormComponent, data: { formAction: FormAction.Add } },
       { path: 'files/:id', component: PersonFilesFormComponent },
+      { path: 'poster', component: PosterComponent },
     ] },
   ]},
   { path: '*', redirectTo: ''},
