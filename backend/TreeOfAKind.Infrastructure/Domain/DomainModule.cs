@@ -11,6 +11,14 @@ namespace TreeOfAKind.Infrastructure.Domain
             builder.RegisterType<UserAuthIdUniquenessChecker>()
                 .As<IUserAuthIdUniquenessChecker>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<GedcomToXmlStreamConverter>()
+                .As<IGedcomToXmlStreamConverter>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<FamilyTreeFileExporter>()
+                .As<IFamilyTreeFileExporter>()
+                .InstancePerLifetimeScope();
         }
     }
 }

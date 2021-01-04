@@ -10,13 +10,13 @@ namespace TreeOfAKind.Domain.Trees.People
     {
         public PersonId Id { get; private set; }
         public Tree Tree { get; private set; }
-        public string Name { get; private set; }
-        public string LastName { get; private set; }
-        public Gender Gender { get; private set; }
-        public DateTime? BirthDate { get; private set; }
-        public DateTime? DeathDate { get; private set; }
-        public string Description { get; private set; }
-        public string Biography { get; private set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public Gender Gender { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public DateTime? DeathDate { get; set; }
+        public string Description { get; set; }
+        public string Biography { get; set; }
         public File? MainPhoto { get; private set; }
         public IReadOnlyCollection<File> Files =>
             _files;

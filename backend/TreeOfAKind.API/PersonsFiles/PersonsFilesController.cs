@@ -29,7 +29,6 @@ namespace TreeOfAKind.API.PersonsFiles
         /// <remarks>
         /// Accepted content types are:
         ///
-        ///     image/jpg
         ///     image/jpeg
         ///     image/png
         ///     application/pdf
@@ -55,7 +54,7 @@ namespace TreeOfAKind.API.PersonsFiles
             var file = request.File;
 
             var result = await _mediator.Send(new AddPersonsFileCommand(authId, new TreeId(request.TreeId),
-                new Document(file.OpenReadStream(), file.ContentType, file.Name), new PersonId(request.PersonId)));
+                new Document(file.OpenReadStream(), file.ContentType, file.FileName), new PersonId(request.PersonId)));
 
             return Created(string.Empty, new IdUriDto{Id = result.Id.Value, Uri = result.FileUri});
         }
@@ -66,7 +65,6 @@ namespace TreeOfAKind.API.PersonsFiles
         /// <remarks>
         /// Accepted content types are:
         ///
-        ///     image/jpg
         ///     image/jpeg
         ///     image/png
         ///
@@ -92,7 +90,7 @@ namespace TreeOfAKind.API.PersonsFiles
             var file = request.File;
 
             var result = await _mediator.Send(new AddOrChangePersonsPhotoCommand(authId, new TreeId(request.TreeId),
-                new Document(file.OpenReadStream(), file.ContentType, file.Name), new PersonId(request.PersonId)));
+                new Document(file.OpenReadStream(), file.ContentType, file.FileName), new PersonId(request.PersonId)));
 
             return Created(string.Empty, new IdUriDto{Id = result.Id.Value, Uri = result.FileUri});
         }

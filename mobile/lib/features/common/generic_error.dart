@@ -20,7 +20,6 @@ class GenericError extends StatelessWidget {
                     WidgetSpan(
                       child: Icon(
                         Icons.error,
-                        color: AppColors.white,
                       ),
                     ),
                   ],

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tree_of_a_kind/features/user_profile/view/avatar.dart';
+import 'package:tree_of_a_kind/features/common/avatar.dart';
 
 void main() {
   const imageUrl = 'https://www.fnordware.com/superpng/pngtest16rgba.png';
@@ -11,24 +11,25 @@ void main() {
     setUpAll(() => HttpOverrides.global = null);
 
     testWidgets('renders CircleAvatar', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: Avatar()));
+      await tester.pumpWidget(MaterialApp(home: Avatar(avatarSize: 48)));
       expect(find.byType(CircleAvatar), findsOneWidget);
     });
 
     testWidgets('has correct radius', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: Avatar()));
+      await tester.pumpWidget(MaterialApp(home: Avatar(avatarSize: 48)));
       final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
       expect(avatar.radius, 48);
     });
 
     testWidgets('renders backgroundImage if photo is not null', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: Avatar(photo: imageUrl)));
+      await tester.pumpWidget(
+          MaterialApp(home: Avatar(photo: imageUrl, avatarSize: 48)));
       final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
       expect(avatar.backgroundImage, isNotNull);
     });
 
     testWidgets('renders icon if photo is null', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: Avatar()));
+      await tester.pumpWidget(MaterialApp(home: Avatar(avatarSize: 48)));
       final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
       expect(avatar.backgroundImage, isNull);
       final icon = avatar.child as Icon;

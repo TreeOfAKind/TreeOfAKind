@@ -7,13 +7,6 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.API.People
 {
-    public class Relation
-    {
-        [Required] public Guid SecondPerson { get; set; }
-        [Required] public RelationDirection Direction { get; set; }
-        public RelationType RelationType { get; set; }
-    }
-
     public class AddPersonRequest
     {
         [Required] public Guid TreeId { get; set; }

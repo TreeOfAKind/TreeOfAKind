@@ -5,17 +5,7 @@ namespace TreeOfAKind.Application.Command.Trees.People.AddPerson
 {
     public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
     {
-        public class RelationValidator : AbstractValidator<AddPersonCommand.Relation>
-        {
-            public RelationValidator()
-            {
-                RuleFor(x => x.RelationType)
-                    .NotNull();
 
-                RuleFor(x => x.SecondPersonId)
-                    .NotEmpty();
-            }
-        }
         public AddPersonCommandValidator()
         {
             RuleFor(x => x.Name)

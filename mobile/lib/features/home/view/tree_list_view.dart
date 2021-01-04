@@ -30,10 +30,6 @@ class _TreeItem extends StatelessWidget {
 
   final TreeItemDTO treeItem;
 
-  void _listTap(BuildContext context) {
-    Navigator.of(context).push<void>(TreePage.route(treeItem));
-  }
-
   void _deleteTreeDialog(BuildContext context, TreeListBloc bloc) {
     final theme = Theme.of(context);
 
@@ -76,7 +72,8 @@ class _TreeItem extends StatelessWidget {
                 color: theme.accentColor,
               ),
               title: Text(treeItem.treeName, style: theme.textTheme.headline6),
-              onTap: () => _listTap(context),
+              onTap: () =>
+                  Navigator.of(context).push<void>(TreePage.route(treeItem)),
               trailing: Icon(Icons.keyboard_arrow_right),
             )),
         secondaryActions: [

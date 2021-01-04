@@ -12,7 +12,7 @@ namespace TreeOfAKind.Domain.Trees
     public class Tree : Entity, IAggregateRoot
     {
         public TreeId Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public Uri? Photo { get; set; }
 
         public IReadOnlyCollection<TreeUserProfile> TreeOwners =>
@@ -146,6 +146,34 @@ namespace TreeOfAKind.Domain.Trees
             CheckRule(new TreeMustContainPersonRule(People, personId));
             var person = _people.First(p => p.Id == personId);
             person.RemoveFile(fileId);
+        }
+
+        public void UpdatePerson(PersonId personId,
+            string? name,
+            string? lastName,
+            Gender gender,
+            DateTime? birthDate,
+            DateTime? deathDate,
+            string? description,
+            string? biography)
+        {
+            CheckRule(new TreeMustContainPersonRule(People, personId));
+            var person = _people.First(p => p.Id == personId);
+
+            CheckRule(new NameOrLastNameMustBeSpecifiedRule(name, lastName));
+            CheckRule(new BirthDateMustBeBeforeDeathDateRule(birthDate, deathDate));
+            person.Name = name ?? "";
+            person.LastName = lastName ?? "";
+            person.Gender = gender;
+            person.BirthDate = birthDate;
+            person.DeathDate = deathDate;
+            person.Description = description ?? "";
+            person.Biography = biography ?? "";
+        }
+
+        public void RemoveFromPersonRelations(PersonId personId)
+        {
+            TreeRelations.RemoveFromPersonRelations(personId);
         }
     }
 }

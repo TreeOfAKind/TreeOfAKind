@@ -22,6 +22,10 @@ import { PersonPipe } from './people/shared/person.pipe';
 import { TreePhotoComponent } from './tree/tree-photo/tree-photo.component';
 import { PeopleListComponent } from './people/people-list/people-list.component';
 import { TreeOwnersComponent } from './tree/tree-owners/tree-owners.component';
+import { HttpErrorInterceptor } from './helpers/error-interceptor';
+import { PersonFilesFormComponent } from './people/person-files-form/person-files-form.component';
+import { TreeDrawComponent } from './tree/tree-draw/tree-draw.component';
+import { LicensesComponent } from './licenses/licenses.component';
 
 
 @NgModule({
@@ -39,7 +43,10 @@ import { TreeOwnersComponent } from './tree/tree-owners/tree-owners.component';
     PersonPipe,
     TreePhotoComponent,
     PeopleListComponent,
-    TreeOwnersComponent
+    TreeOwnersComponent,
+    PersonFilesFormComponent,
+    TreeDrawComponent,
+    LicensesComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +63,11 @@ import { TreeOwnersComponent } from './tree/tree-owners/tree-owners.component';
       useClass: TokenInterceptor,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

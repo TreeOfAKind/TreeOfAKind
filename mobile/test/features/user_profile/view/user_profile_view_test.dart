@@ -7,7 +7,7 @@ import 'package:tree_of_a_kind/features/authentication/authentication.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tree_of_a_kind/features/user_profile/bloc/user_profile_bloc.dart';
-import 'package:tree_of_a_kind/features/user_profile/view/avatar.dart';
+import 'package:tree_of_a_kind/features/common/avatar.dart';
 import 'package:tree_of_a_kind/features/user_profile/view/user_profile_page.dart';
 
 class MockAuthenticationBloc extends MockBloc<AuthenticationState>

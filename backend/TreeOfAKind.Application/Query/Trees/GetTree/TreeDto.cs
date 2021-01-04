@@ -5,8 +5,10 @@ using System.Globalization;
 using System.Linq;
 using NodaTime;
 using TreeOfAKind.Application.Configuration;
+using TreeOfAKind.Application.Query.UserProfiles.GetMyUserProfile;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
+using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.Query.Trees.GetTree
 {
@@ -69,7 +71,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
 
             Mother = GetRelations(person.Id, RelationType.Mother, treeRelations).Cast<Guid?>().FirstOrDefault();
             Father = GetRelations(person.Id, RelationType.Father, treeRelations).Cast<Guid?>().FirstOrDefault();
-            Spouse = GetRelations(person.Id, RelationType.Spouse, treeRelations).FirstOrDefault();
+            Spouse = GetRelations(person.Id, RelationType.Spouse, treeRelations).Cast<Guid?>().FirstOrDefault();
             Children = GetChildren(person.Id, treeRelations);
 
             UnknownRelations = GetRelations(person.Id, RelationType.Unknown, treeRelations);
@@ -86,12 +88,15 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         public Uri PhotoUri { get; set; }
         public List<PersonDto> People { get; set; } = new List<PersonDto>();
 
-        public TreeDto(Tree tree)
+        public List<UserProfileDto> Owners { get; set; } = new List<UserProfileDto>();
+
+        public TreeDto(Tree tree, IEnumerable<UserProfile> userProfiles)
         {
             TreeId = tree.Id.Value;
             TreeName = tree.Name;
             PhotoUri = tree.Photo;
             People = tree.People.Select(p => new PersonDto(p, tree.TreeRelations)).ToList();
+            Owners = userProfiles.Select(up => new UserProfileDto(up)).ToList();
         }
     }
 }

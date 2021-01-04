@@ -22,14 +22,29 @@ abstract class BaseRepository {
     try {
       final result = await cqrs.run(command);
 
-      if (result.runtimeType == SuccessCommandResult) {
+      if (result is SuccessCommandResult) {
         print('Command ${command.runtimeType} executed successfully.');
-        var success = result as SuccessCommandResult;
-        return BaseCommandResult.successful(success.entityId);
+        return BaseCommandResult.successful(result);
       } else {
-        // TODO: Add validation handling
-        print('Command ${command.runtimeType} failed.');
-        return BaseCommandResult.unexpectedError();
+        print('Command ${command.runtimeType} did not pass validation.');
+        return BaseCommandResult.validationError(result);
+      }
+    } catch (e) {
+      print('Command ${command.runtimeType} failed unexpectedly.');
+      return BaseCommandResult.unexpectedError();
+    }
+  }
+
+  Future<BaseCommandResult> runWithFile(CommandWithFile command) async {
+    try {
+      final result = await cqrs.runWithFile(command);
+
+      if (result is SuccessCommandResult) {
+        print('Command ${command.runtimeType} executed successfully.');
+        return BaseCommandResult.successful(result);
+      } else {
+        print('Command ${command.runtimeType} did not pass validation.');
+        return BaseCommandResult.validationError(result);
       }
     } catch (e) {
       print('Command ${command.runtimeType} failed unexpectedly.');
@@ -46,17 +61,29 @@ class BaseQueryResult<T> {
 }
 
 class BaseCommandResult {
+  static const String genericErrorText =
+      'The servers have failed unexpectedly 😔';
+
   BaseCommandResult.unexpectedError()
       : wasSuccessful = false,
         entityId = null,
-        unexpectedError = true;
+        unexpectedError = true,
+        errorText = genericErrorText;
 
-  BaseCommandResult.successful(String entityId)
+  BaseCommandResult.validationError(FailureCommandResult commandResult)
+      : wasSuccessful = false,
+        entityId = null,
+        unexpectedError = false,
+        errorText = commandResult.details ?? genericErrorText;
+
+  BaseCommandResult.successful(SuccessCommandResult commandResult)
       : wasSuccessful = true,
-        entityId = entityId,
-        unexpectedError = false;
+        entityId = commandResult.entityId,
+        unexpectedError = false,
+        errorText = null;
 
   final bool wasSuccessful;
   final String entityId;
   final bool unexpectedError;
+  final String errorText;
 }

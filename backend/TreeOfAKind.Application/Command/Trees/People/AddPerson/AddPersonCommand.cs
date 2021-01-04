@@ -5,27 +5,8 @@ using TreeOfAKind.Domain.Trees.People;
 
 namespace TreeOfAKind.Application.Command.Trees.People.AddPerson
 {
-    public enum RelationDirection
-    {
-        FromAddedPerson,
-        ToAddedPerson,
-    }
-
     public class AddPersonCommand : TreeOperationCommandBase<PersonId>
     {
-        public class Relation
-        {
-            public PersonId SecondPersonId { get; }
-            public RelationDirection RelationDirection { get; }
-            public RelationType RelationType { get; }
-
-            public Relation(PersonId secondPersonId, RelationDirection relationDirection, RelationType relationType)
-            {
-                SecondPersonId = secondPersonId;
-                RelationDirection = relationDirection;
-                RelationType = relationType;
-            }
-        }
         public string? Name { get; }
         public string? LastName { get; }
         public Gender Gender { get; }

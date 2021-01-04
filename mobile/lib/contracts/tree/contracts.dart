@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_action.dart';
@@ -83,4 +85,27 @@ class CreateTree extends Command {
   CreateTree({this.treeName});
 
   Map<String, dynamic> toJson() => _$CreateTreeToJson(this);
+}
+
+class AddOrChangeTreePhoto extends CommandWithFile {
+  AddOrChangeTreePhoto(
+      {@required String treeId, @required MultipartFile image}) {
+    data['TreeId'] = treeId;
+    data['Image'] = image;
+  }
+
+  @override
+  String get endpointRoute => "Tree/AddOrChangeTreePhoto";
+}
+
+@JsonSerializable()
+class RemoveTreePhoto extends Command {
+  String treeId;
+
+  @override
+  String get endpointRoute => "Tree/RemoveTreePhoto";
+
+  RemoveTreePhoto({this.treeId});
+
+  Map<String, dynamic> toJson() => _$RemoveTreePhotoToJson(this);
 }

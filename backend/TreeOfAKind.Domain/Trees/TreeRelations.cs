@@ -24,7 +24,7 @@ namespace TreeOfAKind.Domain.Trees
 
             CheckRule(new ThereIsNoExistingRelationBetweenRule(Relations, from, to));
             CheckRule(new ThereAreOnlyOneParentOfEachGender(Relations, from, to, relationType));
-
+            CheckRule(new ThereAreOnlyOneSpouseRule(Relations, from, to, relationType));
             _relations.Add(relation);
             if (relationType == RelationType.Spouse) _relations.Add(new Relation(to,from,relationType));
 
@@ -40,6 +40,12 @@ namespace TreeOfAKind.Domain.Trees
         public void RemoveAllPersonRelations(PersonId personId)
         {
             _relations.RemoveAll(r => r.From == personId || r.To == personId);
+        }
+
+        public void RemoveFromPersonRelations(PersonId personId)
+        {
+            _relations.RemoveAll(r => r.From == personId);
+            _relations.RemoveAll(r => r.To == personId && r.RelationType == RelationType.Spouse);
         }
     }
 }
