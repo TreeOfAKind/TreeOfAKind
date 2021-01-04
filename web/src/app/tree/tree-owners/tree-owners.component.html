@@ -13,6 +13,25 @@
   </form>
 
   <!-- TODO: owners table -->
+  <table class="list-table table table-borderless">
+    <thead>
+      <tr>
+        <th class="font-weight-lighter">Owners</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-light border border-white" *ngFor="let owner of owners">
+        <td class="list-table__table-cell font-weight-bold border-right">
+          {{ owner.lastName }}
+        </td>
+
+        <td class="list-table__table-cell font-weight-bold border-right">
+          <a class="text-dark" (click)="deleteOwner(owner)"> delete </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
   <button class="btn btn-danger my-4" (click)="leaveTree()">Leave tree</button>
 </div>
