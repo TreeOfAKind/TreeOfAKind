@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using FluentValidation;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
+using TreeOfAKind.Application.Configuration;
 
 namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFromFile
 {
@@ -14,7 +16,20 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
         {
             RuleFor(x => x.Document)
                 .NotEmpty()
-                .SetValidator(new DocumentValidator(AcceptedMimeTypes));
+                .SetValidator(new DocumentValidator(AcceptedMimeTypes))
+                .WithMessage("File invalid");
+
+            RuleFor(x => x.TreeName)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(StringLengths.Short)
+                .WithMessage($"{nameof(CreateTreeFromFileCommand.TreeName)} is longer than maximum length {StringLengths.Short}");
+
+            RuleFor(x => x.UserAuthId)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(StringLengths.AuthIdLength)
+                .WithMessage($"{nameof(CreateTreeFromFileCommand.UserAuthId)} is invalid");
         }
     }
 }

@@ -3,7 +3,7 @@ using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.DomainServices.GedcomXImport
 {
-    public interface IGedcomXToDomainTreeService
+    public interface IGedcomXToDomainTreeConverter
     {
         Tree ConvertTree(UserId userId, Gx.Gedcomx gx, string treeName);
     }

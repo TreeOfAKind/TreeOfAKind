@@ -136,7 +136,7 @@ namespace TreeOfAKind.UnitTests.Trees
         {
             var gedcomXToDomainRelationConverter = Substitute.For<IGedcomXToDomainRelationConverter>();
             var gedcomXToDomainPersonConverter = Substitute.For<IGedcomXToDomainPersonConverter>();
-            var converter = new GedcomXToDomainTreeService(gedcomXToDomainPersonConverter,gedcomXToDomainRelationConverter);
+            var converter = new GedcomXToDomainTreeConverter(gedcomXToDomainPersonConverter,gedcomXToDomainRelationConverter);
 
             _ = converter.ConvertTree(new UserId(Guid.NewGuid()), new Gx.Gedcomx(), "TreeName");
 

@@ -3,12 +3,12 @@ using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.Application.DomainServices.GedcomXImport
 {
-    public class GedcomXToDomainTreeService : IGedcomXToDomainTreeService
+    public class GedcomXToDomainTreeConverter : IGedcomXToDomainTreeConverter
     {
         private readonly IGedcomXToDomainRelationConverter _gedcomXToDomainRelationConverter;
         private readonly IGedcomXToDomainPersonConverter _gedcomXToDomainPersonConverter;
 
-        public GedcomXToDomainTreeService(IGedcomXToDomainPersonConverter gedcomXToDomainPersonConverter,
+        public GedcomXToDomainTreeConverter(IGedcomXToDomainPersonConverter gedcomXToDomainPersonConverter,
             IGedcomXToDomainRelationConverter gedcomXToDomainRelationConverter)
         {
             _gedcomXToDomainPersonConverter = gedcomXToDomainPersonConverter;
