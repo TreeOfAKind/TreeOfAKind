@@ -21,7 +21,7 @@ namespace TreeOfAKind.Application.DomainServices.GedcomXImport
 
             var gxIdToPersonId = _gedcomXToDomainPersonConverter.AddPeopleToTree(gx, tree);
 
-            _gedcomXToDomainRelationConverter.AddRelations(gx, gxIdToPersonId, tree);
+            _gedcomXToDomainRelationConverter.AddRelationsToTree(gx, gxIdToPersonId, tree);
 
             return tree;
         }

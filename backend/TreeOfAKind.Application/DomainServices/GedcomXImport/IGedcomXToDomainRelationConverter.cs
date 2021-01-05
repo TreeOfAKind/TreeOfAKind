@@ -6,6 +6,6 @@ namespace TreeOfAKind.Application.DomainServices.GedcomXImport
 {
     public interface IGedcomXToDomainRelationConverter
     {
-        void AddRelations(Gx.Gedcomx gx, Dictionary<string, PersonId> gxIdToPersonId, Tree tree);
+        void AddRelationsToTree(Gx.Gedcomx gx, IDictionary<string, PersonId> gxIdToPersonId, Tree tree);
     }
 }
