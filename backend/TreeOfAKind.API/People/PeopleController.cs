@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
@@ -13,6 +12,8 @@ using TreeOfAKind.Application.Command.Trees.People.AddRelation;
 using TreeOfAKind.Application.Command.Trees.People.RemovePerson;
 using TreeOfAKind.Application.Command.Trees.People.RemoveRelation;
 using TreeOfAKind.Application.Command.Trees.People.UpdatePerson;
+using TreeOfAKind.Application.Query.Trees;
+using TreeOfAKind.Application.Query.Trees.GetPerson;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 using Relation = TreeOfAKind.Application.Command.Trees.People.Relation;
@@ -261,6 +262,42 @@ namespace TreeOfAKind.API.People
                     new PersonId(request.SecondPersonId)));
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Gets person with Id specified in request.
+        /// </summary>
+        /// <remarks>
+        ///
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "treeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///        "personId": "72bef03b-62c2-4829-9917-bed803397de5",
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="200">Person with Id specified in request</response>
+        /// <response code="204">Person with Id specified in request doesnt exist</response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(typeof(PersonDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> GetPerson([FromBody] GetPersonRequest request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+
+            var person = await _mediator.Send(
+                new GetPersonQuery(authId, new TreeId(request.TreeId), new PersonId(request.PersonId)));
+
+            return Ok(person);
         }
     }
 }
