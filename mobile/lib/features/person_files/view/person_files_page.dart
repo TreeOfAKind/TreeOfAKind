@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
+import 'package:tree_of_a_kind/features/common/empty_widget_info.dart';
 import 'package:tree_of_a_kind/features/common/generic_error.dart';
 import 'package:tree_of_a_kind/features/person_files/bloc/person_files_bloc.dart';
 import 'package:tree_of_a_kind/features/person_files/view/person_files_view.dart';
@@ -58,7 +59,10 @@ class _PersonFilesPageState extends State<PersonFilesPage> {
               return GenericError();
             } else if (state is PresentingFiles) {
               widget.person.files = state.files;
-              return PersonFilesView(files: widget.person.files);
+              return widget.person.files.isEmpty
+                  ? const EmptyWidgetInfo(
+                      "Family member related files will be here, if you'd wish to add any ☺")
+                  : PersonFilesView(files: widget.person.files);
             } else if (state is LoadingState) {
               return PersonFilesView(
                 files: widget.person.files,
