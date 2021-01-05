@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 using NodaTime;
 using TreeOfAKind.Application.Configuration;
@@ -10,7 +8,7 @@ using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Domain.UserProfiles;
 
-namespace TreeOfAKind.Application.Query.Trees.GetTree
+namespace TreeOfAKind.Application.Query.Trees
 {
     public class FileDto
     {
@@ -40,8 +38,8 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         public Guid? Mother { get; set; }
         public Guid? Father { get; set; }
         public Guid? Spouse { get; set; }
-        public List<Guid> Children { get; set; } = new List<Guid>();
-        public List<Guid> UnknownRelations { get; set; } = new List<Guid>();
+        public List<Guid> Children { get; set; }
+        public List<Guid> UnknownRelations { get; set; }
         public FileDto MainPhoto { get; set; }
         public List<FileDto> Files { get; set; }
 
@@ -86,9 +84,9 @@ namespace TreeOfAKind.Application.Query.Trees.GetTree
         public Guid TreeId { get; set; }
         public string TreeName { get; set; }
         public Uri PhotoUri { get; set; }
-        public List<PersonDto> People { get; set; } = new List<PersonDto>();
+        public List<PersonDto> People { get; set; }
 
-        public List<UserProfileDto> Owners { get; set; } = new List<UserProfileDto>();
+        public List<UserProfileDto> Owners { get; set; }
 
         public TreeDto(Tree tree, IEnumerable<UserProfile> userProfiles)
         {

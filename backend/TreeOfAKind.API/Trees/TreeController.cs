@@ -12,6 +12,7 @@ using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
 using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.UpdateTreeName;
+using TreeOfAKind.Application.Query.Trees;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;

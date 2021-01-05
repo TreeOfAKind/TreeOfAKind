@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeOfAKind.Application.Configuration.Data;
+using TreeOfAKind.Application.Query.Trees;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Domain.SeedWork;
 using TreeOfAKind.Domain.Trees;
