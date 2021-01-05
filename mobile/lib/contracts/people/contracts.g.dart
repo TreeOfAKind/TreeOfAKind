@@ -70,6 +70,19 @@ Map<String, dynamic> _$PersonDTOToJson(PersonDTO instance) => <String, dynamic>{
       'files': instance.files,
     };
 
+GetPerson _$GetPersonFromJson(Map<String, dynamic> json) {
+  return GetPerson(
+    treeId: json['treeId'] as String,
+    personId: json['personId'] as String,
+  )..endpointRoute = json['endpointRoute'] as String;
+}
+
+Map<String, dynamic> _$GetPersonToJson(GetPerson instance) => <String, dynamic>{
+      'treeId': instance.treeId,
+      'personId': instance.personId,
+      'endpointRoute': instance.endpointRoute,
+    };
+
 AddPerson _$AddPersonFromJson(Map<String, dynamic> json) {
   return AddPerson(
     treeId: json['treeId'] as String,

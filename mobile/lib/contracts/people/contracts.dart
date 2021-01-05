@@ -62,6 +62,23 @@ class PersonDTO {
 }
 
 @JsonSerializable()
+class GetPerson extends Query<PersonDTO> {
+  String treeId;
+  String personId;
+
+  @override
+  String get endpointRoute => "People/GetPerson";
+
+  GetPerson({this.treeId, this.personId});
+
+  @override
+  PersonDTO deserializeResult(json) => PersonDTO.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$GetPersonToJson(this);
+}
+
+@JsonSerializable()
 class AddPerson extends Command {
   final String treeId;
   final String name;

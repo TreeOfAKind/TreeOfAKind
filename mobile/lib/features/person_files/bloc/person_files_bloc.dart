@@ -58,15 +58,14 @@ class PersonFilesBloc extends Bloc<PersonFilesEvent, PersonFilesState> {
   }
 
   Stream<PersonFilesState> _fetchFiles() async* {
-    // final result = await peopleRepository.fetchPerson();
+    final result =
+        await peopleRepository.getPerson(treeId: treeId, personId: person.id);
 
-    // if (result.unexpectedError) {
-    //   yield const UnknownErrorState();
-    // } else {
-    //   person = result.data;
-    //   yield PresentingFiles(_treeList);
-    // }
-
-    yield PresentingFiles(person.files);
+    if (result.unexpectedError) {
+      yield const UnknownErrorState();
+    } else {
+      person = result.data;
+      yield PresentingFiles(person.files);
+    }
   }
 }

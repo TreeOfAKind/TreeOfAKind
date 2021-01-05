@@ -10,6 +10,14 @@ import 'package:http_parser/http_parser.dart';
 class PeopleRepository extends BaseRepository {
   PeopleRepository(CqrsClient cqrs) : super(cqrs);
 
+  Future<BaseQueryResult<PersonDTO>> getPerson(
+      {@required String treeId, @required String personId}) async {
+    final result = await get(GetPerson(treeId: treeId, personId: personId));
+
+    return BaseQueryResult(result.data,
+        unexpectedError: result.unexpectedError || result.data == null);
+  }
+
   Future<BaseCommandResult> addPerson(
       {@required String treeId, @required PersonDTO person}) {
     return run(AddPerson(
