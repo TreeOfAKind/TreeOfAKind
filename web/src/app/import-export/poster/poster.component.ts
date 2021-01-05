@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonResponse } from 'src/app/people/shared/person-response.model';
+import { TreeDiagramService } from 'src/app/tree/shared/tree-diagram.service';
 import { TreeService } from 'src/app/tree/shared/tree.service';
 
 @Component({
@@ -16,13 +17,14 @@ export class PosterComponent implements OnInit {
   checkedPeople: PersonResponse[];
 
   constructor(
-    private service: TreeService,
+    private treeService: TreeService,
+    private diagramService: TreeDiagramService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.treeId = this.route.parent.snapshot.paramMap.get('id');
-    this.service.getTree(this.treeId).subscribe(tree => {
+    this.treeService.getTree(this.treeId).subscribe(tree => {
       this.people = this.checkedPeople = tree.people;
       this.checked = new Array(this.people.length);
       this.checkAll();
@@ -42,6 +44,10 @@ export class PosterComponent implements OnInit {
         this.checkedPeople.push(this.people[i]);
       }
     }
+  }
+
+  generatePoster() {
+    this.diagramService.downloadDiagram();
   }
 
 }
