@@ -8,14 +8,15 @@ using TreeOfAKind.Domain.Trees.People;
 using Xunit;
 using AutoFixture;
 using NSubstitute;
-using NSubstitute.ReceivedExtensions;
+using TreeOfAKind.Application.DomainServices.GedcomXImport;
+using TreeOfAKind.Domain.UserProfiles;
 
 
 namespace TreeOfAKind.UnitTests.Trees
 {
     public class FileImport
     {
-        private Fixture _fixture = new Fixture();
+        private readonly Fixture _fixture = new Fixture();
 
         [Theory]
         [InlineDataAttribute(Gender.Female, RelationType.Mother)]
@@ -87,7 +88,7 @@ namespace TreeOfAKind.UnitTests.Trees
         [InlineDataAttribute(GenderType.NULL, Gender.Unknown)]
         public void ConvertGender_GenderTypeProvided_ProperGender(GenderType gender, Gender expected)
         {
-            var converter = new GedcomXGenderConverter();
+            var converter = new GedcomXToDomainGenderConverter();
             var convertedGender = converter.ConvertGender(gender);
 
             Assert.Equal(expected, convertedGender);
@@ -101,7 +102,7 @@ namespace TreeOfAKind.UnitTests.Trees
             gx.AddPerson(person);
             var tree = _fixture.Create<Tree>();
 
-            var genderConverter = Substitute.For<IGedcomXGenderConverter>();
+            var genderConverter = Substitute.For<IGedcomXToDomainGenderConverter>();
             var nameExtractor = Substitute.For<IGedcomXNameExtractor>();
             nameExtractor.ExtractName(Arg.Any<Gx.Conclusion.Person>(), NamePartType.Given).Returns("Bati");
             nameExtractor.ExtractName(Arg.Any<Gx.Conclusion.Person>(), NamePartType.Surname).Returns("Chro");
@@ -123,6 +124,19 @@ namespace TreeOfAKind.UnitTests.Trees
             Assert.NotNull(personInTree);
             Assert.Equal("Bati", personInTree.Name);
             Assert.Equal("Chro", personInTree.LastName);
+        }
+
+        [Fact]
+        public void ConvertTree_ValidData_InterfacesAreCalled()
+        {
+            var gedcomXToDomainRelationConverter = Substitute.For<IGedcomXToDomainRelationConverter>();
+            var gedcomXToDomainPersonConverter = Substitute.For<IGedcomXToDomainPersonConverter>();
+            var converter = new GedcomXToDomainTreeService(gedcomXToDomainPersonConverter,gedcomXToDomainRelationConverter);
+
+            _ = converter.ConvertTree(new UserId(Guid.NewGuid()), new Gx.Gedcomx(), "TreeName");
+
+            gedcomXToDomainPersonConverter.ReceivedWithAnyArgs().AddPeopleToTree(default, default);
+            gedcomXToDomainRelationConverter.ReceivedWithAnyArgs().AddRelations(default, default, default);
         }
 
     }
