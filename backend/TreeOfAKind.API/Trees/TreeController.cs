@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -244,7 +245,7 @@ namespace TreeOfAKind.API.Trees
         ///     image/jpeg
         ///     image/png
         ///
-        /// Accepts body as from data!!!
+        /// Accepts request as from data!!!
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Uri of created file</returns>
@@ -333,17 +334,35 @@ namespace TreeOfAKind.API.Trees
             return File(stream, "text/xml", request.TreeId.ToString() + ".xml");
         }
 
-
+        /// <summary>
+        /// Creates new tree based on a Gedcom X file.
+        /// </summary>
+        /// <remarks>
+        /// Accepted content types of file are:
+        ///
+        ///     text/xml
+        ///
+        /// Accepts request as from data!!!
+        /// </remarks>
+        /// <returns>Uuid of created tree</returns>
+        /// <response code="201">Returns uuid of created tree</response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(typeof(IdDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateTreeFromFile([FromForm] CreateTreeFromFileRequest request)
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
 
-            // var stream = await _mediator.Send(new CreateTreeFromFileCommand(authId, new))
-            return null;
+            var file = request.File;
+            var document = new Document(file.OpenReadStream(), file.ContentType, file.Name);
+            var result = await _mediator.Send(new CreateTreeFromFileCommand(authId, document, request.TreeName));
+            return Created(String.Empty, new IdDto(){Id = result.Value});
         }
-    }
-
-    public class CreateTreeFromFileRequest
-    {
     }
 }
