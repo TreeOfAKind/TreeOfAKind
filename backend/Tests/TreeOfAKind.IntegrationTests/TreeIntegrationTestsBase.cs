@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
 using TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile;
@@ -14,6 +15,7 @@ namespace TreeOfAKind.IntegrationTests
 
         protected const string TreeName = "Moje super drzewko";
         protected string AuthId { get; }
+        protected readonly MailAddress Mail = new MailAddress("example@example.com");
         protected const string Name = "Bartek";
         protected const string LastName = "Chrostowski";
         protected readonly DateTime BirthDate = new DateTime(1998, 02, 27);
@@ -28,10 +30,10 @@ namespace TreeOfAKind.IntegrationTests
         protected async Task<TreeId> CreateTree()
         {
             await CommandsExecutor.Execute(
-                new CreateOrUpdateUserProfileCommand(AuthId, Name, LastName, BirthDate));
+                new CreateOrUpdateUserProfileCommand(AuthId, Mail, Name, LastName, BirthDate));
 
             return await CommandsExecutor.Execute(
-                new CreateTreeCommand(TreeName, AuthId));
+                new CreateTreeCommand(TreeName, AuthId, Mail));
         }
     }
 }

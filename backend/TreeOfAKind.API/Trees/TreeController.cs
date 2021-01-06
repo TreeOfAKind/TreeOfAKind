@@ -1,4 +1,5 @@
 ﻿using System;
+﻿using System.Net.Mail;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +15,7 @@ using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveMyselfFromT
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.UpdateTreeName;
+using TreeOfAKind.Application.Query.Trees;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
@@ -87,8 +89,9 @@ namespace TreeOfAKind.API.Trees
         public async Task<IActionResult> CreateTree([FromBody] CreateTreeRequest request)
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
+            var mail = HttpContext.GetUserEmail();
 
-            var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId));
+            var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId, new MailAddress(mail)));
 
             return Created(string.Empty, new IdDto {Id = result.Value});
         }

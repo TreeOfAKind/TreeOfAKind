@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
@@ -20,6 +21,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
         private string AuthId { get; set; } = "AuthId";
         private static string FirstName => "Firstname";
         private static string LastName => "Lastname";
+        private static MailAddress Mail => new MailAddress("example@example.com");
         private static DateTime BirthDate => new DateTime(1998, 02, 27);
 
         public UserProfileCommandHandlers()
@@ -35,7 +37,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
 
         private CreateOrUpdateUserProfileCommand CreateCommand()
         {
-            return new CreateOrUpdateUserProfileCommand(AuthId, FirstName, LastName, BirthDate);
+            return new CreateOrUpdateUserProfileCommand(AuthId, Mail, FirstName, LastName, BirthDate);
         }
 
         [Fact]
@@ -44,7 +46,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             _userProfileRepository
                 .GetByUserAuthIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult<UserProfile>(null));
-            
+
             _unitOfWork
                 .CommitAsync(Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult(1));
@@ -60,7 +62,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             await _userProfileRepository.Received().AddAsync(Arg.Any<UserProfile>());
 
         }
-        
+
         [Fact]
         public async Task CreateOrUpdateUserProfile_ProfileDoesExist_HandlerUpdates()
         {
@@ -70,6 +72,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
 
             var userProfile = UserProfile.CreateUserProfile(
                 "userId",
+                new MailAddress("example@example.com"),
                 "pre",
                 "preLastName",
                 null,
@@ -78,7 +81,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             _userProfileRepository
                 .GetByUserAuthIdAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult<UserProfile>(userProfile));
-            
+
             _unitOfWork
                 .CommitAsync(Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult(1));
@@ -90,7 +93,7 @@ namespace TreeOfAKind.UnitTests.UserProfiles
             await _unitOfWork.Received().CommitAsync(Arg.Any<CancellationToken>());
             await _userProfileRepository.Received().GetByUserAuthIdAsync(AuthId, Arg.Any<CancellationToken>());
             await _userProfileRepository.DidNotReceive().AddAsync(Arg.Any<UserProfile>());
-            
+
             Assert.Equal(FirstName, userProfile.FirstName);
             Assert.Equal(LastName, userProfile.LastName);
             Assert.Equal(BirthDate, userProfile.BirthDate);

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;
+using TreeOfAKind.Domain.Trees.People;
 
-namespace TreeOfAKind.Application.Query.Trees.GetMyTrees
+namespace TreeOfAKind.Application.Query.Trees
 {
     public interface ITreeQueryRepository
     {
