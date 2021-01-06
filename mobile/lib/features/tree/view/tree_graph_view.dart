@@ -5,6 +5,7 @@ import 'package:graphite/graphite.dart';
 import 'package:random_color/random_color.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
+import 'package:tree_of_a_kind/features/common/avatar.dart';
 import 'package:tree_of_a_kind/features/people/view/update_person_page.dart';
 import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
 
@@ -54,10 +55,10 @@ class _PersonNode extends StatelessWidget {
 
     return Column(children: [
       SizedBox(height: 8.0),
-      CircleAvatar(
-          radius: _avatarSize,
+      Avatar(
+          photo: person.mainPhoto?.uri,
           backgroundColor: color,
-          child: const Icon(Icons.person_outline, size: _avatarSize)),
+          avatarSize: _avatarSize),
       SizedBox(height: 4.0),
       Text(
         person.name,

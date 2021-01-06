@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
+import 'package:tree_of_a_kind/features/common/empty_widget_info.dart';
 import 'package:tree_of_a_kind/features/common/generic_error.dart';
 import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
@@ -80,9 +81,12 @@ class _HomePageState extends State<HomePage> {
             } else if (state is UnknownErrorState) {
               return GenericError();
             } else if (state is PresentingList) {
-              return TreeListView(
-                treeList: state.treeList,
-              );
+              return state.treeList.isEmpty
+                  ? const EmptyWidgetInfo(
+                      "All family trees will be here, if you'd wish to add any ☺")
+                  : TreeListView(
+                      treeList: state.treeList,
+                    );
             } else if (state is RefreshLoadingState) {
               return TreeListView(
                 treeList: state.treeList,

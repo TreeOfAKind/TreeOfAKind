@@ -32,7 +32,9 @@ dependencies:
   firebase_auth: ^0.18.0+1
   firebase_core: ^0.5.0
   flutter_bloc: ^6.1.0
+  flutter_downloader: ^1.5.2
   flutter_slidable: ^0.5.7
+  flutter_svg: ^0.19.1
   flutter_typeahead: ^1.9.1
   formz: ^0.2.0
   graphite: ^0.2.3
@@ -40,7 +42,9 @@ dependencies:
   json_annotation: ^3.1.0
   meta: ^1.2.3
   mime: ^0.9.7
+  path_provider: ^1.6.24
   pedantic: ^1.9.0
+  permission_handler: ^5.0.1+1
   progress_indicators: ^0.1.5
   provider: ^4.3.2+2
   random_color: ^1.0.5
@@ -55,8 +59,14 @@ dev_dependencies:
 
   bloc_test: ^7.1.0
   build_runner: ^1.10.4
+  flutter_launcher_icons: ^0.8.1
   json_serializable: ^3.5.0
   mockito: ^4.0.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/logo_without_name.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

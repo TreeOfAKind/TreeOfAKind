@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_action.dart';
 
 part 'contracts.g.dart';
@@ -57,6 +59,23 @@ class PersonDTO {
       _$PersonDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$PersonDTOToJson(this);
+}
+
+@JsonSerializable()
+class GetPerson extends Query<PersonDTO> {
+  String treeId;
+  String personId;
+
+  @override
+  String get endpointRoute => "People/GetPerson";
+
+  GetPerson({this.treeId, this.personId});
+
+  @override
+  PersonDTO deserializeResult(json) => PersonDTO.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$GetPersonToJson(this);
 }
 
 @JsonSerializable()
@@ -138,4 +157,46 @@ class RemovePerson extends Command {
   RemovePerson({this.treeId, this.personId});
 
   Map<String, dynamic> toJson() => _$RemovePersonToJson(this);
+}
+
+class AddOrChangePersonsMainPhoto extends CommandWithFile {
+  AddOrChangePersonsMainPhoto(
+      {@required String treeId,
+      @required String personId,
+      @required MultipartFile file}) {
+    data['TreeId'] = treeId;
+    data['PersonId'] = personId;
+    data['File'] = file;
+  }
+
+  @override
+  String get endpointRoute => "PersonsFiles/AddOrChangePersonsMainPhoto";
+}
+
+class AddPersonsFile extends CommandWithFile {
+  AddPersonsFile(
+      {@required String treeId,
+      @required String personId,
+      @required MultipartFile file}) {
+    data['TreeId'] = treeId;
+    data['PersonId'] = personId;
+    data['File'] = file;
+  }
+
+  @override
+  String get endpointRoute => "PersonsFiles/AddPersonsFile";
+}
+
+@JsonSerializable()
+class RemovePersonsFile extends Command {
+  String treeId;
+  String personId;
+  String fileId;
+
+  @override
+  String get endpointRoute => "PersonsFiles/RemovePersonsFile";
+
+  RemovePersonsFile({this.treeId, this.personId, this.fileId});
+
+  Map<String, dynamic> toJson() => _$RemovePersonsFileToJson(this);
 }
