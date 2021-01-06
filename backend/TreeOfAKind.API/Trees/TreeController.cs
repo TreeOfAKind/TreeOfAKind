@@ -16,7 +16,9 @@ using TreeOfAKind.Application.Query.Trees;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
+using TreeOfAKind.Application.Query.Trees.GetTreeStatistics;
 using TreeOfAKind.Domain.Trees;
+using TreeOfAKind.Domain.Trees.People;
 using TreeOfAKind.Domain.UserProfiles;
 
 namespace TreeOfAKind.API.Trees
@@ -145,7 +147,7 @@ namespace TreeOfAKind.API.Trees
         /// <response code="422">Business rule broken</response>
         [HttpPost]
         [Authorize]
-        [ProducesResponseType(typeof(TreeDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(TreeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
@@ -154,6 +156,40 @@ namespace TreeOfAKind.API.Trees
             var authId = HttpContext.GetFirebaseUserAuthId();
 
             var result = await _mediator.Send(new GetTreeQuery(authId, new TreeId(request.TreeId)));
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets statistics of a tree.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "treeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///     }
+        ///
+        /// NumberOfPeopleOfEachGender is a map from Gender
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns>Tree statistics</returns>
+        /// <response code="200">Returns tree statistics</response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(typeof(TreeStatisticsDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> GetTreeStatistics([FromBody] GetTreeRequest request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+
+            var result = await _mediator.Send(new GetTreeStatisticsQuery(authId, new TreeId(request.TreeId)));
 
             return Ok(result);
         }
