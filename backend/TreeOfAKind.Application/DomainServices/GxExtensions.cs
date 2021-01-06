@@ -67,20 +67,43 @@ namespace TreeOfAKind.Application.DomainServices
             return (Person) gedcomXPerson.SetNote(note);
         }
 
+        public static Person AddGender(this Person gedcomXPerson, Domain.Trees.People.Person person)
+        {
+            var genderType = person.Gender switch
+            {
+                Domain.Trees.People.Gender.Other => GenderType.OTHER,
+                Domain.Trees.People.Gender.Male => GenderType.Male,
+                Domain.Trees.People.Gender.Female => GenderType.Female,
+                _ => GenderType.Unknown
+            };
+
+            return gedcomXPerson.SetGender(genderType);
+        }
+
         public static Person AddFiles(this Person gedcomXPerson, Domain.Trees.People.Person person)
         {
-            SourceReference doc = new SourceReference();
             foreach (var file in person.Files)
             {
-                doc.AddQualifier(new Qualifier(file.Name, file.FileUri.ToString()));
+                var doc = new SourceReference();
+                doc.AddQualifier(new Qualifier("Name", file.Name));
+                doc.AddQualifier(new Qualifier("Uri", file.FileUri.ToString()));
+                doc.AddQualifier(new Qualifier("MimeType", file.FileUri.ToString()));
+                doc.AddQualifier(new Qualifier("MainPhoto", false.ToString()));
+                gedcomXPerson.AddSource(doc);
             }
 
             if (person.MainPhoto is { })
             {
-                doc.AddQualifier(new Qualifier(person.MainPhoto.Name, person.MainPhoto.FileUri.ToString()));
+                var file = person.MainPhoto;
+                var doc = new SourceReference();
+                doc.AddQualifier(new Qualifier("Name", file.Name));
+                doc.AddQualifier(new Qualifier("Uri", file.FileUri.ToString()));
+                doc.AddQualifier(new Qualifier("MimeType", file.FileUri.ToString()));
+                doc.AddQualifier(new Qualifier("MainPhoto", true.ToString()));
+                gedcomXPerson.AddSource(doc);
             }
 
-            return doc.Qualifiers?.Any() ?? false ? (Person) gedcomXPerson.SetSource(doc) : gedcomXPerson;
+            return gedcomXPerson;
         }
 
         public static Gx.Gedcomx AddRelation(this Gx.Gedcomx gx, Domain.Trees.Relation relation, Person from, Person to)
@@ -95,8 +118,7 @@ namespace TreeOfAKind.Application.DomainServices
                 RelationType.Father => rel.SetType(RelationshipType.ParentChild),
                 RelationType.Mother => rel.SetType(RelationshipType.ParentChild),
                 RelationType.Spouse => rel.SetType(RelationshipType.Couple),
-                _ => throw new ArgumentOutOfRangeException(nameof(relation.RelationType), relation.RelationType,
-                    "Relation unsupported")
+                _ => rel.SetType(RelationshipType.NULL),
             };
 
             return gx.SetRelationship(rel);

@@ -9,7 +9,7 @@ using NSubstitute;
 using TreeOfAKind.Application.Command;
 using TreeOfAKind.Application.Command.Trees.People.AddOrChangePersonsPhoto;
 using TreeOfAKind.Application.Command.Trees.People.AddPerson;
-using TreeOfAKind.Application.Command.Trees.People.AddPersonFile;
+using TreeOfAKind.Application.Command.Trees.People.AddPersonsFile;
 using TreeOfAKind.Application.Command.Trees.People.RemovePersonsFile;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Domain.Trees;

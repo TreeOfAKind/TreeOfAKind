@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq.Expressions;
+using System.Net.Mail;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Domain.UserProfiles;
 using TreeOfAKind.Infrastructure.Database;
@@ -28,6 +32,12 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
 
             builder.Property(u => u.BirthDate)
                 .HasColumnType("date");
+
+            builder.Property(u => u.ContactEmailAddress)
+                .HasConversion
+                (mailAddress => mailAddress == null ? null : mailAddress.Address,
+                    stringAddress => new MailAddress(stringAddress))
+                .HasMaxLength(StringLengths.EmailMaxLength);
         }
     }
 }

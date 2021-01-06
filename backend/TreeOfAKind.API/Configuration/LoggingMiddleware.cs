@@ -5,6 +5,7 @@ using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Events;
+using TreeOfAKind.API.SeedWork;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Authorization;
 using TreeOfAKind.Application.Configuration.Validation;

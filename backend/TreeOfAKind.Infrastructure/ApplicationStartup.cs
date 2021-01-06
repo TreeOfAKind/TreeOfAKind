@@ -82,6 +82,7 @@ namespace TreeOfAKind.Infrastructure
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new DomainModule());
+            container.RegisterModule(new GedcomXToDomainModule());
             container.RegisterModule(new AuthenticationModule(userAuthIdProvider));
             container.RegisterModule(new AzureBlobStorageModule(azureBlobStorageSettings, fileSaver));
 

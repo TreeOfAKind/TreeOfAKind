@@ -36,7 +36,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner
             if (addedUserProfile is null)
             {
                 addedUserProfile = UserProfile.CreateUserProfile(
-                    authId, null, null, null, _userAuthIdUniquenessChecker);
+                    authId, new MailAddress(request.AddedPersonMailAddress), null, null, null, _userAuthIdUniquenessChecker);
 
                 await _userProfileRepository.AddAsync(addedUserProfile, cancellationToken);
             }

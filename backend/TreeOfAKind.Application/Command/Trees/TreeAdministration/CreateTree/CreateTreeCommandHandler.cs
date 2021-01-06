@@ -34,7 +34,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree
             if (userProfile is null)
             {
                 userProfile = UserProfile.CreateUserProfile(
-                    request.UserAuthId, null, null, null, _userAuthIdUniquenessChecker);
+                    request.UserAuthId, request.MailAddress, null, null, null, _userAuthIdUniquenessChecker);
 
                 await _userProfileRepository.AddAsync(userProfile, cancellationToken);
             }
@@ -43,7 +43,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree
 
             await _treeRepository.AddAsync(createdTree, cancellationToken);
 
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync(cancellationToken);
             return createdTree.Id;
         }
     }
