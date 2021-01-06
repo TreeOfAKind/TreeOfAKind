@@ -16,30 +16,23 @@ namespace TreeOfAKind.API.Configuration
     public class UserProfileMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly TreesContext _treesContext;
         private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
 
         public UserProfileMiddleware(
-            RequestDelegate next, TreesContext treesContext, IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker)
+            RequestDelegate next, IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker)
         {
             this._next = next;
-            _treesContext = treesContext;
             _userAuthIdUniquenessChecker = userAuthIdUniquenessChecker;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, TreesContext treesContext)
         {
-            await GenerateOrUpdateDomainUserProfile(context);
+            await GenerateOrUpdateDomainUserProfile(context, treesContext);
 
             await _next.Invoke(context);
         }
 
-        private class UserMailPoco
-        {
-            public string UserAuthId { get; set; }
-            public string ContactEmailAddress { get; set; }
-        }
-        private async Task GenerateOrUpdateDomainUserProfile(HttpContext context)
+        private async Task GenerateOrUpdateDomainUserProfile(HttpContext context, TreesContext treesContext)
         {
             var mail = context.GetUserEmail();
             var userAuthId = context.GetFirebaseUserAuthId();
@@ -48,21 +41,21 @@ namespace TreeOfAKind.API.Configuration
             {
 
                 var user =
-                    await _treesContext.Users.FirstOrDefaultAsync(u => u.UserAuthId == userAuthId);
+                    await treesContext.Users.FirstOrDefaultAsync(u => u.UserAuthId == userAuthId);
 
                 if (user is null)
                 {
                     user = UserProfile.CreateUserProfile(userAuthId, new MailAddress(mail), null, null, null,
                         _userAuthIdUniquenessChecker);
 
-                    await _treesContext.Users.AddAsync(user);
+                    await treesContext.Users.AddAsync(user);
                 }
                 else if (!Equals(user.ContactEmailAddress?.Address, mail))
                 {
                     user.UpdateContactEmailAddress(new MailAddress(mail));
                 }
 
-                await _treesContext.SaveChangesAsync();
+                await treesContext.SaveChangesAsync();
             }
         }
     }
