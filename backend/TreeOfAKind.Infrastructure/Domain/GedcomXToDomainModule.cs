@@ -31,6 +31,10 @@ namespace TreeOfAKind.Infrastructure.Domain
                 .As<IGedcomXToDomainRelationTypeConverter>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<GedcomXToDomainPersonConverter>()
+                .As<IGedcomXToDomainPersonConverter>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<GedcomXToDomainTreeConverter>()
                 .As<IGedcomXToDomainTreeConverter>()
                 .InstancePerLifetimeScope();
