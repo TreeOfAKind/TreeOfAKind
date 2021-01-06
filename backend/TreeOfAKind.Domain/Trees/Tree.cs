@@ -56,14 +56,14 @@ namespace TreeOfAKind.Domain.Trees
             return new Tree(name, creator);
         }
 
-        public void AddTreeOwner(UserId userId)
+        public void AddTreeOwner(UserProfile invited, UserProfile invitor)
         {
-            var treeUserProfile = new TreeUserProfile(userId, Id);
+            var treeUserProfile = new TreeUserProfile(invited.Id, Id);
 
             if (_treeOwners.Contains(treeUserProfile)) return;
 
             _treeOwners.Add(treeUserProfile);
-            AddDomainEvent(new TreeOwnerAddedEvent(Id, userId));
+            AddDomainEvent(new TreeOwnerAddedEvent(Id, invited, invitor));
         }
 
         public void RemoveTreeOwner(UserId userId)

@@ -6,11 +6,13 @@ namespace TreeOfAKind.Domain.Trees.Events
     public class TreeOwnerAddedEvent : DomainEventBase
     {
         public TreeId Tree { get; }
-        public UserId UserProfile { get; }
-        public TreeOwnerAddedEvent(TreeId tree, UserId userProfile)
+        public UserProfile Invited { get; }
+        public UserProfile Invitor { get; }
+        public TreeOwnerAddedEvent(TreeId tree, UserProfile invited, UserProfile invitor)
         {
             Tree = tree;
-            UserProfile = userProfile;
+            Invited = invited;
+            Invitor = invitor;
         }
     }
 }

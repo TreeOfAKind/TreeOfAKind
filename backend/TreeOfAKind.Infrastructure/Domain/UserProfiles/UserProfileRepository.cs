@@ -16,9 +16,9 @@ namespace TreeOfAKind.Infrastructure.Domain.UserProfiles
             _dbContext = dbContext;
         }
 
-        public async Task<UserProfile?> GetByIdAsync(UserId id)
+        public async Task<UserProfile?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default!)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
+            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
         }
 
         public UserProfile? GetByUserAuthId(string userAuthId)

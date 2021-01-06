@@ -41,7 +41,11 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner
                 await _userProfileRepository.AddAsync(addedUserProfile, cancellationToken);
             }
 
-            tree!.AddTreeOwner(addedUserProfile.Id);
+            addedUserProfile.UpdateContactEmailAddress(new MailAddress(request.AddedPersonMailAddress));
+
+            var invitor = await _userProfileRepository.GetByUserAuthIdAsync(request.RequesterUserAuthId, cancellationToken);
+
+            tree!.AddTreeOwner(addedUserProfile, invitor!);
 
             return Unit.Value;
         }

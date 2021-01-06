@@ -24,6 +24,9 @@
     <EmbeddedResource Remove="TreeOfAKind.Domain\**" />
     <None Remove="logs\**" />
     <None Remove="TreeOfAKind.Domain\**" />
+    <None Update="email-template.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

@@ -58,5 +58,10 @@ namespace TreeOfAKind.Domain.UserProfiles
             BirthDate = birthDate;
             ContactEmailAddress = mailAddress;
         }
+
+        public void UpdateContactEmailAddress(MailAddress mailAddress)
+        {
+            ContactEmailAddress = mailAddress;
+        }
     }
 }
