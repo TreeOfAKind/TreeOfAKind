@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Mail;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -86,8 +87,9 @@ namespace TreeOfAKind.API.Trees
         public async Task<IActionResult> CreateTree([FromBody] CreateTreeRequest request)
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
+            var mail = HttpContext.GetUserEmail();
 
-            var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId));
+            var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId, new MailAddress(mail)));
 
             return Created(string.Empty, new IdDto {Id = result.Value});
         }
