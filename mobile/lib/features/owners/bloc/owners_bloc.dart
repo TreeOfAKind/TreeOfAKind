@@ -63,6 +63,7 @@ class OwnersBloc extends Bloc<OwnersEvent, OwnersState> {
       yield const UnknownErrorState();
     } else if (!result.wasSuccessful) {
       yield ValidationErrorState(result.errorText);
+      yield PresentingOwners(_otherOwners());
     } else {
       yield* _fetchOwners();
     }
