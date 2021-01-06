@@ -45,4 +45,18 @@ class TreeRepository extends BaseRepository {
   Future<BaseCommandResult> deleteTree({@required String treeId}) {
     return run(RemoveTreeOwner()..treeId = treeId);
   }
+
+  Future<BaseCommandResult> addTreeOwner(
+      {@required String treeId, @required String userEmail}) {
+    return run(AddTreeOwner()
+      ..treeId = treeId
+      ..invitedUserEmail = userEmail);
+  }
+
+  Future<BaseCommandResult> removeTreeOwner(
+      {@required String treeId, @required String userId}) {
+    return run(RemoveTreeOwner()
+      ..treeId = treeId
+      ..removedUserId = userId);
+  }
 }

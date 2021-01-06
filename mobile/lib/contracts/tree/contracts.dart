@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tree_of_a_kind/contracts/people/contracts.dart';
+import 'package:tree_of_a_kind/contracts/user_profile/contracts.dart';
 import 'package:tree_of_a_kind/features/cqrs/cqrs_action.dart';
 
 part 'contracts.g.dart';
@@ -38,8 +39,10 @@ class TreeDTO {
   final String photoUri;
   final String treeName;
   final List<PersonDTO> people;
+  final List<UserProfileDTO> owners;
 
-  TreeDTO({this.treeId, this.photoUri, this.treeName, this.people});
+  TreeDTO(
+      {this.treeId, this.photoUri, this.treeName, this.people, this.owners});
 
   factory TreeDTO.fromJson(Map<String, dynamic> json) =>
       _$TreeDTOFromJson(json);
