@@ -5,7 +5,7 @@ using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.UserProfiles;
 
-namespace TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners
+namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveMyselfFromTreeOwners
 {
     public class RemoveMyselfFromTreeOwnersCommandHandler : ICommandHandler<RemoveMyselfFromTreeOwnersCommand, Unit>
     {
