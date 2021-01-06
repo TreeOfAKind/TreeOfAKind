@@ -245,7 +245,7 @@ namespace TreeOfAKind.API.Trees
         ///     image/jpeg
         ///     image/png
         ///
-        /// Accepts request as from data!!!
+        /// Accepts request as form data!!!
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Uri of created file</returns>
@@ -342,7 +342,7 @@ namespace TreeOfAKind.API.Trees
         ///
         ///     text/xml
         ///
-        /// Accepts request as from data!!!
+        /// Accepts request as form data!!!
         /// </remarks>
         /// <returns>Uuid of created tree</returns>
         /// <response code="201">Returns uuid of created tree</response>

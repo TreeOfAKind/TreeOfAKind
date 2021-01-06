@@ -33,7 +33,7 @@ namespace TreeOfAKind.API.PersonsFiles
         ///     image/png
         ///     application/pdf
         ///
-        /// Accepts request as from data!!!
+        /// Accepts request as form data!!!
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Uri and Id of created file</returns>
@@ -68,7 +68,7 @@ namespace TreeOfAKind.API.PersonsFiles
         ///     image/jpeg
         ///     image/png
         ///
-        /// Accepts request as from data!!!
+        /// Accepts request as form data!!!
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Uri and Id of created main photo</returns>
