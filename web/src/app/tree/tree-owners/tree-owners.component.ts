@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/authentication/shared/auth.service';
 import { Owner } from '../shared/owner.model';
 import { TreeService } from '../shared/tree.service';
 
@@ -11,12 +12,15 @@ export class TreeOwnersComponent implements OnInit {
   @Input() treeId: string;
   email: string;
   owners: Owner[];
+  userEmail: string;
 
   constructor(
-    private service: TreeService
+    private service: TreeService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.userEmail = this.authService.getUser().email;
     this.loadModel();
   }
 
@@ -44,7 +48,7 @@ export class TreeOwnersComponent implements OnInit {
 
   private loadModel() {
     this.service.getTree(this.treeId).subscribe(tree => {
-      this.owners = tree.owners;
+      this.owners = tree.owners.filter(o => o.mailAddress !== this.userEmail);
     });
   }
 }

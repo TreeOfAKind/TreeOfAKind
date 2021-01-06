@@ -12,8 +12,7 @@
     <button class="btn btn-primary" type="submit">Add owner</button>
   </form>
 
-  <!-- TODO: owners table -->
-  <table class="list-table table table-borderless">
+  <table class="list-table table table-borderless" *ngIf="owners?.length > 0">
     <thead>
       <tr>
         <th class="font-weight-lighter">Owners</th>
@@ -23,7 +22,7 @@
     <tbody>
       <tr class="bg-light border border-white" *ngFor="let owner of owners">
         <td class="list-table__table-cell font-weight-bold border-right">
-          {{ owner.lastName }}
+          {{ owner.mailAddress }}
         </td>
 
         <td class="list-table__table-cell font-weight-bold border-right">
