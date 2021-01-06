@@ -38,7 +38,7 @@ namespace TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFro
             if (userProfile is null)
             {
                 userProfile = UserProfile.CreateUserProfile(
-                    request.UserAuthId, null, null, null, _userAuthIdUniquenessChecker);
+                    request.UserAuthId, request.MailAddress, null, null, null, _userAuthIdUniquenessChecker);
 
                 await _userProfileRepository.AddAsync(userProfile, cancellationToken);
             }

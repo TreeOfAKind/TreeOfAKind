@@ -361,10 +361,11 @@ namespace TreeOfAKind.API.Trees
         public async Task<IActionResult> CreateTreeFromFile([FromForm] CreateTreeFromFileRequest request)
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
+            var mail = HttpContext.GetUserEmail();
 
             var file = request.File;
             var document = new Document(file.OpenReadStream(), file.ContentType, file.Name);
-            var result = await _mediator.Send(new CreateTreeFromFileCommand(authId, document, request.TreeName));
+            var result = await _mediator.Send(new CreateTreeFromFileCommand(authId, new MailAddress(mail), document, request.TreeName));
             return Created(String.Empty, new IdDto(){Id = result.Value});
         }
     }

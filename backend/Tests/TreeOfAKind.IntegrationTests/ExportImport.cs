@@ -6,6 +6,7 @@ using TreeOfAKind.Application.Command;
 using TreeOfAKind.Application.Command.Trees.People;
 using TreeOfAKind.Application.Command.Trees.People.AddPerson;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFromFile;
+using TreeOfAKind.Application.Query.Trees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
 using TreeOfAKind.Domain.Trees;
@@ -69,7 +70,7 @@ namespace TreeOfAKind.IntegrationTests
 
             const string createdTreeName = "Drzewko 🍑";
             var document = new Document(export, "text/xml", "Drzewko");
-            var importTreeId = await CommandsExecutor.Execute(new CreateTreeFromFileCommand(AuthId, document,createdTreeName));
+            var importTreeId = await CommandsExecutor.Execute(new CreateTreeFromFileCommand(AuthId, Mail, document,createdTreeName));
 
             var importedTree = await QueriesExecutor.Execute(new GetTreeQuery(AuthId, importTreeId));
 
