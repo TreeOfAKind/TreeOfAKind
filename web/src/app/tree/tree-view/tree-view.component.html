@@ -1,9 +1,53 @@
 <div class="container-fluid mb-4">
   <div class="row">
     <div class="col-lg-4">
-      <app-tree-photo [treeId]="treeId"></app-tree-photo>
-      <app-people-list [treeId]="treeId"></app-people-list>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <button class="btn btn-link" (click)="expand(0)">
+              Tree photo
+            </button>
+          </h5>
+        </div>
+
+        <div class="collapse" [ngClass]="expanded[0]">
+          <div class="card-body">
+            <app-tree-photo [treeId]="treeId"></app-tree-photo>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" (click)="expand(1)">
+              People
+            </button>
+          </h5>
+        </div>
+        <div class="collapse" [ngClass]="expanded[1]">
+          <div class="card-body">
+            <app-people-list [treeId]="treeId"></app-people-list>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" (click)="expand(2)">
+              Tree management
+            </button>
+          </h5>
+        </div>
+        <div class="collapse" [ngClass]="expanded[2]">
+          <div class="card-body">
+            <app-tree-owners [treeId]="treeId"></app-tree-owners>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="col-lg-8">
       <app-tree-draw [treeId]="treeId"></app-tree-draw>
     </div>

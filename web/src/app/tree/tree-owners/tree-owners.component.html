@@ -1,0 +1,39 @@
+<div class="container">
+  <form #addOwnerForm (ngSubmit)="addOwner()">
+    <p class="text-center">Add tree owner</p>
+
+    <div class="form-group">
+      <label for="email">
+        Tree owner email
+      </label>
+      <input id="email" name="email" class="form-control" type="text" [(ngModel)]="email">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Add owner</button>
+  </form>
+
+  <table class="list-table table table-borderless" *ngIf="owners?.length > 0">
+    <thead>
+      <tr>
+        <th class="font-weight-lighter">Owners</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-light border border-white" *ngFor="let owner of owners">
+        <td class="list-table__table-cell font-weight-bold border-right">
+          {{ owner.mailAddress }}
+        </td>
+
+        <td class="list-table__table-cell font-weight-bold border-right">
+          <a class="text-dark" (click)="deleteOwner(owner)"> delete </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn btn-danger my-4" (click)="leaveTree()">Leave tree</button>
+</div>
+
+
+
