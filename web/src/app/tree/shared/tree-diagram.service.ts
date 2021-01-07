@@ -153,48 +153,9 @@ function init() {
         { name: "ICON" },
         $(go.Picture, {width: 80, height: 100},
           new go.Binding("source", "photo")),
-        $(go.Panel,
-          { // for each attribute show a Shape at a particular place in the overall square
-            itemTemplate:
-              $(go.Panel,
-                $(go.Shape,
-                  { stroke: null, strokeWidth: 0 },
-                  new go.Binding("fill", "", attrFill),
-                  new go.Binding("geometry", "", maleGeometry))
-              ),
-            margin: 1
-          },
-          new go.Binding("itemArray", "a")
-        )
       ),
       $(go.TextBlock,
         { textAlign: "center", maxSize: new go.Size(80, NaN), margin: 5 },
-        new go.Binding("text", "n"))
-    ));
-
-  myDiagram.nodeTemplateMap.add("F",  // female
-    $(go.Node, "Vertical",
-      { locationSpot: go.Spot.Center, locationObjectName: "ICON", selectionObjectName: "ICON" },
-      $(go.Panel,
-        { name: "ICON" },
-        $(go.Shape, "Circle",
-          { width: 40, height: 40, strokeWidth: 2, fill: "white", stroke: "#a1a1a1", portId: "" }),
-        $(go.Panel,
-          { // for each attribute show a Shape at a particular place in the overall circle
-            itemTemplate:
-              $(go.Panel,
-                $(go.Shape,
-                  { stroke: null, strokeWidth: 0 },
-                  new go.Binding("fill", "", attrFill),
-                  new go.Binding("geometry", "", femaleGeometry))
-              ),
-            margin: 1
-          },
-          new go.Binding("itemArray", "a")
-        )
-      ),
-      $(go.TextBlock,
-        { textAlign: "center", maxSize: new go.Size(80, NaN) },
         new go.Binding("text", "n"))
     ));
 
