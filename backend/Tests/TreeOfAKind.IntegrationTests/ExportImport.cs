@@ -33,7 +33,7 @@ namespace TreeOfAKind.IntegrationTests
                     treeId,
                     "Elżbieta",
                     "II",
-                    Gender.Female,
+                    Gender.Unknown,
                     new DateTime(1926, 4, 21),
                     null,
                     "Queen",
@@ -53,7 +53,7 @@ namespace TreeOfAKind.IntegrationTests
                     "Some biography of Filip",
                     new List<Relation>
                     {
-                        new Relation(queenId, RelationDirection.FromAddedPerson, RelationType.Spouse)
+                        new Relation(queenId, RelationDirection.FromAddedPerson, RelationType.Mother)
                     }));
 
             return await QueriesExecutor.Execute(
@@ -78,15 +78,14 @@ namespace TreeOfAKind.IntegrationTests
             Assert.Equal(createdTreeName, importedTree.TreeName);
 
             var princeExpected = tree.People.First(p => p.Gender == Gender.Male);
-            var queenExpected = tree.People.First(p => p.Gender == Gender.Female);
+            var queenExpected = tree.People.First(p => p.Gender != Gender.Male);
             var prince = tree.People.First(p => p.Gender == Gender.Male);
-            var queen = tree.People.First(p => p.Gender == Gender.Female);
+            var queen = tree.People.First(p => p.Gender != Gender.Male);
 
             AssertPersonFieldsEqual(princeExpected, prince);
             AssertPersonFieldsEqual(queenExpected, queen);
 
-            Assert.Equal(queen.Id, prince.Spouse);
-            Assert.Equal(prince.Id, queen.Spouse);
+            Assert.Equal(queen.Id, prince.Mother);
         }
 
         private static void AssertPersonFieldsEqual(PersonDto expected, PersonDto actual)
