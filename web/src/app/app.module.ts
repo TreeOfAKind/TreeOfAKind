@@ -27,6 +27,7 @@ import { PersonFilesFormComponent } from './people/person-files-form/person-file
 import { TreeDrawComponent } from './tree/tree-draw/tree-draw.component';
 import { LicensesComponent } from './licenses/licenses.component';
 import { PosterComponent } from './import-export/poster/poster.component';
+import { ImportComponent } from './import-export/import/import.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { PosterComponent } from './import-export/poster/poster.component';
     PersonFilesFormComponent,
     TreeDrawComponent,
     LicensesComponent,
-    PosterComponent
+    PosterComponent,
+    ImportComponent
   ],
   imports: [
     BrowserModule,
