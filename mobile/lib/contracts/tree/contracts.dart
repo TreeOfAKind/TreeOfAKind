@@ -35,11 +35,11 @@ class TreesListDTO {
 
 @JsonSerializable()
 class TreeDTO {
-  final String treeId;
-  final String photoUri;
-  final String treeName;
-  final List<PersonDTO> people;
-  final List<UserProfileDTO> owners;
+  String treeId;
+  String photoUri;
+  String treeName;
+  List<PersonDTO> people;
+  List<UserProfileDTO> owners;
 
   TreeDTO(
       {this.treeId, this.photoUri, this.treeName, this.people, this.owners});

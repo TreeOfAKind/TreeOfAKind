@@ -29,6 +29,9 @@ class _AddOwnerDialogState extends State<AddOwnerDialog> {
             controller: emailController,
             validator: (text) =>
                 Email.validate(text) ? null : 'Please provide a valid email',
+            decoration: const InputDecoration(
+              labelText: 'Email',
+            ),
           )),
       actions: <Widget>[
         TextButton(

@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:graphite/graphite.dart';
-import 'package:tree_of_a_kind/contracts/people/contracts.dart';
-import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/contracts/user_profile/contracts.dart';
@@ -49,6 +46,7 @@ class OwnersBloc extends Bloc<OwnersEvent, OwnersState> {
     if (result.unexpectedError) {
       yield const UnknownErrorState();
     } else {
+      myUserProfile = result.data;
       yield PresentingOwners(_otherOwners());
     }
   }

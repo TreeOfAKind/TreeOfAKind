@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
+import 'package:tree_of_a_kind/contracts/user_profile/contracts.dart';
 import 'package:tree_of_a_kind/features/common/empty_widget_info.dart';
 import 'package:tree_of_a_kind/features/common/generic_error.dart';
 import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
@@ -40,10 +41,14 @@ class _TreePageState extends State<TreePage> {
 
   static const List<String> _menuItems = <String>[_owners, _deleteTree];
 
-  void _menuAction(String item, BuildContext context) {
+  Future<void> _menuAction(String item, BuildContext context) async {
     if (item == _owners) {
       if (tree != null) {
-        Navigator.of(context).push<void>(OwnersPage.route(tree));
+        final result = await Navigator.of(context).push(OwnersPage.route(tree));
+
+        if (result is List<UserProfileDTO>) {
+          tree.owners = result;
+        }
       }
     } else if (item == _deleteTree) {
       Navigator.of(context).pop(treeListBloc.DeleteTree(widget.treeItem.id));

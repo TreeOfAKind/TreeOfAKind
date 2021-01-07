@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:tree_of_a_kind/contracts/user_profile/contracts.dart';
 import 'package:tree_of_a_kind/features/owners/bloc/owners_bloc.dart';
+import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
 
 class OwnersView extends StatelessWidget {
   OwnersView(
@@ -59,8 +60,8 @@ class _OwnerItem extends StatelessWidget {
                 TextButton(
                   child: Text('Yes'),
                   onPressed: () {
-                    Navigator.of(context).pop();
                     bloc.add(RemoveOwner(ownerItem.id));
+                    Navigator.of(context).pop();
                   },
                 ),
               ],
@@ -82,7 +83,6 @@ class _OwnerItem extends StatelessWidget {
               ),
               title:
                   Text(_getName(ownerItem), style: theme.textTheme.headline6),
-              trailing: Icon(Icons.keyboard_arrow_right),
             )),
         secondaryActions: [
           IconSlideAction(

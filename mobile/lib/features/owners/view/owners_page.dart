@@ -54,7 +54,12 @@ class _OwnersPageState extends State<OwnersPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-        appBar: AppBar(title: Text('${widget.tree.treeName} owners')),
+        appBar: AppBar(
+            title: Text('${widget.tree.treeName} owners'),
+            leading: IconButton(
+              icon: Icon(Icons.keyboard_arrow_left),
+              onPressed: () => Navigator.of(context).pop(owners),
+            )),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.person_add), onPressed: () => _addOwner(context)),
         body: BlocBuilder<OwnersBloc, OwnersState>(
