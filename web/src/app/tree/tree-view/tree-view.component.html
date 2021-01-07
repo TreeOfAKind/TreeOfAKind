@@ -46,6 +46,21 @@
           </div>
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" (click)="expand(3)">
+              Poster, import, export
+            </button>
+          </h5>
+        </div>
+        <div class="collapse" [ngClass]="expanded[3]">
+          <div class="card-body">
+            <a class="btn btn-primary mx-2" routerLink="poster"> Poster </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="col-lg-8">
