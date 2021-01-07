@@ -4,83 +4,59 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using TreeOfAKind.API.SeedWork;
 using TreeOfAKind.Application.Configuration.Data;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Domain.UserProfiles.Rules;
+using TreeOfAKind.Infrastructure.Database;
 
 namespace TreeOfAKind.API.Configuration
 {
     public class UserProfileMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
-
-        private const string QueryUserProfile =
-            "SELECT TOP 1 up.ContactEmailAddress FROM [trees].[UserProfiles] up WHERE up.[UserAuthId] = @UserAuthId";
-
-        private const string InsertUserProfile =
-            "INSERT INTO [trees].[UserProfiles] (Id, UserAuthId, ContactEmailAddress) VALUES (@Id, @UserAuthId, @ContactEmailAddress)";
-
-        private const string UpdateUserProfile =
-            "UPDATE [trees].[UserProfiles] SET ContactEmailAddress=@ContactEmailAddress WHERE UserAuthId=@UserAuthId";
+        private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
 
         public UserProfileMiddleware(
-            RequestDelegate next, ISqlConnectionFactory sqlConnectionFactory)
+            RequestDelegate next, IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker)
         {
             this._next = next;
-            _sqlConnectionFactory = sqlConnectionFactory;
+            _userAuthIdUniquenessChecker = userAuthIdUniquenessChecker;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, TreesContext treesContext)
         {
-            await GenerateOrUpdateDomainUserProfile(context);
+            await GenerateOrUpdateDomainUserProfile(context, treesContext);
 
             await _next.Invoke(context);
         }
 
-        private class UserMailPoco
-        {
-            public string UserAuthId { get; set; }
-            public string ContactEmailAddress { get; set; }
-        }
-        private async Task GenerateOrUpdateDomainUserProfile(HttpContext context)
+        private async Task GenerateOrUpdateDomainUserProfile(HttpContext context, TreesContext treesContext)
         {
             var mail = context.GetUserEmail();
             var userAuthId = context.GetFirebaseUserAuthId();
 
             if (!string.IsNullOrEmpty(userAuthId))
             {
-                var connection = _sqlConnectionFactory.GetOpenConnection();
 
-                using var transaction = connection.BeginTransaction();
                 var user =
-                    await connection.QueryFirstOrDefaultAsync<UserMailPoco>(QueryUserProfile, new {userAuthId}, transaction);
+                    await treesContext.Users.FirstOrDefaultAsync(u => u.UserAuthId == userAuthId);
 
                 if (user is null)
                 {
-                    await CreateUserProfile(connection, userAuthId, mail, transaction);
+                    user = UserProfile.CreateUserProfile(userAuthId, new MailAddress(mail), null, null, null,
+                        _userAuthIdUniquenessChecker);
+
+                    await treesContext.Users.AddAsync(user);
                 }
-                else if (!Equals(user.ContactEmailAddress, mail))
+                else if (!Equals(user.ContactEmailAddress?.Address, mail))
                 {
-                    await UpdateContactEmail(connection, mail, userAuthId, transaction);
+                    user.UpdateContactEmailAddress(new MailAddress(mail));
                 }
 
-                transaction.Commit();
+                await treesContext.SaveChangesAsync();
             }
-        }
-
-        private static async Task UpdateContactEmail(IDbConnection connection, string mail, string userAuthId,
-            IDbTransaction transaction)
-        {
-            await connection.ExecuteAsync(UpdateUserProfile,
-                new {ContactEmailAddress = mail, UserAuthId = userAuthId}, transaction);
-        }
-
-        private static async Task CreateUserProfile(IDbConnection connection, string userAuthId, string mail,
-            IDbTransaction transaction)
-        {
-            await connection.ExecuteAsync(InsertUserProfile,
-                new {Id = Guid.NewGuid(), UserAuthId = userAuthId, ContactEmailAddress = mail}, transaction);
         }
     }
 }
