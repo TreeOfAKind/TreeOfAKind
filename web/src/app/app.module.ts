@@ -21,6 +21,7 @@ import { PersonFormComponent } from './people/person-form/person-form.component'
 import { PersonPipe } from './people/shared/person.pipe';
 import { TreePhotoComponent } from './tree/tree-photo/tree-photo.component';
 import { PeopleListComponent } from './people/people-list/people-list.component';
+import { TreeOwnersComponent } from './tree/tree-owners/tree-owners.component';
 import { HttpErrorInterceptor } from './helpers/error-interceptor';
 import { PersonFilesFormComponent } from './people/person-files-form/person-files-form.component';
 import { TreeDrawComponent } from './tree/tree-draw/tree-draw.component';
@@ -43,6 +44,7 @@ import { PosterComponent } from './import-export/poster/poster.component';
     PersonPipe,
     TreePhotoComponent,
     PeopleListComponent,
+    TreeOwnersComponent,
     PersonFilesFormComponent,
     TreeDrawComponent,
     LicensesComponent,

@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:tree_of_a_kind/app/config.dart';
 import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
@@ -54,6 +55,7 @@ class AppDependenciesFactory extends DependenciesFactory {
   Future<void> initializeAsync(Config config) async {
     await Firebase.initializeApp();
     EquatableConfig.stringify = kDebugMode;
+    await FlutterDownloader.initialize(debug: kDebugMode);
     Bloc.observer = SimpleBlocObserver();
   }
 }

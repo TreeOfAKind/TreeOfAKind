@@ -17,7 +17,7 @@ namespace TreeOfAKind.Infrastructure.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("TreeOfAKind.Domain.Trees.Tree", b =>
                 {
@@ -45,6 +45,10 @@ namespace TreeOfAKind.Infrastructure.Migrations
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("date");
+
+                    b.Property<string>("ContactEmailAddress")
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(255)

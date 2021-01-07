@@ -13,7 +13,7 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
         private readonly IUserAuthIdUniquenessChecker _userAuthIdUniquenessChecker;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateOrUpdateUserProfileCommandHandler(IUserProfileRepository userProfileRepository, 
+        public CreateOrUpdateUserProfileCommandHandler(IUserProfileRepository userProfileRepository,
             IUserAuthIdUniquenessChecker userAuthIdUniquenessChecker,
             IUnitOfWork unitOfWork)
         {
@@ -32,9 +32,9 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
             }
             else
             {
-                userProfile.UpdateUserProfile(request.FirstName, request.LastName, request.BirthDate);
+                userProfile.UpdateUserProfile(request.MailAddress, request.FirstName, request.LastName, request.BirthDate);
             }
-            
+
             await _unitOfWork.CommitAsync(cancellationToken);
             return userProfile.Id;
         }
@@ -43,6 +43,7 @@ namespace TreeOfAKind.Application.Command.UserProfiles.CreateOrUpdateUserProfile
         {
             var newUserProfile = UserProfile.CreateUserProfile(
                 request.UserAuthId,
+                request.MailAddress,
                 request.FirstName,
                 request.LastName,
                 request.BirthDate,

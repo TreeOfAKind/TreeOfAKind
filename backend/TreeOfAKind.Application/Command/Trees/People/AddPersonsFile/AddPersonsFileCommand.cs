@@ -1,7 +1,7 @@
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 
-namespace TreeOfAKind.Application.Command.Trees.People.AddPersonFile
+namespace TreeOfAKind.Application.Command.Trees.People.AddPersonsFile
 {
     public class AddPersonsFileCommand : TreeOperationCommandBase<File>
     {

@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/login/login.dart';
 import 'package:tree_of_a_kind/features/sign_up/sign_up.dart';
 import 'package:formz/formz.dart';
+import 'package:tree_of_a_kind/resources/images.dart';
 
 class LoginForm extends StatelessWidget {
   @override
@@ -24,10 +26,10 @@ class LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Image.asset(
-              //   'assets/some kind of logo image',
-              //   height: 120,
-              // ),
+              SvgPicture.asset(
+                Images.logoWithoutName,
+                height: 120,
+              ),
               const SizedBox(height: 16.0),
               _EmailInput(),
               const SizedBox(height: 8.0),

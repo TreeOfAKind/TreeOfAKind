@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+﻿using System.Net.Mail;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,10 +10,12 @@ using TreeOfAKind.Application.Command;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePhoto;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFromFile;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
-using TreeOfAKind.Application.Command.Trees.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.UpdateTreeName;
+using TreeOfAKind.Application.Query.Trees;
 using TreeOfAKind.Application.Query.Trees.GetMyTrees;
 using TreeOfAKind.Application.Query.Trees.GetTree;
 using TreeOfAKind.Application.Query.Trees.GetTreeFileExport;
@@ -85,8 +89,9 @@ namespace TreeOfAKind.API.Trees
         public async Task<IActionResult> CreateTree([FromBody] CreateTreeRequest request)
         {
             var authId = HttpContext.GetFirebaseUserAuthId();
+            var mail = HttpContext.GetUserEmail();
 
-            var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId));
+            var result = await _mediator.Send(new CreateTreeCommand(request.TreeName, authId, new MailAddress(mail)));
 
             return Created(string.Empty, new IdDto {Id = result.Value});
         }
@@ -243,7 +248,7 @@ namespace TreeOfAKind.API.Trees
         ///     image/jpeg
         ///     image/png
         ///
-        /// Accepts body as from data!!!
+        /// Accepts request as form data!!!
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Uri of created file</returns>
@@ -330,6 +335,38 @@ namespace TreeOfAKind.API.Trees
             var stream = await _mediator.Send(new GetTreeFileExportQuery(authId, new TreeId(request.TreeId)));
 
             return File(stream, "text/xml", request.TreeId.ToString() + ".xml");
+        }
+
+        /// <summary>
+        /// Creates new tree based on a Gedcom X file.
+        /// </summary>
+        /// <remarks>
+        /// Accepted content types of file are:
+        ///
+        ///     text/xml
+        ///
+        /// Accepts request as form data!!!
+        /// </remarks>
+        /// <returns>Uuid of created tree</returns>
+        /// <response code="201">Returns uuid of created tree</response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(typeof(IdDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> CreateTreeFromFile([FromForm] CreateTreeFromFileRequest request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+            var mail = HttpContext.GetUserEmail();
+
+            var file = request.File;
+            var document = new Document(file.OpenReadStream(), file.ContentType, file.Name);
+            var result = await _mediator.Send(new CreateTreeFromFileCommand(authId, new MailAddress(mail), document, request.TreeName));
+            return Created(String.Empty, new IdDto(){Id = result.Value});
         }
     }
 }

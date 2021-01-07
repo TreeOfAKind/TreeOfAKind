@@ -134,9 +134,6 @@ namespace TreeOfAKind.API
                     .SetPreflightMaxAge(TimeSpan.FromMinutes(60));
             });
 
-            app.UseMiddleware<CorrelationMiddleware>();
-            app.UseMiddleware<LoggingMiddleware>();
-
             app.UseAuthentication();
 
             if (env.IsDevelopment())
@@ -151,6 +148,10 @@ namespace TreeOfAKind.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<CorrelationMiddleware>();
+            app.UseMiddleware<LoggingMiddleware>();
+            app.UseMiddleware<UserProfileMiddleware>();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

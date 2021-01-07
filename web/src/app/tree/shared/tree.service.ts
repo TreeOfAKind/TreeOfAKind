@@ -31,4 +31,20 @@ export class TreeService {
   changePhoto(request: FormData) {
     return this.httpClient.post(`${this.url}AddOrChangeTreePhoto`, request);
   }
+
+  addOwner(treeId: string, email: string) {
+    return this.httpClient.post(`${this.url}AddTreeOwner`,
+    {
+      treeId: treeId,
+      invitedUserEmail: email
+    });
+  }
+
+  removeOwner(treeId: string, userId?: string) {
+    return this.httpClient.post(`${this.url}RemoveTreeOwner`,
+    {
+      treeId: treeId,
+      removedUserId: userId
+    });
+  }
 }

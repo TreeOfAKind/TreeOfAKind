@@ -1,10 +1,10 @@
 using System.IO;
 using TreeOfAKind.Application.Command;
-using TreeOfAKind.Application.Command.Trees.People.AddPersonFile;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 using Xunit;
 using AutoFixture;
+using TreeOfAKind.Application.Command.Trees.People.AddPersonsFile;
 
 namespace TreeOfAKind.UnitTests.Validators
 {

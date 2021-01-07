@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
+import 'package:tree_of_a_kind/features/common/empty_widget_info.dart';
 import 'package:tree_of_a_kind/features/common/generic_error.dart';
 import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/people/view/add_person_page.dart';
@@ -60,15 +61,8 @@ class _TreePageState extends State<TreePage> {
               return GenericError();
             } else if (state is PresentingTree) {
               return state.treeGraph.isEmpty
-                  ? Center(
-                      child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        "Your family members will be here, once you add them ☺",
-                        style: theme.textTheme.headline3,
-                        textAlign: TextAlign.center,
-                      ),
-                    ))
+                  ? const EmptyWidgetInfo(
+                      "Family members of this tree will be here, once you add them ☺")
                   : TreeGraphView(tree: state.tree, treeGraph: state.treeGraph);
             } else {
               return Container();

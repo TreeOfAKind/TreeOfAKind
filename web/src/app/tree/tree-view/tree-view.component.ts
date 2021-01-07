@@ -13,9 +13,11 @@ export class TreeViewComponent implements OnInit {
     treeId: null,
     treeName: null,
     photoUri: null,
-    people: []
+    people: [],
+    owners: []
   };
   treeId: string;
+  expanded: string[] = new Array(3);
 
   constructor(
     private service: TreeService,
@@ -25,6 +27,11 @@ export class TreeViewComponent implements OnInit {
   ngOnInit(): void {
     this.treeId = this.route.snapshot.paramMap.get('id');
     this.loadModel();
+  }
+
+  expand(index: number) {
+    this.expanded = new Array(3);
+    this.expanded[index] = "show";
   }
 
   private loadModel() {
