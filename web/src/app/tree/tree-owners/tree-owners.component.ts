@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/authentication/shared/auth.service';
 import { Owner } from '../shared/owner.model';
 import { TreeService } from '../shared/tree.service';
@@ -16,7 +17,8 @@ export class TreeOwnersComponent implements OnInit {
 
   constructor(
     private service: TreeService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class TreeOwnersComponent implements OnInit {
   leaveTree() {
     if (confirm('Are you sure to leave this tree?')) {
       this.service.removeOwner(this.treeId).subscribe(() => {
-        this.loadModel();
+        this.router.navigate(['']);
       });
     }
   }
