@@ -28,6 +28,7 @@ import { TreeDrawComponent } from './tree/tree-draw/tree-draw.component';
 import { LicensesComponent } from './licenses/licenses.component';
 import { PosterComponent } from './import-export/poster/poster.component';
 import { ImportComponent } from './import-export/import/import.component';
+import { ExportComponent } from './import-export/export/export.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { ImportComponent } from './import-export/import/import.component';
     TreeDrawComponent,
     LicensesComponent,
     PosterComponent,
-    ImportComponent
+    ImportComponent,
+    ExportComponent
   ],
   imports: [
     BrowserModule,

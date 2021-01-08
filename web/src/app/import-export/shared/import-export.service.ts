@@ -15,4 +15,14 @@ export class ImportExportService {
   createTreeFromFile(request: FormData) {
     return this.httpClient.post(`${this.url}/CreateTreeFromFile`, request);
   }
+
+  getTreeFileExport(treeId: string){
+    return this.httpClient.post(`${this.url}/GetTreeFileExport`,
+      { treeId: treeId },
+      {
+        headers: { 'Accept': 'text/xml' },
+        responseType: 'text'
+      });
+  }
+
 }
