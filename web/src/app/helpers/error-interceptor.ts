@@ -10,6 +10,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.error instanceof ErrorEvent) {
             errorMsg = `Error: ${error.error.message}`;
           }
+          else if (error.status === 401) {
+            errorMsg = 'User unauthorized. Please sign in again.'
+          }
           else {
             errorMsg = `Error: ${error.error.detail}`;
           }
