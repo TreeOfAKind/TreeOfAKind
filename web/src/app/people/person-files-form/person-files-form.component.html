@@ -2,13 +2,13 @@
 
   <div class="form-group">
     <label for="photo">Main photo</label>
-    <input class="form-control-file" type="file" id="photo" (change)="uploadPhoto($event.target.files)">
+    <input class="form-control-file" type="file" accept=".jpeg, .png, .jpg" id="photo" (change)="uploadPhoto($event.target.files)">
     <img [src]="mainPhotoUrl" class="my-3" height="200">
   </div>
 
   <div class="form-group">
     <label for="files">Files</label>
-    <input class="form-control-file" type="file" id="files" (change)="uploadFile($event.target.files)">
+    <input class="form-control-file" type="file" accept=".jpeg, .png, .jpg, .pdf" id="files" (change)="uploadFile($event.target.files)">
   </div>
 
   <table class="list-table table table-borderless">
