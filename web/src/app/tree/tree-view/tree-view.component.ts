@@ -17,7 +17,8 @@ export class TreeViewComponent implements OnInit {
     owners: []
   };
   treeId: string;
-  expanded: string[] = new Array(3);
+  accordionSize: number = 4;
+  expanded: string[] = new Array(this.accordionSize);
 
   constructor(
     private service: TreeService,
@@ -30,7 +31,7 @@ export class TreeViewComponent implements OnInit {
   }
 
   expand(index: number) {
-    this.expanded = new Array(3);
+    this.expanded = new Array(this.accordionSize);
     this.expanded[index] = "show";
   }
 
