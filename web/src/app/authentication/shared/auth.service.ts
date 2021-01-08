@@ -60,6 +60,14 @@ export class AuthService {
     return user != null;
   }
 
+  resetPassword(email: string) {
+    this.afAuth.sendPasswordResetEmail(email)
+      .then()
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
   private setUserData(user) {
     this.user = { email: user.email };
     localStorage.setItem('user', JSON.stringify(this.user));
