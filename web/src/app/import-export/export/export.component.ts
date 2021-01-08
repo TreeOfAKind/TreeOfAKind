@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { fileURLToPath } from 'url';
 import { ImportExportService } from '../shared/import-export.service';
 
 @Component({
