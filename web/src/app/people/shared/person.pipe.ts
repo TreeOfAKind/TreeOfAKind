@@ -7,7 +7,11 @@ import { PersonForm } from './person-form.model';
 export class PersonPipe implements PipeTransform {
 
   transform(value: PersonForm, args?: any): any {
-    return `${value.name} ${value.lastName}, d.o.b. ${value.birthDate}`;
+    let result: string = `${value.name} ${value.lastName}`;
+    if (value.birthDate) {
+      result += `, d.o.b. ${value.birthDate}`;
+    }
+    return result;
   }
 
 }
