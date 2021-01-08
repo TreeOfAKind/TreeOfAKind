@@ -15,7 +15,12 @@
     <div class="col mb-4">
       <a class="link-unstyled">
         <div class="card">
-          <app-tree-create class="card-body" (submitted)="onModelChange()"></app-tree-create>
+          <div class="card-body forms">
+            <app-tree-create (submitted)="onModelChange()"></app-tree-create>
+            <div class="text-center">
+              <a class="btn btn-primary mt-5" routerLink="import">Import from file</a>
+            </div>
+          </div>
         </div>
       </a>
     </div>

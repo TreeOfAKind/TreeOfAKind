@@ -29,7 +29,7 @@ export class PeopleService {
   updatePerson(person: PersonUpdate) {
     return this.httpClient.post(`${this.url}/UpdatePerson`, person, { observe: 'response' });
   }
-  
+
   addPersonsFile(request: FormData) {
     return this.httpClient.post(`${this.filesUrl}/AddPersonsFile`, request);
   }
