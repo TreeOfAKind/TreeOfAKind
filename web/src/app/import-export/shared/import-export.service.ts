@@ -21,7 +21,8 @@ export class ImportExportService {
       { treeId: treeId },
       {
         headers: { 'Accept': 'text/xml' },
-        responseType: 'text'
+        responseType: 'text',
+        observe: 'response'
       });
   }
 

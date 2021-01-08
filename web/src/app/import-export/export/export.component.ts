@@ -18,7 +18,7 @@ export class ExportComponent implements OnInit {
 
   downloadFile() {
     this.service.getTreeFileExport(this.treeId).subscribe(result => {
-      var blob = new Blob([result], { type: 'text/xml' });
+      var blob = new Blob([result.body], { type: result.headers.get('Content-Type') });
       this.myCallback(blob);
     });
   }
