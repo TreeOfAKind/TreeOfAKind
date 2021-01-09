@@ -27,6 +27,14 @@ class TreeRepository extends BaseRepository {
         unexpectedError: result.unexpectedError || result.data == null);
   }
 
+  Future<BaseQueryResult<TreeStatsDTO>> getTreeStats(
+      {@required String treeId}) async {
+    final result = await get(GetTreeStatistics(treeId: treeId));
+
+    return BaseQueryResult(result.data,
+        unexpectedError: result.unexpectedError || result.data == null);
+  }
+
   Future<BaseCommandResult> addTree({@required String treeName}) {
     return run(CreateTree()..treeName = treeName);
   }

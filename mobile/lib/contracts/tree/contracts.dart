@@ -51,6 +51,33 @@ class TreeDTO {
 }
 
 @JsonSerializable()
+class TreeStatsDTO {
+  final int totalNumberOfPeople;
+  final double averageLifespanInDays;
+  final Map<String, int> numberOfPeopleOfEachGender;
+  final int numberOfLivingPeople;
+  final int numberOfDeceasedPeople;
+  final double averageNumberOfChildren;
+  final int numberOfMarriedPeople;
+  final int numberOfSinglePeople;
+
+  TreeStatsDTO(
+      {this.totalNumberOfPeople,
+      this.averageLifespanInDays,
+      this.numberOfPeopleOfEachGender,
+      this.numberOfLivingPeople,
+      this.numberOfDeceasedPeople,
+      this.averageNumberOfChildren,
+      this.numberOfMarriedPeople,
+      this.numberOfSinglePeople});
+
+  factory TreeStatsDTO.fromJson(Map<String, dynamic> json) =>
+      _$TreeStatsDTOFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TreeStatsDTOToJson(this);
+}
+
+@JsonSerializable()
 class GetMyTrees extends Query<TreesListDTO> {
   @override
   String get endpointRoute => "Tree/GetMyTrees";
@@ -76,6 +103,22 @@ class GetTree extends Query<TreeDTO> {
 
   @override
   Map<String, dynamic> toJson() => _$GetTreeToJson(this);
+}
+
+@JsonSerializable()
+class GetTreeStatistics extends Query<TreeStatsDTO> {
+  String treeId;
+
+  @override
+  String get endpointRoute => "Tree/GetTreeStatistics";
+
+  GetTreeStatistics({this.treeId});
+
+  @override
+  TreeStatsDTO deserializeResult(json) => TreeStatsDTO.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$GetTreeStatisticsToJson(this);
 }
 
 @JsonSerializable()

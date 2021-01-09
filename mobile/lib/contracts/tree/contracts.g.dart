@@ -60,6 +60,35 @@ Map<String, dynamic> _$TreeDTOToJson(TreeDTO instance) => <String, dynamic>{
       'owners': instance.owners,
     };
 
+TreeStatsDTO _$TreeStatsDTOFromJson(Map<String, dynamic> json) {
+  return TreeStatsDTO(
+    totalNumberOfPeople: json['totalNumberOfPeople'] as int,
+    averageLifespanInDays: (json['averageLifespanInDays'] as num)?.toDouble(),
+    numberOfPeopleOfEachGender:
+        (json['numberOfPeopleOfEachGender'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as int),
+    ),
+    numberOfLivingPeople: json['numberOfLivingPeople'] as int,
+    numberOfDeceasedPeople: json['numberOfDeceasedPeople'] as int,
+    averageNumberOfChildren:
+        (json['averageNumberOfChildren'] as num)?.toDouble(),
+    numberOfMarriedPeople: json['numberOfMarriedPeople'] as int,
+    numberOfSinglePeople: json['numberOfSinglePeople'] as int,
+  );
+}
+
+Map<String, dynamic> _$TreeStatsDTOToJson(TreeStatsDTO instance) =>
+    <String, dynamic>{
+      'totalNumberOfPeople': instance.totalNumberOfPeople,
+      'averageLifespanInDays': instance.averageLifespanInDays,
+      'numberOfPeopleOfEachGender': instance.numberOfPeopleOfEachGender,
+      'numberOfLivingPeople': instance.numberOfLivingPeople,
+      'numberOfDeceasedPeople': instance.numberOfDeceasedPeople,
+      'averageNumberOfChildren': instance.averageNumberOfChildren,
+      'numberOfMarriedPeople': instance.numberOfMarriedPeople,
+      'numberOfSinglePeople': instance.numberOfSinglePeople,
+    };
+
 GetMyTrees _$GetMyTreesFromJson(Map<String, dynamic> json) {
   return GetMyTrees()..endpointRoute = json['endpointRoute'] as String;
 }
@@ -76,6 +105,18 @@ GetTree _$GetTreeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$GetTreeToJson(GetTree instance) => <String, dynamic>{
+      'treeId': instance.treeId,
+      'endpointRoute': instance.endpointRoute,
+    };
+
+GetTreeStatistics _$GetTreeStatisticsFromJson(Map<String, dynamic> json) {
+  return GetTreeStatistics(
+    treeId: json['treeId'] as String,
+  )..endpointRoute = json['endpointRoute'] as String;
+}
+
+Map<String, dynamic> _$GetTreeStatisticsToJson(GetTreeStatistics instance) =>
+    <String, dynamic>{
       'treeId': instance.treeId,
       'endpointRoute': instance.endpointRoute,
     };
