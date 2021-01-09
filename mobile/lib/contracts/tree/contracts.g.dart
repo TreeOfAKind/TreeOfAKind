@@ -44,6 +44,11 @@ TreeDTO _$TreeDTOFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : PersonDTO.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    owners: (json['owners'] as List)
+        ?.map((e) => e == null
+            ? null
+            : UserProfileDTO.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -52,6 +57,7 @@ Map<String, dynamic> _$TreeDTOToJson(TreeDTO instance) => <String, dynamic>{
       'photoUri': instance.photoUri,
       'treeName': instance.treeName,
       'people': instance.people,
+      'owners': instance.owners,
     };
 
 GetMyTrees _$GetMyTreesFromJson(Map<String, dynamic> json) {
