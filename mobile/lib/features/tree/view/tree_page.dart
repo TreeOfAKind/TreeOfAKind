@@ -46,7 +46,7 @@ class _TreePageState extends State<TreePage> {
   Future<void> _menuAction(String item, BuildContext context) async {
     if (item == _stats) {
       if (tree != null) {
-        Navigator.of(context).push(StatsPage.route(tree.treeId));
+        Navigator.of(context).push(StatsPage.route(tree));
       }
     } else if (item == _owners) {
       if (tree != null) {
