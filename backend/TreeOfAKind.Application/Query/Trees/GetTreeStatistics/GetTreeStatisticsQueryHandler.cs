@@ -30,6 +30,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTreeStatistics
                 .Where(p => p.BirthDate.HasValue && p.DeathDate.HasValue)
                 .Select(p => p.DeathDate.Value - p.BirthDate.Value)
                 .Select(ts => ts.TotalDays)
+                .DefaultIfEmpty(0)
                 .Average();
 
             var genderCount = tree.People
@@ -49,6 +50,7 @@ namespace TreeOfAKind.Application.Query.Trees.GetTreeStatistics
                     r => r.RelationType == RelationType.Father || r.RelationType == RelationType.Mother)
                 .GroupBy(r => r.To)
                 .Select(group => group.Count())
+                .DefaultIfEmpty(0)
                 .Average();
 
             var noMarried = tree.People
