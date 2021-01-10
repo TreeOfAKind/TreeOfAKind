@@ -23,6 +23,15 @@
         </tbody>
       </table>
 
+      <div class="form-group">
+        <div class="row">
+          <label class="ml-3" for="photo">Background image</label>
+          <a (click)="removePhoto()">(Remove)</a>      
+        </div>
+        <input class="form-control-file" type="file" accept=".jpeg, .png, .jpg" id="photo"
+          (change)="uploadPhoto($event.target.files)">
+      </div>
+
       <div class="row">
         <button class="btn btn-primary mx-2" (click)="refreshPicture()">Refresh picture</button>
         <button class="btn btn-primary mx-2" (click)="generatePoster()">Generate poster</button>

@@ -7,16 +7,22 @@ import { DiagramMember } from './diagram-member.model';
   providedIn: 'root'
 })
 export class TreeDiagramService {
+  backgroundImage: string;
 
   constructor() { }
 
   drawDiagram(people: PersonResponse[]) {
     this.convertPeopleToDiagramMembers(people);
-    init();
+    init(this.backgroundImage);
    }
 
   downloadDiagram() {
     makeSvg();
+  }
+
+  changeBackgroundImage(image: string) {
+    this.backgroundImage = image;
+    init(this.backgroundImage);
   }
 
   private convertPeopleToDiagramMembers(people: PersonResponse[]) {
@@ -49,7 +55,7 @@ go.Diagram.licenseKey = "54f947ebba6031b700ca0d2b113f69ed1bb37a679dd41ef25e5741a
 
 var myDiagram;
 
-function init() {
+function init(backgroundImage) {
   //if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
   var $ = go.GraphObject.make;
   if (myDiagram != null) {
@@ -71,6 +77,14 @@ function init() {
           // @ts-ignore
           $(GenogramLayout, { direction: 90, layerSpacing: 30, columnSpacing: 10 })
       });
+  if (backgroundImage) {
+    myDiagram.add(
+      $(go.Part,  
+        { layerName: "Background", position: new go.Point(0, 0),
+          selectable: false, pickable: false },
+        $(go.Picture, backgroundImage, { pickable: true })
+      ));
+  }
 
   // two different node templates, one for each sex,
   // named by the category value in the node data object

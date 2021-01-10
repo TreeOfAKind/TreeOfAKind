@@ -47,7 +47,16 @@ export class PosterComponent implements OnInit {
   }
 
   generatePoster() {
-    this.diagramService.downloadDiagram();
+    //this.diagramService.downloadDiagram();
+    this.diagramService.downloadPdfDiagram();
   }
 
+  uploadPhoto(files: File[]) {
+    let url: string = URL.createObjectURL(files[0]);
+    this.diagramService.changeBackgroundImage(url);
+  }
+
+  removePhoto() {
+    this.diagramService.changeBackgroundImage(null);
+  }
 }
