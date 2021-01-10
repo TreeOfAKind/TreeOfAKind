@@ -78,12 +78,24 @@ function init(backgroundImage) {
           $(GenogramLayout, { direction: 90, layerSpacing: 30, columnSpacing: 10 })
       });
   if (backgroundImage) {
-    myDiagram.add(
-      $(go.Part,  
-        { layerName: "Background", position: new go.Point(0, 0),
-          selectable: false, pickable: false },
-        $(go.Picture, backgroundImage, { pickable: true })
-      ));
+    var img = new Image();
+    img.src = backgroundImage;
+    img.onload = function() {
+      var w = img.width;
+      var h = img.height;
+
+      for (let i = -10; i <= 10; i++) {
+        for (let j = -10; j <= 10; ++j )
+        {
+          myDiagram.add(
+            $(go.Part,
+              { layerName: "Grid", position: new go.Point(i*w, j*h),
+                selectable: false, pickable: false },
+              $(go.Picture, backgroundImage, { pickable: false })
+            ));
+        }
+      }
+    }
   }
 
   // two different node templates, one for each sex,
