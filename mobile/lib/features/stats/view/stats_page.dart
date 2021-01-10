@@ -40,7 +40,7 @@ class _StatsPageState extends State<StatsPage> {
           } else if (state is UnknownErrorState) {
             return GenericError();
           } else if (state is PresentingStats) {
-            return StatsView();
+            return StatsView(stats: state.stats);
           } else {
             return Container();
           }

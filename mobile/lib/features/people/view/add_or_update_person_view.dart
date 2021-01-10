@@ -135,7 +135,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                     style: theme.textTheme.headline5,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 8.0),
+                  const Divider(),
                   Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     Row(
                       children: [
@@ -169,7 +169,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                           ? 'Please provide their firstname'
                           : null,
                       decoration: const InputDecoration(
-                        labelText: 'firstname',
+                        labelText: 'Firstname',
                       ),
                     ),
                     const SizedBox(height: 8.0),
@@ -180,10 +180,10 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                       validator: (text) =>
                           text.isEmpty ? 'Please provide their lastname' : null,
                       decoration: const InputDecoration(
-                        labelText: 'lastname',
+                        labelText: 'Lastname',
                       ),
                     ),
-                    const SizedBox(height: 8.0),
+                    const Divider(),
                     Text('Gender:'),
                     const SizedBox(height: 4.0),
                     Padding(
@@ -203,12 +203,12 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                                                   .mapGenderToString(gender)),
                                     ))
                                 .toList())),
-                    const SizedBox(height: 8.0),
+                    const Divider(),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            'birthdate:',
+                            'Birthdate:',
                             style: theme.textTheme.bodyText1,
                           ),
                           const SizedBox(width: 20.0),
@@ -224,7 +224,7 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            'death date:',
+                            'Death date:',
                             style: theme.textTheme.bodyText1,
                           ),
                           const SizedBox(width: 20.0),
@@ -235,13 +235,13 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                               child:
                                   Text(_dateToText(widget.person.deathDate))),
                         ]),
-                    const SizedBox(height: 8.0),
+                    const Divider(),
                     TextFormField(
                       initialValue: widget.person.description,
                       onChanged: (description) => setState(
                           () => widget.person.description = description),
                       decoration: const InputDecoration(
-                        labelText: 'description',
+                        labelText: 'Description',
                       ),
                     ),
                     const SizedBox(height: 8.0),
@@ -250,10 +250,10 @@ class _AddOrUpdatePersonViewState extends State<AddOrUpdatePersonView> {
                       onChanged: (biography) =>
                           setState(() => widget.person.biography = biography),
                       decoration: const InputDecoration(
-                        labelText: 'biography',
+                        labelText: 'Biography',
                       ),
                     ),
-                    const SizedBox(height: 16.0),
+                    const Divider(),
                     Text('Family member relatives:'),
                     ...Relation.values
                         .expand((relation) => [
