@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TreeOfAKind.Domain.Trees.People;
 
@@ -20,7 +21,15 @@ namespace TreeOfAKind.Application.Query.Trees.GetTreeStatistics
         {
             TotalNumberOfPeople = totalNumberOfPeople;
             AverageLifespanInDays = averageLifespanInDays;
-            NumberOfPeopleOfEachGender = numberOfPeopleOfEachGender ?? new Dictionary<Gender, int>();
+
+            NumberOfPeopleOfEachGender = new Dictionary<Gender, int>();
+            foreach (var gender in (Gender[])Enum.GetValues(typeof(Gender)))
+            {
+                var count = 0;
+                numberOfPeopleOfEachGender?.TryGetValue(gender, out count);
+                NumberOfPeopleOfEachGender.Add(gender, count);
+            }
+
             NumberOfLivingPeople = numberOfLivingPeople;
             NumberOfDeceasedPeople = numberOfDeceasedPeople;
             AverageNumberOfChildren = averageNumberOfChildren;
