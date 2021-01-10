@@ -47,8 +47,7 @@ export class PosterComponent implements OnInit {
   }
 
   generatePoster() {
-    //this.diagramService.downloadDiagram();
-    this.diagramService.downloadPdfDiagram();
+    this.diagramService.downloadDiagram();
   }
 
   uploadPhoto(files: File[]) {
