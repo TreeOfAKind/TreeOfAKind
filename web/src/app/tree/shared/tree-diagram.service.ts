@@ -79,9 +79,9 @@ function init(backgroundImage) {
       });
   if (backgroundImage) {
     myDiagram.add(
-      $(go.Part,  
+      $(go.Part,
         { layerName: "Background", position: new go.Point(0, 0),
-          selectable: false, pickable: false },
+          selectable: true, pickable: true },
         $(go.Picture, backgroundImage, { pickable: true })
       ));
   }
