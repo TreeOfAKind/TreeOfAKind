@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tree_of_a_kind/resources/app_colors.dart';
 
 final theme = ThemeData(
-  primaryColorDark: Colors.green.shade600,
+  primaryColorDark: Colors.green.shade700,
   primaryColorLight: Colors.green.shade200,
   primaryColor: Colors.green,
-  accentColor: Colors.lime,
+  accentColor: Colors.teal,
   scaffoldBackgroundColor: const Color(0xFFE0F2F1),
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(

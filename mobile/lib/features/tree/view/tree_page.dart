@@ -75,6 +75,7 @@ class _TreePageState extends State<TreePage> {
               icon: const Icon(Icons.more_vert),
               onSelected: (item) => _menuAction(item, context),
               itemBuilder: (context) => _menuItems
+                  .where((item) => item != _stats || tree.people.isNotEmpty)
                   .map((item) => PopupMenuItem(
                       value: item,
                       child: Text(item,

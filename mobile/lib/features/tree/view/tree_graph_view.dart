@@ -34,7 +34,7 @@ class TreeGraphView extends StatelessWidget {
       builder: (context, node) => _PersonNode(
           person: tree.people.firstWhere((person) => person.id == node.id),
           color: randomColors.randomColor(
-              colorHue: ColorHue.blue,
+              colorHue: ColorHue.green,
               colorSaturation: ColorSaturation.lowSaturation)),
     );
   }

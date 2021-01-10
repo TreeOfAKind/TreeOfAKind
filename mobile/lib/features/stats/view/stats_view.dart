@@ -101,13 +101,15 @@ class StatsView extends StatelessWidget {
           LabeledPieChart(
               label: "Living and dead family members counts:",
               series: generateLivingDeadSeries(context)),
-          const Divider(),
-          const StatsLabel("Family members average lifespan:"),
-          Text(
-            "${(stats.averageLifespanInDays / 365.25).toStringAsFixed(2)} yrs.",
-            style: theme.textTheme.headline2,
-            textAlign: TextAlign.center,
-          ),
+          if (stats.averageLifespanInDays != 0) ...[
+            const Divider(),
+            const StatsLabel("Family members average lifespan:"),
+            Text(
+              "${(stats.averageLifespanInDays / 365.25).toStringAsFixed(2)} yrs.",
+              style: theme.textTheme.headline2,
+              textAlign: TextAlign.center,
+            ),
+          ],
           const Divider(),
           LabeledPieChart(
               label: "Family members genders counts:",
