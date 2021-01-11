@@ -9,7 +9,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TreeDiagramService {
   title: string;
-  titleSize: string
+  titleSize: string;
+  datesVisible: boolean;
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +22,10 @@ export class TreeDiagramService {
   changeTitle(title: string, titleSize: string) {
     this.title = title;
     this.titleSize = titleSize;
+  }
+
+  changeDatesVisibility(isVisible: boolean) {
+    this.datesVisible = isVisible;
   }
 
   downloadDiagram() {
@@ -58,6 +63,14 @@ export class TreeDiagramService {
         ux: person.spouse && people.find(p => p.id === person.spouse) ?
           people.findIndex(p => p.id === person.spouse) : null,
         photo: person.mainPhoto ? person.mainPhoto.uri : 'https://treeofakindtest.blob.core.windows.net/static/person-black-18dp.svg'
+      }
+      if (this.datesVisible) {
+        if (person.birthDate) {
+          diagramMember.n += `\nb. ${person.birthDate}`
+        }
+        if (person.deathDate) {
+          diagramMember.n += `\nd. ${person.deathDate}`
+        }
       }
       diagramMembers.push(diagramMember);
     }
@@ -112,7 +125,7 @@ function init(title, titleSize) {
           new go.Binding("source", "photo")),
       ),
       $(go.TextBlock,
-        { textAlign: "center", maxSize: new go.Size(80, NaN), margin: 5 },
+        { textAlign: "center", maxSize: new go.Size(90, NaN), margin: 5 },
         new go.Binding("text", "n"))
     ));
 

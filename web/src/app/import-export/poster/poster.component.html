@@ -23,7 +23,7 @@
         </tbody>
       </table>
 
-      <div class="my-5">
+      <div class="my-2">
         <div class="row">
           <div class="col-8">
             <label for="title">
@@ -38,6 +38,11 @@
             <input id="titleSize" name="titleSize" class="form-control" type="number" [(ngModel)]="titleSize">
           </div>
         </div>
+      </div>
+
+      <div class="mb-5 ml-3">
+        <input class="form-check-input" id="posterDates" type="checkbox" [(ngModel)]="posterDates">
+        <label class="form-check-label" for="posterDates">Display dates</label>
       </div>
 
       <div class="row mb-5">
