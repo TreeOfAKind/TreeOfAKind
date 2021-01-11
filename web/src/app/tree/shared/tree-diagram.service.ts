@@ -8,14 +8,20 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class TreeDiagramService {
-  backgroundImage: string;
+  title: string;
+  titleSize: string
 
   constructor(private http: HttpClient) { }
 
   drawDiagram(people: PersonResponse[]) {
     this.convertPeopleToDiagramMembers(people);
-    init();
-   }
+    init(this.title, this.titleSize);
+  }
+
+  changeTitle(title: string, titleSize: string) {
+    this.title = title;
+    this.titleSize = titleSize;
+  }
 
   downloadDiagram() {
     var blob = makeSvg();
@@ -67,7 +73,7 @@ go.Diagram.licenseKey = "54f947ebba6031b700ca0d2b113f69ed1bb37a679dd41ef25e5741a
 
 var myDiagram;
 
-function init() {
+function init(title, titleSize) {
   //if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
   var $ = go.GraphObject.make;
   if (myDiagram != null) {
@@ -89,6 +95,11 @@ function init() {
           // @ts-ignore
           $(GenogramLayout, { direction: 90, layerSpacing: 30, columnSpacing: 10 })
       });
+      if (title) {
+        myDiagram.add(
+          $(go.Part, { location: new go.Point(0, -40) },
+            $(go.TextBlock, title, { font: `bold ${titleSize ? titleSize : '24'}pt sans-serif`, stroke: "black" })));
+      }
 
   // two different node templates, one for each sex,
   // named by the category value in the node data object

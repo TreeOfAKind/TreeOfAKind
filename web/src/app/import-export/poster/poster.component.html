@@ -23,7 +23,24 @@
         </tbody>
       </table>
 
-      <div class="row">
+      <div class="my-5">
+        <div class="row">
+          <div class="col-8">
+            <label for="title">
+              Title
+            </label>
+            <input id="title" name="title" class="form-control" type="text" [(ngModel)]="title">
+          </div>
+          <div class="col-4">
+            <label for="titleSize">
+              Font size
+            </label>
+            <input id="titleSize" name="titleSize" class="form-control" type="number" [(ngModel)]="titleSize">
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-5">
         <button class="btn btn-primary mx-2" (click)="refreshPicture()">Refresh picture</button>
         <button class="btn btn-primary mx-2" (click)="generatePoster()">Generate poster</button>
       </div>
