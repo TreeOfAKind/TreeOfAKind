@@ -19,7 +19,7 @@ namespace TreeOfAKind.Application.Command.Trees
         {
             var connection = _sqlConnectionFactory.GetOpenConnection();
             const string sql =
-                "SELECT 1 FROM [trees].[TreeUserProfile] tup " +
+                "SELECT TOP 1 1 FROM [trees].[TreeUserProfile] tup " +
                 "JOIN [trees].UserProfiles up ON up.[Id] = tup.[UserId] " +
                 "WHERE tup.[TreeId] = @ownedTree AND up.[UserAuthId] = @treeOwner";
             var owns = await connection.QueryFirstOrDefaultAsync<int?>(sql,

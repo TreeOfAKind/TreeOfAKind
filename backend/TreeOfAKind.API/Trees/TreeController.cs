@@ -1,5 +1,5 @@
 ﻿using System;
-﻿using System.Net.Mail;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +11,7 @@ using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddOrChangeTreePh
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.AddTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTree;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFromFile;
+using TreeOfAKind.Application.Command.Trees.TreeAdministration.MergeTrees;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveMyselfFromTreeOwners;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreeOwner;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.RemoveTreePhoto;
@@ -403,6 +404,41 @@ namespace TreeOfAKind.API.Trees
             var document = new Document(file.OpenReadStream(), file.ContentType, file.Name);
             var result = await _mediator.Send(new CreateTreeFromFileCommand(authId, new MailAddress(mail), document, request.TreeName));
             return Created(String.Empty, new IdDto(){Id = result.Value});
+        }
+
+        /// <summary>
+        /// Merges two existing trees and creates new result tree.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "firstTreeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///        "secondTreeId": "72bef03b-62c2-4829-9917-bed803397de5"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns>Uuid of result tree</returns>
+        /// <response code="201">Returns uuid of result tree</response>
+        /// <response code="400">Command is not valid</response>
+        /// <response code="401">User is not authenticated</response>
+        /// <response code="422">Business rule broken</response>
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(typeof(IdDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> MergeTrees([FromBody] MergeTreesRequest request)
+        {
+            var authId = HttpContext.GetFirebaseUserAuthId();
+
+            var result = await _mediator.Send(new MergeTreesCommand(new TreeId(request.FirstTreeId),
+                new TreeId(request.SecondTreeId), authId));
+
+            return Ok(new IdDto(){Id = result.Value});
         }
     }
 }
