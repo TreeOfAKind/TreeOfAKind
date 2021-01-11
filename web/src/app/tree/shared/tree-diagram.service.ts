@@ -14,7 +14,7 @@ export class TreeDiagramService {
 
   drawDiagram(people: PersonResponse[]) {
     this.convertPeopleToDiagramMembers(people);
-    init(this.backgroundImage);
+    init();
    }
 
   downloadDiagram() {
@@ -35,11 +35,6 @@ export class TreeDiagramService {
       window.URL.revokeObjectURL(url);
       a.remove();
     });
-  }
-
-  changeBackgroundImage(image: string) {
-    this.backgroundImage = image;
-    init(this.backgroundImage);
   }
 
   private convertPeopleToDiagramMembers(people: PersonResponse[]) {
@@ -72,7 +67,7 @@ go.Diagram.licenseKey = "54f947ebba6031b700ca0d2b113f69ed1bb37a679dd41ef25e5741a
 
 var myDiagram;
 
-function init(backgroundImage) {
+function init() {
   //if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
   var $ = go.GraphObject.make;
   if (myDiagram != null) {
@@ -94,26 +89,6 @@ function init(backgroundImage) {
           // @ts-ignore
           $(GenogramLayout, { direction: 90, layerSpacing: 30, columnSpacing: 10 })
       });
-  if (backgroundImage) {
-    var img = new Image();
-    img.src = backgroundImage;
-    img.onload = function() {
-      var w = img.width;
-      var h = img.height;
-
-      for (let i = -10; i <= 10; i++) {
-        for (let j = -10; j <= 10; ++j )
-        {
-          myDiagram.add(
-            $(go.Part,
-              { layerName: "Grid", position: new go.Point(i*w, j*h),
-                selectable: false, pickable: false },
-              $(go.Picture, backgroundImage, { pickable: false })
-            ));
-        }
-      }
-    }
-  }
 
   // two different node templates, one for each sex,
   // named by the category value in the node data object
