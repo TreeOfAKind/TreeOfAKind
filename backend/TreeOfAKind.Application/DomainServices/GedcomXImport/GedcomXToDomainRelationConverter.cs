@@ -21,7 +21,7 @@ namespace TreeOfAKind.Application.DomainServices.GedcomXImport
                 if (gxIdToPersonId.TryGetValue(relationship.Person2.Resource.Substring(1), out var from)
                     && gxIdToPersonId.TryGetValue(relationship.Person1.Resource.Substring(1), out var to))
                 {
-                    var rel = _gedcomXToDomainRelationTypeConverter.ConvertRelationType(relationship.KnownType, people, to);
+                    var rel = _gedcomXToDomainRelationTypeConverter.ConvertRelationType(relationship.Type, people, to);
                     tree.AddRelation(from, to, rel);
                 }
             }

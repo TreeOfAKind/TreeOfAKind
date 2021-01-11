@@ -109,14 +109,14 @@ namespace TreeOfAKind.Application.DomainServices
         public static Gx.Gedcomx AddRelation(this Gx.Gedcomx gx, Domain.Trees.Relation relation, Person from, Person to)
         {
             var rel = new Relationship()
-                .SetPerson1(to)
-                .SetPerson2(from);
+                .SetPerson1(from)
+                .SetPerson2(to);
 
             rel = relation.RelationType switch
             {
                 RelationType.Unknown => rel.SetType(RelationshipType.OTHER),
-                RelationType.Father => rel.SetType(RelationshipType.ParentChild),
-                RelationType.Mother => rel.SetType(RelationshipType.ParentChild),
+                RelationType.Father => rel.SetType("Father"),
+                RelationType.Mother => rel.SetType("Mother"),
                 RelationType.Spouse => rel.SetType(RelationshipType.Couple),
                 _ => rel.SetType(RelationshipType.NULL),
             };

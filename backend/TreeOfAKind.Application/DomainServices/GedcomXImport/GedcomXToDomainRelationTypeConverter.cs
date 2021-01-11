@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Gedcomx.Model.Util;
 using Gx.Types;
 using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
@@ -8,15 +9,21 @@ namespace TreeOfAKind.Application.DomainServices.GedcomXImport
 {
     public class GedcomXToDomainRelationTypeConverter : IGedcomXToDomainRelationTypeConverter
     {
-        public RelationType ConvertRelationType(RelationshipType knownType, IReadOnlyCollection<Domain.Trees.People.Person> people, PersonId to)
-        {
-            return knownType switch
+        private const string Mother = "Mother";
+        private const string Father = "Father";
+
+        public RelationType ConvertRelationType(string type, IReadOnlyCollection<Domain.Trees.People.Person> people, PersonId to)
+            => type switch
             {
-                RelationshipType.Couple => RelationType.Spouse,
-                RelationshipType.ParentChild => ParentChildRelationConverter(people, to),
-                _ => RelationType.Unknown
+                Mother => RelationType.Mother,
+                Father => RelationType.Father,
+                _ => XmlQNameEnumUtil.GetEnumValue<RelationshipType>(type) switch
+                {
+                    RelationshipType.Couple => RelationType.Spouse,
+                    RelationshipType.ParentChild => ParentChildRelationConverter(people, to),
+                    _ => RelationType.Unknown
+                }
             };
-        }
 
         private static RelationType ParentChildRelationConverter(IReadOnlyCollection<Domain.Trees.People.Person> people,
             PersonId to)

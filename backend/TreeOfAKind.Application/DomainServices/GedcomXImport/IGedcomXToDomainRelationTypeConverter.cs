@@ -7,6 +7,6 @@ namespace TreeOfAKind.Application.DomainServices.GedcomXImport
 {
     public interface IGedcomXToDomainRelationTypeConverter
     {
-        RelationType ConvertRelationType(RelationshipType knownType, IReadOnlyCollection<Domain.Trees.People.Person> people, PersonId to);
+        RelationType ConvertRelationType(string type, IReadOnlyCollection<Domain.Trees.People.Person> people, PersonId to);
     }
 }

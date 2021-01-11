@@ -8,6 +8,7 @@ using TreeOfAKind.Domain.Trees;
 using TreeOfAKind.Domain.Trees.People;
 using Xunit;
 using AutoFixture;
+using Gedcomx.Model.Util;
 using Gx.Conclusion;
 using NSubstitute;
 using NSubstitute.Extensions;
@@ -36,7 +37,7 @@ namespace TreeOfAKind.UnitTests.Trees
             var person = Person.CreateNewPerson(null!, "Name", "LastName", gender,
                 DateTime.Parse("10.10.1998"), null, "", "");
             var people = new List<Person>{person};
-            var relationType = converter.ConvertRelationType(RelationshipType.ParentChild, people, person.Id);
+            var relationType = converter.ConvertRelationType(XmlQNameEnumUtil.GetNameValue(RelationshipType.ParentChild), people, person.Id);
 
             Assert.Equal(expectedRelationType, relationType);
         }
@@ -52,7 +53,7 @@ namespace TreeOfAKind.UnitTests.Trees
             var person = Person.CreateNewPerson(null!, "Name", "LastName", gender,
                 DateTime.Parse("10.10.1998"), null, "", "");
             var people = new List<Person>{person};
-            var relationType = converter.ConvertRelationType(RelationshipType.ParentChild, people, new PersonId(Guid.NewGuid()));
+            var relationType = converter.ConvertRelationType(XmlQNameEnumUtil.GetNameValue(RelationshipType.ParentChild), people, new PersonId(Guid.NewGuid()));
 
             Assert.Equal(expectedRelationType, relationType);
         }
@@ -68,7 +69,7 @@ namespace TreeOfAKind.UnitTests.Trees
             var person = Person.CreateNewPerson(null!, "Name", "LastName", gender,
                 DateTime.Parse("10.10.1998"), null, "", "");
             var people = new List<Person>{person};
-            var relationType = converter.ConvertRelationType(RelationshipType.Couple, people, person.Id);
+            var relationType = converter.ConvertRelationType(XmlQNameEnumUtil.GetNameValue(RelationshipType.Couple), people, person.Id);
 
             Assert.Equal(RelationType.Spouse, relationType);
         }
@@ -82,7 +83,7 @@ namespace TreeOfAKind.UnitTests.Trees
             var person = Person.CreateNewPerson(null!, "Name", "LastName", Gender.Female,
                 DateTime.Parse("10.10.1998"), null, "", "");
             var people = new List<Person>{person};
-            var relationType = converter.ConvertRelationType(relationshipType, people, person.Id);
+            var relationType = converter.ConvertRelationType(XmlQNameEnumUtil.GetNameValue(relationshipType), people, person.Id);
 
             Assert.Equal(RelationType.Unknown, relationType);
         }
