@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as go from 'gojs';
 import { PersonResponse } from 'src/app/people/shared/person-response.model';
 import { DiagramMember } from './diagram-member.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { DiagramMember } from './diagram-member.model';
 export class TreeDiagramService {
   backgroundImage: string;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   drawDiagram(people: PersonResponse[]) {
     this.convertPeopleToDiagramMembers(people);
@@ -17,7 +18,23 @@ export class TreeDiagramService {
    }
 
   downloadDiagram() {
-    makeSvg();
+    var blob = makeSvg();
+    var url= window.URL.createObjectURL(blob);
+    return this.http
+    .get(url, {
+      responseType: 'blob',
+    })
+    .subscribe(res => {
+      let url = window.URL.createObjectURL(res);
+      let a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.href = url;
+      a.download = 'Poster.svg';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    });
   }
 
   changeBackgroundImage(image: string) {
@@ -39,7 +56,7 @@ export class TreeDiagramService {
           people.findIndex(p => p.id === person.father) : null,
         ux: person.spouse && people.find(p => p.id === person.spouse) ?
           people.findIndex(p => p.id === person.spouse) : null,
-        photo: person.mainPhoto ? person.mainPhoto.uri : '/assets/person-black-18dp.svg'
+        photo: person.mainPhoto ? person.mainPhoto.uri : 'https://treeofakindtest.blob.core.windows.net/static/person-black-18dp.svg'
       }
       diagramMembers.push(diagramMember);
     }
@@ -533,6 +550,5 @@ function makeSvg() {
     }
   });
   var svgstr = new XMLSerializer().serializeToString(svg);
-  var myWindow = window.open();
-  myWindow.document.write(svgstr);
+  return new Blob([svgstr], {type: "image/svg+xml"});
 }
