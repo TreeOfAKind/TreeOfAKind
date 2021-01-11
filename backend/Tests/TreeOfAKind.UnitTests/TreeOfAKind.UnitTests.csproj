@@ -20,6 +20,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\TreeOfAKind.Application\TreeOfAKind.Application.csproj" />
       <ProjectReference Include="..\..\TreeOfAKind.Domain\TreeOfAKind.Domain.csproj" />
+      <ProjectReference Include="..\..\TreeOfAKind.Infrastructure\TreeOfAKind.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

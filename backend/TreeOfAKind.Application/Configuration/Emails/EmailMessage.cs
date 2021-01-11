@@ -2,20 +2,17 @@
 {
     public struct EmailMessage
     {
-        public string From { get; }
-
         public string To { get; }
-
-        public string Content { get; }
+        public string TreeName { get; }
+        public string SenderName { get; }
 
         public EmailMessage(
-            string from, 
             string to,
-            string content)
+            string treeName, string senderName)
         {
-            this.From = from;
             this.To = to;
-            this.Content = content;
+            TreeName = treeName;
+            SenderName = senderName;
         }
     }
 }

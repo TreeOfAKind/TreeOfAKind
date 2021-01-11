@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Gx.Types;
 using TreeOfAKind.Application.Command.Trees.TreeAdministration.CreateTreeFromFile;
 using TreeOfAKind.Domain.Trees;
@@ -13,6 +14,7 @@ using NSubstitute.Extensions;
 using NSubstitute.ReceivedExtensions;
 using TreeOfAKind.Application.DomainServices.GedcomXImport;
 using TreeOfAKind.Domain.UserProfiles;
+using TreeOfAKind.Infrastructure.Emails;
 using Gender = TreeOfAKind.Domain.Trees.People.Gender;
 using Person = TreeOfAKind.Domain.Trees.People.Person;
 
