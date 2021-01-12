@@ -15,6 +15,9 @@ export class PosterComponent implements OnInit {
   allChecked: boolean = true;
   checked: boolean[];
   checkedPeople: PersonResponse[];
+  title: string;
+  titleSize: string;
+  posterDates: boolean;
 
   constructor(
     private treeService: TreeService,
@@ -38,6 +41,8 @@ export class PosterComponent implements OnInit {
   }
 
   refreshPicture() {
+    this.diagramService.changeTitle(this.title, this.titleSize);
+    this.diagramService.changeDatesVisibility(this.posterDates);
     this.checkedPeople = [];
     for(let i = 0; i < this.people.length; ++i) {
       if(this.checked[i]) {
@@ -49,5 +54,4 @@ export class PosterComponent implements OnInit {
   generatePoster() {
     this.diagramService.downloadDiagram();
   }
-
 }

@@ -23,7 +23,29 @@
         </tbody>
       </table>
 
-      <div class="row">
+      <div class="my-2">
+        <div class="row">
+          <div class="col-8">
+            <label for="title">
+              Title
+            </label>
+            <input id="title" name="title" class="form-control" type="text" [(ngModel)]="title">
+          </div>
+          <div class="col-4">
+            <label for="titleSize">
+              Font size
+            </label>
+            <input id="titleSize" name="titleSize" class="form-control" type="number" [(ngModel)]="titleSize">
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-5 ml-3">
+        <input class="form-check-input" id="posterDates" type="checkbox" [(ngModel)]="posterDates">
+        <label class="form-check-label" for="posterDates">Display dates</label>
+      </div>
+
+      <div class="row mb-5">
         <button class="btn btn-primary mx-2" (click)="refreshPicture()">Refresh picture</button>
         <button class="btn btn-primary mx-2" (click)="generatePoster()">Generate poster</button>
       </div>

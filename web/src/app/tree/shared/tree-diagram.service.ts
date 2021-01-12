@@ -2,21 +2,50 @@ import { Injectable } from '@angular/core';
 import * as go from 'gojs';
 import { PersonResponse } from 'src/app/people/shared/person-response.model';
 import { DiagramMember } from './diagram-member.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TreeDiagramService {
+  title: string;
+  titleSize: string;
+  datesVisible: boolean;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   drawDiagram(people: PersonResponse[]) {
     this.convertPeopleToDiagramMembers(people);
-    init();
-   }
+    init(this.title, this.titleSize);
+  }
+
+  changeTitle(title: string, titleSize: string) {
+    this.title = title;
+    this.titleSize = titleSize;
+  }
+
+  changeDatesVisibility(isVisible: boolean) {
+    this.datesVisible = isVisible;
+  }
 
   downloadDiagram() {
-    makeSvg();
+    var blob = makeSvg();
+    var url= window.URL.createObjectURL(blob);
+    return this.http
+    .get(url, {
+      responseType: 'blob',
+    })
+    .subscribe(res => {
+      let url = window.URL.createObjectURL(res);
+      let a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.href = url;
+      a.download = 'Poster.svg';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    });
   }
 
   private convertPeopleToDiagramMembers(people: PersonResponse[]) {
@@ -33,7 +62,15 @@ export class TreeDiagramService {
           people.findIndex(p => p.id === person.father) : null,
         ux: person.spouse && people.find(p => p.id === person.spouse) ?
           people.findIndex(p => p.id === person.spouse) : null,
-        photo: person.mainPhoto ? person.mainPhoto.uri : '/assets/person-black-18dp.svg'
+        photo: person.mainPhoto ? person.mainPhoto.uri : 'https://treeofakindtest.blob.core.windows.net/static/person-black-18dp.svg'
+      }
+      if (this.datesVisible) {
+        if (person.birthDate) {
+          diagramMember.n += `\nb. ${person.birthDate}`
+        }
+        if (person.deathDate) {
+          diagramMember.n += `\nd. ${person.deathDate}`
+        }
       }
       diagramMembers.push(diagramMember);
     }
@@ -49,7 +86,7 @@ go.Diagram.licenseKey = "54f947ebba6031b700ca0d2b113f69ed1bb37a679dd41ef25e5741a
 
 var myDiagram;
 
-function init() {
+function init(title, titleSize) {
   //if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
   var $ = go.GraphObject.make;
   if (myDiagram != null) {
@@ -71,6 +108,11 @@ function init() {
           // @ts-ignore
           $(GenogramLayout, { direction: 90, layerSpacing: 30, columnSpacing: 10 })
       });
+      if (title) {
+        myDiagram.add(
+          $(go.Part, { location: new go.Point(0, -40) },
+            $(go.TextBlock, title, { font: `bold ${titleSize ? titleSize : '24'}pt sans-serif`, stroke: "black" })));
+      }
 
   // two different node templates, one for each sex,
   // named by the category value in the node data object
@@ -83,7 +125,7 @@ function init() {
           new go.Binding("source", "photo")),
       ),
       $(go.TextBlock,
-        { textAlign: "center", maxSize: new go.Size(80, NaN), margin: 5 },
+        { textAlign: "center", maxSize: new go.Size(90, NaN), margin: 5 },
         new go.Binding("text", "n"))
     ));
 
@@ -507,6 +549,5 @@ function makeSvg() {
     }
   });
   var svgstr = new XMLSerializer().serializeToString(svg);
-  var myWindow = window.open();
-  myWindow.document.write(svgstr);
+  return new Blob([svgstr], {type: "image/svg+xml"});
 }
