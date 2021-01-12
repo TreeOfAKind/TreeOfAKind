@@ -12,6 +12,7 @@ import { TreesListComponent } from './tree/trees-list/trees-list.component';
 import { UserProfileFormComponent } from './user-profile/user-profile-form/user-profile-form.component';
 import { PosterComponent } from './import-export/poster/poster.component';
 import { ImportComponent } from './import-export/import/import.component';
+import { TreeMergeComponent } from './tree/tree-merge/tree-merge.component';
 import { StatsComponent } from './tree/stats/stats.component';
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
     { path: 'user-profile', component: UserProfileFormComponent },
     { path: 'trees-list', component: TreesListComponent },
     { path: 'import', component: ImportComponent },
+    { path: 'tree-merge', component: TreeMergeComponent },
     { path: 'tree/:id', children: [
       { path: '', component: TreeViewComponent },
       { path: 'person-form/:id', component: PersonFormComponent, data: { formAction: FormAction.Edit } },

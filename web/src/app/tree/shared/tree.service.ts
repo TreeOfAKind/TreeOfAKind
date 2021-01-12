@@ -49,6 +49,14 @@ export class TreeService {
     });
   }
 
+  mergeTrees(firstTreeId: string, secondTreeId: string) {
+    return this.httpClient.post(`${this.url}MergeTrees`,
+    {
+      firstTreeId: firstTreeId,
+      secondTreeId: secondTreeId
+    });
+  }
+  
   getTreeStatistics(treeId: string): Observable<TreeStats> {
     return this.httpClient.post<TreeStats>(`${this.url}GetTreeStatistics`, { treeId: treeId });
   }

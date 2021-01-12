@@ -29,6 +29,7 @@ import { LicensesComponent } from './licenses/licenses.component';
 import { PosterComponent } from './import-export/poster/poster.component';
 import { ImportComponent } from './import-export/import/import.component';
 import { ExportComponent } from './import-export/export/export.component';
+import { TreeMergeComponent } from './tree/tree-merge/tree-merge.component';
 import { StatsComponent } from './tree/stats/stats.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
@@ -55,6 +56,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     PosterComponent,
     ImportComponent,
     ExportComponent,
+    TreeMergeComponent,
     StatsComponent
   ],
   imports: [
