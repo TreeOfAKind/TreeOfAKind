@@ -80,8 +80,17 @@ class _TreeItem extends StatelessWidget {
                   BlocProvider.of<TreeListBloc>(context).add(result);
                 }
               },
+              onLongPress: () => {},
               trailing: Icon(Icons.keyboard_arrow_right),
             )),
+        actions: [
+          IconSlideAction(
+            caption: 'Merge',
+            color: theme.accentColor,
+            icon: Icons.merge_type,
+            onTap: () => {},
+          ),
+        ],
         secondaryActions: [
           IconSlideAction(
             caption: 'Delete',
