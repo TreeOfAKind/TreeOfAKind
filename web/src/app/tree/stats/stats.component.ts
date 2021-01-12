@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TreeStats } from '../shared/tree-stats.model';
 import { TreeService } from '../shared/tree.service';
-import { ApexChart, ApexNonAxisChartSeries, ApexResponsive, ChartComponent } from 'ng-apexcharts';
+import { ApexChart, ApexNonAxisChartSeries, ApexResponsive } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-stats',
@@ -10,7 +10,6 @@ import { ApexChart, ApexNonAxisChartSeries, ApexResponsive, ChartComponent } fro
   styleUrls: ['./stats.component.scss']
 })
 export class StatsComponent implements OnInit {
-  @ViewChild("chart") chart: ChartComponent;
   emptyOptions: ChartOptions = {
     series: null,
     chart: null,
