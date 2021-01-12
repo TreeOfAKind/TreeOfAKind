@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
 import 'package:tree_of_a_kind/features/common/empty_widget_info.dart';
@@ -35,12 +36,25 @@ class _HomePageState extends State<HomePage> {
 
   static const List<String> _menuItems = <String>[_myProfile, _signOut];
 
+  List<TreeItemDTO> _treeList;
+
   void _menuAction(String item, BuildContext context) {
     if (item == _myProfile) {
       Navigator.of(context).push<void>(UserProfilePage.route());
     } else if (item == _signOut) {
       context.read<AuthenticationBloc>().add(AuthenticationLogoutRequested());
     }
+  }
+
+  Widget _renderView({bool isRefreshing = false, String deletedTreeId}) {
+    return _treeList.isEmpty
+        ? const EmptyWidgetInfo(
+            "All family trees will be here, if you'd wish to add any ☺")
+        : TreeListView(
+            treeList: _treeList,
+            isRefreshing: isRefreshing,
+            deletedTreeId: deletedTreeId,
+          );
   }
 
   @override
@@ -78,21 +92,29 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
             if (state is InitialLoadingState) {
               return Center(child: LoadingIndicator());
+            } else if (state is ValidationErrorState) {
+              WidgetsBinding.instance.addPostFrameCallback((_) => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                          title: Text('Merging trees failed'),
+                          content: Text(state.errorText),
+                          actions: [
+                            TextButton(
+                                child: Text('OK... 😔'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                })
+                          ])));
+              return _renderView();
             } else if (state is UnknownErrorState) {
               return GenericError();
             } else if (state is PresentingList) {
-              return state.treeList.isEmpty
-                  ? const EmptyWidgetInfo(
-                      "All family trees will be here, if you'd wish to add any ☺")
-                  : TreeListView(
-                      treeList: state.treeList,
-                    );
+              _treeList = state.treeList;
+              return _renderView();
             } else if (state is RefreshLoadingState) {
-              return TreeListView(
-                treeList: state.treeList,
-                isRefreshing: true,
-                deletedTreeId: state.deletedTreeId,
-              );
+              _treeList = state.treeList;
+              return _renderView(
+                  isRefreshing: true, deletedTreeId: state.deletedTreeId);
             } else {
               return Container();
             }
