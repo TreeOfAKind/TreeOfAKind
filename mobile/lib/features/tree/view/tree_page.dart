@@ -11,6 +11,7 @@ import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart'
     as treeListBloc;
 import 'package:tree_of_a_kind/features/owners/view/owners_page.dart';
 import 'package:tree_of_a_kind/features/people/view/add_person_page.dart';
+import 'package:tree_of_a_kind/features/stats/view/stats_page.dart';
 import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
 import 'package:tree_of_a_kind/features/tree/view/tree_graph_view.dart';
 
@@ -36,13 +37,18 @@ class TreePage extends StatefulWidget {
 }
 
 class _TreePageState extends State<TreePage> {
+  static const String _stats = 'See family statistics';
   static const String _owners = 'Manage sharing';
   static const String _deleteTree = 'Delete family tree';
 
-  static const List<String> _menuItems = <String>[_owners, _deleteTree];
+  static const List<String> _menuItems = <String>[_stats, _owners, _deleteTree];
 
   Future<void> _menuAction(String item, BuildContext context) async {
-    if (item == _owners) {
+    if (item == _stats) {
+      if (tree != null) {
+        Navigator.of(context).push(StatsPage.route(tree));
+      }
+    } else if (item == _owners) {
       if (tree != null) {
         final result = await Navigator.of(context).push(OwnersPage.route(tree));
 
@@ -69,6 +75,7 @@ class _TreePageState extends State<TreePage> {
               icon: const Icon(Icons.more_vert),
               onSelected: (item) => _menuAction(item, context),
               itemBuilder: (context) => _menuItems
+                  .where((item) => item != _stats || tree.people.isNotEmpty)
                   .map((item) => PopupMenuItem(
                       value: item,
                       child: Text(item,
