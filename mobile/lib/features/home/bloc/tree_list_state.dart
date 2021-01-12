@@ -27,6 +27,12 @@ class PresentingNewTreeForm extends TreeListState {
   final List<TreeItemDTO> treeList;
 }
 
+class ValidationErrorState extends TreeListState {
+  const ValidationErrorState(this.errorText);
+
+  final String errorText;
+}
+
 class UnknownErrorState extends TreeListState {
   const UnknownErrorState();
 }

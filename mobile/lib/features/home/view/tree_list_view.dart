@@ -4,7 +4,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
+import 'package:tree_of_a_kind/features/home/view/merge_trees_dialog.dart';
 import 'package:tree_of_a_kind/features/tree/view/tree_page.dart';
+
+import 'add_or_update_tree_dialog.dart';
 
 class TreeListView extends StatelessWidget {
   TreeListView(
@@ -18,7 +21,7 @@ class TreeListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       ...treeList.map((item) => item.id != deletedTreeId
-          ? _TreeItem(treeItem: item)
+          ? _TreeItem(treeItem: item, treeList: treeList)
           : _TreeItemLoading()),
       if (isRefreshing && deletedTreeId == null) _TreeItemLoading()
     ]);
@@ -26,9 +29,10 @@ class TreeListView extends StatelessWidget {
 }
 
 class _TreeItem extends StatelessWidget {
-  _TreeItem({@required this.treeItem});
+  _TreeItem({@required this.treeItem, @required this.treeList});
 
   final TreeItemDTO treeItem;
+  final List<TreeItemDTO> treeList;
 
   void _deleteTreeDialog(BuildContext context, TreeListBloc bloc) {
     final theme = Theme.of(context);
@@ -61,34 +65,56 @@ class _TreeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // ignore: close_sinks
+    final bloc = BlocProvider.of<TreeListBloc>(context);
 
     return Slidable(
         actionPane: SlidableDrawerActionPane(),
         child: Card(
             shadowColor: theme.shadowColor,
             child: ListTile(
-              leading: Icon(
-                Icons.nature,
-                color: theme.accentColor,
-              ),
+              leading: treeItem.photoUri != null
+                  ? CircleAvatar(
+                      radius: 20.0,
+                      backgroundImage: Image.network(treeItem.photoUri).image)
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 7.0),
+                      child: Icon(Icons.nature, color: theme.accentColor),
+                    ),
               title: Text(treeItem.treeName, style: theme.textTheme.headline6),
               onTap: () async {
                 final result =
                     await Navigator.of(context).push(TreePage.route(treeItem));
 
                 if (result is TreeListEvent) {
-                  BlocProvider.of<TreeListBloc>(context).add(result);
+                  bloc.add(result);
                 }
               },
+              onLongPress: () => showDialog(
+                  context: context,
+                  builder: (_) => AddOrUpdateTreeDialog(
+                        BlocProvider.of<TreeListBloc>(context),
+                        tree: treeItem,
+                      )),
               trailing: Icon(Icons.keyboard_arrow_right),
             )),
+        actions: [
+          IconSlideAction(
+            caption: 'Merge',
+            color: theme.accentColor,
+            icon: Icons.merge_type,
+            onTap: () => showDialog(
+                context: context,
+                builder: (context) => MergeTreesDialog(
+                    firstTreeId: treeItem.id, treesList: treeList, bloc: bloc)),
+          ),
+        ],
         secondaryActions: [
           IconSlideAction(
             caption: 'Delete',
             color: theme.errorColor,
             icon: Icons.delete,
-            onTap: () => _deleteTreeDialog(
-                context, BlocProvider.of<TreeListBloc>(context)),
+            onTap: () => _deleteTreeDialog(context, bloc),
           ),
         ]);
   }

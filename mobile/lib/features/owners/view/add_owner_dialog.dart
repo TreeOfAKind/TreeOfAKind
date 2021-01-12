@@ -3,18 +3,15 @@ import 'package:tree_of_a_kind/features/authentication/models/email.dart';
 import 'package:tree_of_a_kind/features/owners/bloc/owners_bloc.dart';
 
 class AddOwnerDialog extends StatefulWidget {
-  AddOwnerDialog(this._bloc);
+  AddOwnerDialog(this.bloc);
 
-  final OwnersBloc _bloc;
+  final OwnersBloc bloc;
 
   @override
-  _AddOwnerDialogState createState() => _AddOwnerDialogState(_bloc);
+  _AddOwnerDialogState createState() => _AddOwnerDialogState();
 }
 
 class _AddOwnerDialogState extends State<AddOwnerDialog> {
-  _AddOwnerDialogState(this.bloc);
-
-  final OwnersBloc bloc;
   final emailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -45,7 +42,7 @@ class _AddOwnerDialogState extends State<AddOwnerDialog> {
           onPressed: () {
             if (formKey.currentState.validate()) {
               Navigator.of(context).pop();
-              bloc.add(AddOwner(emailController.text));
+              widget.bloc.add(AddOwner(emailController.text));
             }
           },
         ),

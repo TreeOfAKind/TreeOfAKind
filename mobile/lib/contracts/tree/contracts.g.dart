@@ -133,6 +133,20 @@ Map<String, dynamic> _$CreateTreeToJson(CreateTree instance) =>
       'endpointRoute': instance.endpointRoute,
     };
 
+UpdateTreeName _$UpdateTreeNameFromJson(Map<String, dynamic> json) {
+  return UpdateTreeName(
+    treeId: json['treeId'] as String,
+    treeName: json['treeName'] as String,
+  )..endpointRoute = json['endpointRoute'] as String;
+}
+
+Map<String, dynamic> _$UpdateTreeNameToJson(UpdateTreeName instance) =>
+    <String, dynamic>{
+      'treeId': instance.treeId,
+      'treeName': instance.treeName,
+      'endpointRoute': instance.endpointRoute,
+    };
+
 RemoveTreePhoto _$RemoveTreePhotoFromJson(Map<String, dynamic> json) {
   return RemoveTreePhoto(
     treeId: json['treeId'] as String,
@@ -142,5 +156,19 @@ RemoveTreePhoto _$RemoveTreePhotoFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$RemoveTreePhotoToJson(RemoveTreePhoto instance) =>
     <String, dynamic>{
       'treeId': instance.treeId,
+      'endpointRoute': instance.endpointRoute,
+    };
+
+MergeTrees _$MergeTreesFromJson(Map<String, dynamic> json) {
+  return MergeTrees(
+    firstTreeId: json['firstTreeId'] as String,
+    secondTreeId: json['secondTreeId'] as String,
+  )..endpointRoute = json['endpointRoute'] as String;
+}
+
+Map<String, dynamic> _$MergeTreesToJson(MergeTrees instance) =>
+    <String, dynamic>{
+      'firstTreeId': instance.firstTreeId,
+      'secondTreeId': instance.secondTreeId,
       'endpointRoute': instance.endpointRoute,
     };

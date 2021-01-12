@@ -14,6 +14,7 @@ UserProfileDTO _$UserProfileDTOFromJson(Map<String, dynamic> json) {
     birthDate: json['birthDate'] == null
         ? null
         : DateTime.parse(json['birthDate'] as String),
+    mailAddress: json['mailAddress'] as String,
   );
 }
 
@@ -23,6 +24,7 @@ Map<String, dynamic> _$UserProfileDTOToJson(UserProfileDTO instance) =>
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'birthDate': instance.birthDate?.toIso8601String(),
+      'mailAddress': instance.mailAddress,
     };
 
 GetMyUserProfile _$GetMyUserProfileFromJson(Map<String, dynamic> json) {
