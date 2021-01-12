@@ -29,6 +29,7 @@ import { LicensesComponent } from './licenses/licenses.component';
 import { PosterComponent } from './import-export/poster/poster.component';
 import { ImportComponent } from './import-export/import/import.component';
 import { ExportComponent } from './import-export/export/export.component';
+import { TreeMergeComponent } from './tree/tree-merge/tree-merge.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { ExportComponent } from './import-export/export/export.component';
     LicensesComponent,
     PosterComponent,
     ImportComponent,
-    ExportComponent
+    ExportComponent,
+    TreeMergeComponent
   ],
   imports: [
     BrowserModule,

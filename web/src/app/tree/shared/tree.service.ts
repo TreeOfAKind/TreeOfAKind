@@ -47,4 +47,12 @@ export class TreeService {
       removedUserId: userId
     });
   }
+
+  mergeTrees(firstTreeId: string, secondTreeId: string) {
+    return this.httpClient.post(`${this.url}MergeTrees`,
+    {
+      firstTreeId: firstTreeId,
+      secondTreeId: secondTreeId
+    });
+  }
 }

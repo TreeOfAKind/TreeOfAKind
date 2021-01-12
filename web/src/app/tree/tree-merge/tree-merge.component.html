@@ -1,0 +1,32 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit()">
+    <h1>Merge trees</h1>
+    <p>You can merge your two existing trees into the new one.</p>
+
+    <div class="form-group">
+      <label for="firstTree">
+        First tree
+      </label>
+      <select id="firstTree" name="firstTree" class="form-control" [(ngModel)]="model.firstTreeId">
+        <option *ngFor="let tree of trees" [ngValue]="tree.id">
+          {{ tree.treeName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="secondTree">
+        Second tree
+      </label>
+      <select id="secondTree" name="secondTree" class="form-control" [(ngModel)]="model.secondTreeId">
+        <option *ngFor="let tree of trees" [ngValue]="tree.id">
+          {{ tree.treeName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary" type="submit" name="mergeTreesButton">Submit</button>
+    </div>
+  </form>
+</div>

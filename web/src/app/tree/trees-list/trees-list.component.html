@@ -17,8 +17,9 @@
         <div class="card">
           <div class="card-body forms">
             <app-tree-create (submitted)="onModelChange()"></app-tree-create>
-            <div class="text-center">
-              <a class="btn btn-primary mt-5" routerLink="import">Import from file</a>
+            <div class="d-flex justify-content-around my-5">
+              <a class="btn btn-primary" routerLink="import">Import<br>from file</a>
+              <a class="btn btn-primary" routerLink="tree-merge">Merge<br>trees</a>
             </div>
           </div>
         </div>
