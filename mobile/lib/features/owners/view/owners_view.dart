@@ -4,7 +4,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:tree_of_a_kind/contracts/user_profile/contracts.dart';
 import 'package:tree_of_a_kind/features/owners/bloc/owners_bloc.dart';
-import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
 
 class OwnersView extends StatelessWidget {
   OwnersView(
@@ -33,11 +32,7 @@ class _OwnerItem extends StatelessWidget {
   String _getName(UserProfileDTO owner) =>
       owner.firstName.isNotEmpty && owner.lastName.isNotEmpty
           ? '${owner.firstName} ${owner.lastName}'
-          : owner.lastName.isNotEmpty
-              ? owner.lastName
-              : owner.firstName.isNotEmpty
-                  ? owner.firstName
-                  : '<Name not provided>';
+          : owner.mailAddress;
 
   void _deleteOwnerDialog(BuildContext context, OwnersBloc bloc) {
     final theme = Theme.of(context);
