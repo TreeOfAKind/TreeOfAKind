@@ -57,7 +57,6 @@ export class StatsComponent implements OnInit {
       this.prepareGenderChart(result);
       this.prepareLivingChart(result);
       this.prepareMarriedChart(result);
-      console.log(this.model);
     });
   }
 
