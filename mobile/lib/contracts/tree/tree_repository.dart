@@ -39,6 +39,13 @@ class TreeRepository extends BaseRepository {
     return run(CreateTree()..treeName = treeName);
   }
 
+  Future<BaseCommandResult> updateTree(
+      {@required String treeId, @required String treeName}) {
+    return run(UpdateTreeName()
+      ..treeId = treeId
+      ..treeName = treeName);
+  }
+
   Future<BaseCommandResult> updateTreePhoto(
       {@required String treeId, PlatformFile image}) async {
     return image != null
@@ -52,6 +59,13 @@ class TreeRepository extends BaseRepository {
 
   Future<BaseCommandResult> deleteTree({@required String treeId}) {
     return run(RemoveTreeOwner()..treeId = treeId);
+  }
+
+  Future<BaseCommandResult> mergeTrees(
+      {@required String firstTreeId, @required String secondTreeId}) {
+    return run(MergeTrees()
+      ..firstTreeId = secondTreeId
+      ..secondTreeId = secondTreeId);
   }
 
   Future<BaseCommandResult> addTreeOwner(

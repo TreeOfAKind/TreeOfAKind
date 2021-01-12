@@ -133,6 +133,19 @@ class CreateTree extends Command {
   Map<String, dynamic> toJson() => _$CreateTreeToJson(this);
 }
 
+@JsonSerializable()
+class UpdateTreeName extends Command {
+  String treeId;
+  String treeName;
+
+  @override
+  String get endpointRoute => "Tree/UpdateTreeName";
+
+  UpdateTreeName({this.treeId, this.treeName});
+
+  Map<String, dynamic> toJson() => _$UpdateTreeNameToJson(this);
+}
+
 class AddOrChangeTreePhoto extends CommandWithFile {
   AddOrChangeTreePhoto(
       {@required String treeId, @required MultipartFile image}) {
@@ -154,4 +167,17 @@ class RemoveTreePhoto extends Command {
   RemoveTreePhoto({this.treeId});
 
   Map<String, dynamic> toJson() => _$RemoveTreePhotoToJson(this);
+}
+
+@JsonSerializable()
+class MergeTrees extends Command {
+  String firstTreeId;
+  String secondTreeId;
+
+  @override
+  String get endpointRoute => "Tree/MergeTrees";
+
+  MergeTrees({this.firstTreeId, this.secondTreeId});
+
+  Map<String, dynamic> toJson() => _$MergeTreesToJson(this);
 }

@@ -9,8 +9,14 @@ class UserProfileDTO {
   final String firstName;
   final String lastName;
   final DateTime birthDate;
+  final String mailAddress;
 
-  UserProfileDTO({this.id, this.firstName, this.lastName, this.birthDate});
+  UserProfileDTO(
+      {this.id,
+      this.firstName,
+      this.lastName,
+      this.birthDate,
+      this.mailAddress});
   factory UserProfileDTO.fromJson(Map<String, dynamic> json) =>
       _$UserProfileDTOFromJson(json);
   Map<String, dynamic> toJson() => _$UserProfileDTOToJson(this);
