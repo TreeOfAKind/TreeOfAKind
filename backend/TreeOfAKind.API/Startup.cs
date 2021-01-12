@@ -87,6 +87,7 @@ namespace TreeOfAKind.API
                 x.Map<InvalidCommandException>(ex => new InvalidCommandProblemDetails(ex));
                 x.Map<BusinessRuleValidationException>(ex => new BusinessRuleValidationExceptionProblemDetails(ex));
                 x.Map<UnauthorizedException>(ex => new UnauthorizedProblemDetails(ex));
+                x.Map<DbUpdateException>(ex => new DatabaseErrorProblemDetails(ex));
             });
 
 
