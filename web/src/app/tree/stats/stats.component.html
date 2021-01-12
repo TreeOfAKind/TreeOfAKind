@@ -1,0 +1,81 @@
+<div class="container">
+  <h1>Statistics</h1>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">Total number of family members</h5>
+          <h1 class="card-text text-center">{{ model.totalNumberOfPeople | number:'1.0-0' }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">Family members by gender</h5>
+          <apx-chart
+            [series]="genderChartOptions.series"
+            [chart]="genderChartOptions.chart"
+            [labels]="genderChartOptions.labels"
+            [responsive]="genderChartOptions.responsive">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">Living and deceased family members</h5>
+          <apx-chart
+            [series]="livingChartOptions.series"
+            [chart]="livingChartOptions.chart"
+            [labels]="livingChartOptions.labels"
+            [responsive]="livingChartOptions.responsive">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">Average lifespan</h5>
+          <h1 class="card-text text-center lifespan mt-5">{{ model.averageLifespanInDays | number:'1.0-0' }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">Average number of children</h5>
+          <h1 class="card-text text-center">{{ model.averageNumberOfChildren | number:'1.0-2' }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">Married and single family members</h5>
+          <apx-chart
+            [series]="marriedChartOptions.series"
+            [chart]="marriedChartOptions.chart"
+            [labels]="marriedChartOptions.labels"
+            [responsive]="marriedChartOptions.responsive">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

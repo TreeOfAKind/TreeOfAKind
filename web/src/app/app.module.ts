@@ -29,6 +29,8 @@ import { LicensesComponent } from './licenses/licenses.component';
 import { PosterComponent } from './import-export/poster/poster.component';
 import { ImportComponent } from './import-export/import/import.component';
 import { ExportComponent } from './import-export/export/export.component';
+import { StatsComponent } from './tree/stats/stats.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { ExportComponent } from './import-export/export/export.component';
     LicensesComponent,
     PosterComponent,
     ImportComponent,
-    ExportComponent
+    ExportComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { ExportComponent } from './import-export/export/export.component';
     FormsModule,
     HttpClientModule,
     CommonModule,
+    NgApexchartsModule,
   ],
   providers: [
     {
