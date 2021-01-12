@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TreeCreateRequest } from './tree-create-request.model';
+import { TreeStats } from './tree-stats.model';
 import { Tree } from './tree.model';
 import { TreesListResponse } from './trees-list-response.model';
 
@@ -46,5 +47,9 @@ export class TreeService {
       treeId: treeId,
       removedUserId: userId
     });
+  }
+
+  getTreeStatistics(treeId: string): Observable<TreeStats> {
+    return this.httpClient.post<TreeStats>(`${this.url}GetTreeStatistics`, { treeId: treeId });
   }
 }
