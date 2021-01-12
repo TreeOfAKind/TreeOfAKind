@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Tree } from '../shared/tree.model';
 import { TreeService } from '../shared/tree.service';
 import { TreesListElement } from '../shared/trees-list-element.model';
 
