@@ -64,7 +64,7 @@ class TreeRepository extends BaseRepository {
   Future<BaseCommandResult> mergeTrees(
       {@required String firstTreeId, @required String secondTreeId}) {
     return run(MergeTrees()
-      ..firstTreeId = secondTreeId
+      ..firstTreeId = firstTreeId
       ..secondTreeId = secondTreeId);
   }
 

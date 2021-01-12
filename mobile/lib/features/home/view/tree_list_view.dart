@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
+import 'package:tree_of_a_kind/features/home/view/merge_trees_dialog.dart';
 import 'package:tree_of_a_kind/features/tree/view/tree_page.dart';
 
 class TreeListView extends StatelessWidget {
@@ -18,7 +19,7 @@ class TreeListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       ...treeList.map((item) => item.id != deletedTreeId
-          ? _TreeItem(treeItem: item)
+          ? _TreeItem(treeItem: item, treeList: treeList)
           : _TreeItemLoading()),
       if (isRefreshing && deletedTreeId == null) _TreeItemLoading()
     ]);
@@ -26,9 +27,10 @@ class TreeListView extends StatelessWidget {
 }
 
 class _TreeItem extends StatelessWidget {
-  _TreeItem({@required this.treeItem});
+  _TreeItem({@required this.treeItem, @required this.treeList});
 
   final TreeItemDTO treeItem;
+  final List<TreeItemDTO> treeList;
 
   void _deleteTreeDialog(BuildContext context, TreeListBloc bloc) {
     final theme = Theme.of(context);
@@ -61,6 +63,8 @@ class _TreeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // ignore: close_sinks
+    final bloc = BlocProvider.of<TreeListBloc>(context);
 
     return Slidable(
         actionPane: SlidableDrawerActionPane(),
@@ -77,7 +81,7 @@ class _TreeItem extends StatelessWidget {
                     await Navigator.of(context).push(TreePage.route(treeItem));
 
                 if (result is TreeListEvent) {
-                  BlocProvider.of<TreeListBloc>(context).add(result);
+                  bloc.add(result);
                 }
               },
               onLongPress: () => {},
@@ -88,7 +92,10 @@ class _TreeItem extends StatelessWidget {
             caption: 'Merge',
             color: theme.accentColor,
             icon: Icons.merge_type,
-            onTap: () => {},
+            onTap: () => showDialog(
+                context: context,
+                builder: (context) => MergeTreesDialog(
+                    firstTreeId: treeItem.id, treesList: treeList, bloc: bloc)),
           ),
         ],
         secondaryActions: [
@@ -96,8 +103,7 @@ class _TreeItem extends StatelessWidget {
             caption: 'Delete',
             color: theme.errorColor,
             icon: Icons.delete,
-            onTap: () => _deleteTreeDialog(
-                context, BlocProvider.of<TreeListBloc>(context)),
+            onTap: () => _deleteTreeDialog(context, bloc),
           ),
         ]);
   }

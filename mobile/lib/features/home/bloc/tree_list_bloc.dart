@@ -28,8 +28,8 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
       yield* _handleUpdateTree(event);
     } else if (event is DeleteTree) {
       yield* _handleDeleteTree(event);
-    } else if (event is MergeTrees) {
-      yield* _handleMergeTrees(event);
+    } else if (event is TreesMerged) {
+      yield* _handleTreesMerged(event);
     } else {
       throw new Exception("Unhandled event.");
     }
@@ -93,7 +93,7 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
     }
   }
 
-  Stream<TreeListState> _handleMergeTrees(MergeTrees event) async* {
+  Stream<TreeListState> _handleTreesMerged(TreesMerged event) async* {
     yield RefreshLoadingState(_treeList, null);
 
     final result = await treeRepository.mergeTrees(

@@ -31,10 +31,9 @@ class DeleteTree extends TreeListEvent {
   final String treeId;
 }
 
-class MergeTrees extends TreeListEvent {
-  const MergeTrees(this.firstTreeId, this.secondTreeId);
+class TreesMerged extends TreeListEvent {
+  const TreesMerged(this.firstTreeId, this.secondTreeId);
 
   final String firstTreeId;
   final String secondTreeId;
-
 }
