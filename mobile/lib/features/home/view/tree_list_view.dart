@@ -73,10 +73,14 @@ class _TreeItem extends StatelessWidget {
         child: Card(
             shadowColor: theme.shadowColor,
             child: ListTile(
-              leading: Icon(
-                Icons.nature,
-                color: theme.accentColor,
-              ),
+              leading: treeItem.photoUri != null
+                  ? CircleAvatar(
+                      radius: 20.0,
+                      backgroundImage: Image.network(treeItem.photoUri).image)
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 7.0),
+                      child: Icon(Icons.nature, color: theme.accentColor),
+                    ),
               title: Text(treeItem.treeName, style: theme.textTheme.headline6),
               onTap: () async {
                 final result =

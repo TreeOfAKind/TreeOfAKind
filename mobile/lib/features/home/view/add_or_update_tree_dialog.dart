@@ -79,7 +79,7 @@ class _AddOrUpdateTreeDialogState extends State<AddOrUpdateTreeDialog> {
                     child: FlatButton(
                       onPressed: () => _pickTreePhoto(),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0), //or 15.0
+                        borderRadius: BorderRadius.circular(20.0),
                         child: Container(
                           height: 70.0,
                           width: 70.0,
