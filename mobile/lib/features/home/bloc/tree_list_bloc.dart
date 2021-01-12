@@ -35,10 +35,13 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
     }
   }
 
-  Stream<TreeListState> _handleFetchTreeList({String deletedTreeId}) async* {
-    yield _treeList == null
-        ? const InitialLoadingState()
-        : RefreshLoadingState(_treeList, deletedTreeId);
+  Stream<TreeListState> _handleFetchTreeList(
+      {String deletedTreeId, bool load = true}) async* {
+    if (load) {
+      yield _treeList == null
+          ? const InitialLoadingState()
+          : RefreshLoadingState(_treeList, deletedTreeId);
+    }
 
     final result = await treeRepository.getMyTrees();
 
@@ -72,8 +75,6 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
   }
 
   Stream<TreeListState> _handleUpdateTree(UpdateTree event) async* {
-    yield RefreshLoadingState(_treeList, null);
-
     var result = await treeRepository.updateTree(
         treeId: event.treeId, treeName: event.treeName);
 
@@ -82,13 +83,13 @@ class TreeListBloc extends Bloc<TreeListEvent, TreeListState> {
     } else {
       if (event.updatePhoto) {
         result = await treeRepository.updateTreePhoto(
-            treeId: result.entityId, image: event.treePhoto);
+            treeId: event.treeId, image: event.treePhoto);
       }
 
       if (result.unexpectedError) {
         yield const UnknownErrorState();
       } else {
-        yield* _handleFetchTreeList();
+        yield* _handleFetchTreeList(load: false);
       }
     }
   }

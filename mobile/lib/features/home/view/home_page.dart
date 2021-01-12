@@ -9,7 +9,7 @@ import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
 import 'package:tree_of_a_kind/features/user_profile/view/user_profile_page.dart';
 
-import 'add_tree_dialog.dart';
+import 'add_or_update_tree_dialog.dart';
 import 'tree_list_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -86,8 +86,8 @@ class _HomePageState extends State<HomePage> {
             child: Icon(Icons.add),
             onPressed: () => showDialog(
                 context: context,
-                builder: (_) =>
-                    AddTreeDialog(BlocProvider.of<TreeListBloc>(context)))),
+                builder: (_) => AddOrUpdateTreeDialog(
+                    BlocProvider.of<TreeListBloc>(context)))),
         body: BlocBuilder<TreeListBloc, TreeListState>(
           builder: (context, state) {
             if (state is InitialLoadingState) {

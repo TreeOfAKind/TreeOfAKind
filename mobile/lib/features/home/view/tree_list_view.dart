@@ -7,6 +7,8 @@ import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
 import 'package:tree_of_a_kind/features/home/view/merge_trees_dialog.dart';
 import 'package:tree_of_a_kind/features/tree/view/tree_page.dart';
 
+import 'add_or_update_tree_dialog.dart';
+
 class TreeListView extends StatelessWidget {
   TreeListView(
       {@required this.treeList, this.isRefreshing = false, this.deletedTreeId});
@@ -84,7 +86,12 @@ class _TreeItem extends StatelessWidget {
                   bloc.add(result);
                 }
               },
-              onLongPress: () => {},
+              onLongPress: () => showDialog(
+                  context: context,
+                  builder: (_) => AddOrUpdateTreeDialog(
+                        BlocProvider.of<TreeListBloc>(context),
+                        tree: treeItem,
+                      )),
               trailing: Icon(Icons.keyboard_arrow_right),
             )),
         actions: [
