@@ -15,8 +15,26 @@ class SaveNewTree extends TreeListEvent {
   final PlatformFile treePhoto;
 }
 
+class UpdateTree extends TreeListEvent {
+  const UpdateTree(this.treeId,
+      {@required this.treeName, this.treePhoto, this.updatePhoto = false});
+
+  final String treeId;
+  final String treeName;
+  final PlatformFile treePhoto;
+  final bool updatePhoto;
+}
+
 class DeleteTree extends TreeListEvent {
   const DeleteTree(this.treeId);
 
   final String treeId;
+}
+
+class MergeTrees extends TreeListEvent {
+  const MergeTrees(this.firstTreeId, this.secondTreeId);
+
+  final String firstTreeId;
+  final String secondTreeId;
+
 }
