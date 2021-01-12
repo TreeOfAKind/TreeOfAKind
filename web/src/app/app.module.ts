@@ -30,6 +30,8 @@ import { PosterComponent } from './import-export/poster/poster.component';
 import { ImportComponent } from './import-export/import/import.component';
 import { ExportComponent } from './import-export/export/export.component';
 import { TreeMergeComponent } from './tree/tree-merge/tree-merge.component';
+import { StatsComponent } from './tree/stats/stats.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 @NgModule({
@@ -54,7 +56,8 @@ import { TreeMergeComponent } from './tree/tree-merge/tree-merge.component';
     PosterComponent,
     ImportComponent,
     ExportComponent,
-    TreeMergeComponent
+    TreeMergeComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ import { TreeMergeComponent } from './tree/tree-merge/tree-merge.component';
     FormsModule,
     HttpClientModule,
     CommonModule,
+    NgApexchartsModule,
   ],
   providers: [
     {
