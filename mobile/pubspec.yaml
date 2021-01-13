@@ -26,6 +26,7 @@ dependencies:
 
   bloc: ^6.1.0
   charts_flutter: ^0.9.0
+  connectivity: ^2.0.2
   dio: ^3.0.10
   enum_to_string: ^1.0.14
   equatable: ^1.2.5

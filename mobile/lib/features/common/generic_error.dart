@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tree_of_a_kind/resources/app_colors.dart';
 
 class GenericError extends StatelessWidget {
   const GenericError({Key key}) : super(key: key);

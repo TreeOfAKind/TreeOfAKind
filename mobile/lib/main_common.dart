@@ -9,5 +9,6 @@ Future<void> mainCommon(Config config) async {
   WidgetsFlutterBinding.ensureInitialized();
   final dependenciesFactory = AppDependenciesFactory();
   await dependenciesFactory.initializeAsync(config);
-  runApp(DependenciesInjector(dependenciesFactory, config, App()));
+  runApp(DependenciesInjector(dependenciesFactory, config,
+      App(connectedAtStart: dependenciesFactory.connected)));
 }
