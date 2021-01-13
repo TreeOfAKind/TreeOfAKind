@@ -106,10 +106,10 @@ class _TreePageState extends State<TreePage> {
               return GenericError();
             } else if (state is PresentingTree) {
               tree = state.tree;
-              return state.treeGraph.isEmpty
+              return state.tree.people.isEmpty
                   ? const EmptyWidgetInfo(
                       "Family members of this tree will be here, once you add them ☺")
-                  : TreeGraphView(tree: state.tree, treeGraph: state.treeGraph);
+                  : TreeGraphView(tree: state.tree);
             } else {
               return Container();
             }

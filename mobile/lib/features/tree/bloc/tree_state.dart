@@ -9,10 +9,9 @@ class LoadingState extends TreeState {
 }
 
 class PresentingTree extends TreeState {
-  const PresentingTree(this.tree, this.treeGraph);
+  const PresentingTree(this.tree);
 
   final TreeDTO tree;
-  final List<NodeInput> treeGraph;
 }
 
 class UnknownErrorState extends TreeState {

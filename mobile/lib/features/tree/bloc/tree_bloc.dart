@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:graphite/graphite.dart';
-import 'package:tree_of_a_kind/contracts/people/contracts.dart';
 import 'package:tree_of_a_kind/contracts/people/people_repository.dart';
 import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
 import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
@@ -19,7 +17,6 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
   final PeopleRepository peopleRepository;
 
   TreeDTO _tree;
-  List<NodeInput> _treeGraph;
 
   @override
   Stream<TreeState> mapEventToState(
@@ -34,17 +31,6 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
     }
   }
 
-  List<NodeInput> _treeToGraph(TreeDTO tree) {
-    return tree.people
-        .map((person) => NodeInput(
-            id: person.id,
-            next: [
-              // if (person.spouse != null) person.spouse,
-              ...person.children,
-            ].where((element) => element != null).toList()))
-        .toList();
-  }
-
   Stream<TreeState> _handleFetchTree(String treeId) async* {
     yield const LoadingState();
 
@@ -56,8 +42,7 @@ class TreeBloc extends Bloc<TreeEvent, TreeState> {
       _tree = result.data;
       _tree.people
           .sort((p1, p2) => (p1.spouse ?? '').compareTo(p2.spouse ?? ''));
-      _treeGraph = _treeToGraph(_tree);
-      yield PresentingTree(_tree, _treeGraph);
+      yield PresentingTree(_tree);
     }
   }
 
