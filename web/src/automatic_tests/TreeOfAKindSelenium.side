@@ -1192,14 +1192,14 @@
       ],
       "value": ""
     }, {
-      "id": "f0e394e8-123a-4457-b5d6-9c4f3679ac8a",
+      "id": "de23c4a6-0850-4dc4-b24f-e07cc443fed7",
       "comment": "",
       "command": "click",
-      "target": "css=.col:nth-child(6) .card-img-top",
+      "target": "xpath=//h5[contains(.,'Selenium tree')]",
       "targets": [
-        ["css=.col:nth-child(6) .card-img-top", "css:finder"],
-        ["xpath=(//img[@alt='Card image cap'])[6]", "xpath:img"],
-        ["xpath=//div[6]/a/div/img", "xpath:position"]
+        ["css=.col:nth-child(3) .card-title", "css:finder"],
+        ["xpath=//div[3]/a/div/div/h5", "xpath:position"],
+        ["xpath=//h5[contains(.,'Selenium tree')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -1440,14 +1440,14 @@
       ],
       "value": ""
     }, {
-      "id": "913305da-2e69-41f2-a0a6-324a16b965c2",
+      "id": "8c371bda-2a3d-47a1-bfc1-2ef7667fcac3",
       "comment": "",
       "command": "click",
-      "target": "css=.col:nth-child(6) .card-img-top",
+      "target": "xpath=//h5[contains(.,'Selenium tree')]",
       "targets": [
-        ["css=.col:nth-child(6) .card-img-top", "css:finder"],
-        ["xpath=(//img[@alt='Card image cap'])[6]", "xpath:img"],
-        ["xpath=//div[6]/a/div/img", "xpath:position"]
+        ["css=.col:nth-child(3) .card-title", "css:finder"],
+        ["xpath=//div[3]/a/div/div/h5", "xpath:position"],
+        ["xpath=//h5[contains(.,'Selenium tree')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -1687,7 +1687,7 @@
       "id": "d0da3082-7c29-4f08-8992-c459511a9e05",
       "comment": "",
       "command": "click",
-      "target": "css=.col:nth-child(6) .card-img-top",
+      "target": "xpath=//h5[contains(.,'Selenium tree')]",
       "targets": [
         ["css=.col:nth-child(6) .card-img-top", "css:finder"],
         ["xpath=(//img[@alt='Card image cap'])[6]", "xpath:img"],
