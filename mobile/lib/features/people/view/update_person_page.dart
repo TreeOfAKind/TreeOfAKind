@@ -9,7 +9,11 @@ import 'package:tree_of_a_kind/features/person_files/view/person_files_page.dart
 import 'package:tree_of_a_kind/features/tree/bloc/tree_bloc.dart';
 
 class UpdatePersonPage extends StatelessWidget {
-  const UpdatePersonPage({Key key, @required this.tree, @required this.person})
+  const UpdatePersonPage(
+      {Key key,
+      @required this.tree,
+      @required this.person,
+      @required this.treeBloc})
       : super(key: key);
 
   static const String _manageFiles = 'Manage family member files';
@@ -18,6 +22,7 @@ class UpdatePersonPage extends StatelessWidget {
 
   final TreeDTO tree;
   final PersonDTO person;
+  final TreeBloc treeBloc;
 
   static Route route(TreeBloc bloc, TreeDTO tree, PersonDTO person) {
     return MaterialPageRoute<void>(
@@ -25,14 +30,14 @@ class UpdatePersonPage extends StatelessWidget {
         create: (context) => PeopleBloc(
             treeBloc: bloc,
             peopleRepository: RepositoryProvider.of<PeopleRepository>(context)),
-        child: UpdatePersonPage(tree: tree, person: person),
+        child: UpdatePersonPage(tree: tree, person: person, treeBloc: bloc),
       ),
     );
   }
 
   void _menuAction(String item, BuildContext context) {
     if (item == _deletePerson) {
-      BlocProvider.of<TreeBloc>(context).add(PersonRemoved(person.id));
+      treeBloc.add(PersonRemoved(person.id));
       Navigator.of(context).pop();
     } else if (item == _manageFiles) {
       Navigator.of(context).push(PersonFilesPage.route(tree.treeId, person));
