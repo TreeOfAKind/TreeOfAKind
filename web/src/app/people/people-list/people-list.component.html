@@ -1,0 +1,27 @@
+<div class="container">
+  <a class="btn btn-primary" routerLink="add-person">Add person</a>
+  <table class="list-table table table-borderless">
+    <thead>
+      <tr>
+        <th class="font-weight-lighter">People</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-light border border-white" *ngFor="let person of model">
+        <td class="list-table__table-cell font-weight-bold border-right">
+          <a class="text-dark" [routerLink]="['person-form', person.id]">{{ person | person }}</a>
+        </td>
+
+        <td class="list-table__table-cell font-weight-bold border-right">
+          <a class="text-dark" [routerLink]="['files', person.id]"> files </a>
+        </td>
+
+        <td class="list-table__table-cell font-weight-bold border-right">
+          <a class="text-dark" (click)="deletePerson(person)"> delete </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

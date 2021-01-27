@@ -8,19 +8,22 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
+using Serilog;
 using TreeOfAKind.Application.Configuration;
 using TreeOfAKind.Application.Configuration.Emails;
+using TreeOfAKind.Application.Services;
+using TreeOfAKind.Infrastructure.Authentication;
 using TreeOfAKind.Infrastructure.Caching;
 using TreeOfAKind.Infrastructure.Database;
 using TreeOfAKind.Infrastructure.Domain;
 using TreeOfAKind.Infrastructure.Emails;
+using TreeOfAKind.Infrastructure.FileStorage;
 using TreeOfAKind.Infrastructure.Logging;
 using TreeOfAKind.Infrastructure.Processing;
 using TreeOfAKind.Infrastructure.Processing.InternalCommands;
 using TreeOfAKind.Infrastructure.Processing.Outbox;
 using TreeOfAKind.Infrastructure.Quartz;
 using TreeOfAKind.Infrastructure.SeedWork;
-using Serilog;
 
 namespace TreeOfAKind.Infrastructure
 {
@@ -31,25 +34,31 @@ namespace TreeOfAKind.Infrastructure
             string connectionString,
             ICacheStore cacheStore,
             IEmailSender emailSender,
+            IFileSaver fileSaver,
             EmailsSettings emailsSettings,
+            AzureBlobStorageSettings azureBlobStorageSettings,
             ILogger logger,
             IExecutionContextAccessor executionContextAccessor,
+            IUserAuthIdProvider userAuthIdProvider,
             bool runQuartz = true)
         {
             if (runQuartz)
             {
-                StartQuartz(connectionString, emailsSettings, logger, executionContextAccessor);
+                StartQuartz(connectionString, emailsSettings, azureBlobStorageSettings, logger, executionContextAccessor, userAuthIdProvider);
             }
 
             services.AddSingleton(cacheStore);
 
             var serviceProvider = CreateAutofacServiceProvider(
-                services, 
-                connectionString, 
-                emailSender, 
+                services,
+                connectionString,
+                emailSender,
+                fileSaver,
                 emailsSettings,
+                azureBlobStorageSettings,
                 logger,
-                executionContextAccessor);
+                executionContextAccessor,
+                userAuthIdProvider);
 
             return serviceProvider;
         }
@@ -58,9 +67,12 @@ namespace TreeOfAKind.Infrastructure
             IServiceCollection services,
             string connectionString,
             IEmailSender emailSender,
+            IFileSaver fileSaver,
             EmailsSettings emailsSettings,
+            AzureBlobStorageSettings azureBlobStorageSettings,
             ILogger logger,
-            IExecutionContextAccessor executionContextAccessor)
+            IExecutionContextAccessor executionContextAccessor,
+            IUserAuthIdProvider userAuthIdProvider)
         {
             var container = new ContainerBuilder();
 
@@ -70,7 +82,10 @@ namespace TreeOfAKind.Infrastructure
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new MediatorModule());
             container.RegisterModule(new DomainModule());
-            
+            container.RegisterModule(new GedcomXToDomainModule());
+            container.RegisterModule(new AuthenticationModule(userAuthIdProvider));
+            container.RegisterModule(new AzureBlobStorageModule(azureBlobStorageSettings, fileSaver));
+
             if (emailSender != null)
             {
                 container.RegisterModule(new EmailModule(emailSender, emailsSettings));
@@ -79,7 +94,7 @@ namespace TreeOfAKind.Infrastructure
             {
                 container.RegisterModule(new EmailModule(emailsSettings));
             }
-            
+
             container.RegisterModule(new ProcessingModule());
 
             container.RegisterInstance(executionContextAccessor);
@@ -96,10 +111,12 @@ namespace TreeOfAKind.Infrastructure
         }
 
         private static void StartQuartz(
-            string connectionString, 
+            string connectionString,
             EmailsSettings emailsSettings,
+            AzureBlobStorageSettings blobStorageSettings,
             ILogger logger,
-            IExecutionContextAccessor executionContextAccessor)
+            IExecutionContextAccessor executionContextAccessor,
+            IUserAuthIdProvider userAuthIdProvider)
         {
             var schedulerFactory = new StdSchedulerFactory();
             var scheduler = schedulerFactory.GetScheduler().GetAwaiter().GetResult();
@@ -112,6 +129,8 @@ namespace TreeOfAKind.Infrastructure
             container.RegisterModule(new DataAccessModule(connectionString));
             container.RegisterModule(new EmailModule(emailsSettings));
             container.RegisterModule(new ProcessingModule());
+            container.RegisterModule(new AuthenticationModule(userAuthIdProvider));
+            container.RegisterModule(new AzureBlobStorageModule(blobStorageSettings));
 
             container.RegisterInstance(executionContextAccessor);
             container.Register(c =>

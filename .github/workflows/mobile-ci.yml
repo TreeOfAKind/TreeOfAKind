@@ -1,0 +1,49 @@
+name: Mobile test and build
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "1.22.0"
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+
+      - name: Download pub dependencies
+        run: flutter pub get
+        working-directory: ./mobile
+
+      - name: Run build_runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+        working-directory: ./mobile
+
+      - name: Build
+        run: flutter build appbundle lib/main_test.dart
+        working-directory: ./mobile
+
+      - name: Test
+        run: flutter test
+        working-directory: ./mobile

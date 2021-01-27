@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using TreeOfAKind.Application.Configuration.Validation;
-using TreeOfAKind.Application.Ping;
 
 namespace TreeOfAKind.API
 {
@@ -31,11 +27,13 @@ namespace TreeOfAKind.API
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMediator _mediator;
+        private readonly IConfiguration _configuration;
 
-        public PingController(IWebHostEnvironment webHostEnvironment, IMediator mediator)
+        public PingController(IWebHostEnvironment webHostEnvironment, IMediator mediator, IConfiguration configuration)
         {
             this._webHostEnvironment = webHostEnvironment;
             this._mediator = mediator;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -92,12 +90,18 @@ namespace TreeOfAKind.API
                 SomeDateTime = DateTime.Now,
             });
         }
+        
 
+        /// <summary>
+        /// Returns name of deployment service
+        /// </summary>
+        /// <response code="200">Name of deployment service.</response>
         [HttpGet]
-        [Route("{pingName}")]
-        public IActionResult Index([FromRoute]string pingName)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Route("deploymentservice")]
+        public IActionResult Index()
         {
-            return Ok(pingName ?? "Hello");
+            return Ok(_configuration["deployment:service"]);
         }
     }
 }

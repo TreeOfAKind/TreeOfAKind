@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
@@ -63,11 +64,11 @@ void main() {
       );
 
       blocTest<AuthenticationBloc, AuthenticationState>(
-        'emits [unauthenticated] when user is empty',
+        'emits [unauthenticated] when user is null',
         build: () => AuthenticationBloc(
           authenticationRepository: authenticationRepository,
         ),
-        act: (bloc) => bloc.add(const AuthenticationUserChanged(User.empty)),
+        act: (bloc) => bloc.add(const AuthenticationUserChanged(null)),
         expect: const <AuthenticationState>[
           AuthenticationState.unauthenticated(),
         ],

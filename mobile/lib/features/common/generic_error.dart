@@ -13,6 +13,7 @@ class GenericError extends StatelessWidget {
               textDirection: TextDirection.ltr,
               child: RichText(
                 text: TextSpan(
+                  style: TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
                       text: "An error has occured ",
@@ -20,7 +21,6 @@ class GenericError extends StatelessWidget {
                     WidgetSpan(
                       child: Icon(
                         Icons.error,
-                        color: AppColors.white,
                       ),
                     ),
                   ],

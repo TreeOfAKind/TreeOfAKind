@@ -20,10 +20,13 @@ namespace TreeOfAKind.API.Configuration
         {
             var correlationId = Guid.NewGuid();
 
-            if (context.Request != null)
-            {
-                context.Request.Headers.Add(CorrelationHeaderKey, correlationId.ToString());
-            }
+            context.Request?.Headers.Add(CorrelationHeaderKey, correlationId.ToString());
+
+            context.Response?.OnStarting(state => {
+                var httpContext = (HttpContext)state;
+                httpContext.Response?.Headers.Add(CorrelationHeaderKey, correlationId.ToString());
+                return Task.CompletedTask;
+            }, context);
 
             await this._next.Invoke(context);
         }

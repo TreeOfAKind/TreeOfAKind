@@ -1,0 +1,34 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit()">
+    <h1>Login</h1>
+
+    <div class="form-group">
+      <label for="email">
+        Email
+      </label>
+      <input id="email" name="email" class="form-control" type="text" [(ngModel)]="model.email">
+    </div>
+
+    <div class="form-group">
+      <label for="password">
+        Password
+      </label>
+      <input id="password" name="email" class="form-control" type="password" [(ngModel)]="model.password">
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary" type="submit">Sign in</button>
+    </div>
+
+  </form>
+
+  <div class="row">
+    <p class="mr-2">Need an account?</p>
+    <a href="/register">Sign up</a>
+  </div>
+
+  <div class="row">
+    <p class="mr-2">Forgot password? Type in your email and</p>
+    <a href="" (click)="resetPassword()">Send password reset message</a>
+  </div>
+</div>

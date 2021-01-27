@@ -1,8 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/login/login.dart';
 import 'package:tree_of_a_kind/features/sign_up/sign_up.dart';
 import 'package:formz/formz.dart';
+import 'package:tree_of_a_kind/resources/images.dart';
 
 class LoginForm extends StatelessWidget {
   @override
@@ -23,10 +26,10 @@ class LoginForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Image.asset(
-              //   'assets/some kind of logo image',
-              //   height: 120,
-              // ),
+              SvgPicture.asset(
+                Images.logoWithoutName,
+                height: 120,
+              ),
               const SizedBox(height: 16.0),
               _EmailInput(),
               const SizedBox(height: 8.0),
@@ -51,7 +54,7 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_emailInput_textField'),
-          onChanged: (email) => context.bloc<LoginCubit>().emailChanged(email),
+          onChanged: (email) => context.read<LoginCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'email',
@@ -73,7 +76,7 @@ class _PasswordInput extends StatelessWidget {
         return TextField(
           key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
-              context.bloc<LoginCubit>().passwordChanged(password),
+              context.read<LoginCubit>().passwordChanged(password),
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'password',
@@ -93,16 +96,16 @@ class _LoginButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
+            ? const LoadingIndicator()
             : RaisedButton(
                 key: const Key('loginForm_continue_raisedButton'),
                 child: const Text('LOGIN'),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
-                color: const Color(0xFFFFD600),
+                color: Theme.of(context).accentColor,
                 onPressed: state.status.isValidated
-                    ? () => context.bloc<LoginCubit>().logInWithCredentials()
+                    ? () => context.read<LoginCubit>().logInWithCredentials()
                     : null,
               );
       },

@@ -1,9 +1,14 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tree_of_a_kind/app/app.dart';
+import 'package:tree_of_a_kind/contracts/common/base_repository.dart';
+import 'package:tree_of_a_kind/contracts/tree/contracts.dart';
+import 'package:tree_of_a_kind/contracts/tree/tree_repository.dart';
 import 'package:tree_of_a_kind/features/authentication/authentication.dart';
 import 'package:tree_of_a_kind/features/common/splash_page.dart';
+import 'package:tree_of_a_kind/features/home/bloc/tree_list_bloc.dart';
 import 'package:tree_of_a_kind/features/home/home.dart';
 import 'package:tree_of_a_kind/features/login/login.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,56 +17,39 @@ import 'package:mockito/mockito.dart';
 // ignore: must_be_immutable
 class MockUser extends Mock implements User {
   @override
-  String get id => 'id';
-
-  @override
-  String get name => 'Joe';
-
-  @override
   String get email => 'joe@gmail.com';
 }
 
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
 
+class MockTreeRepository extends Mock implements TreeRepository {}
+
 class MockAuthenticationBloc extends MockBloc<AuthenticationState>
     implements AuthenticationBloc {}
 
+class MockTreeListBloc extends MockBloc<TreeListState> implements TreeListBloc {
+}
+
 void main() {
   group('App', () {
-    AuthenticationRepository authenticationRepository;
-
-    setUp(() {
-      authenticationRepository = MockAuthenticationRepository();
-      when(authenticationRepository.user).thenAnswer(
-        (_) => const Stream.empty(),
-      );
-    });
-
-    test('throws AssertionError when authenticationRepository is null', () {
-      expect(() => App(authenticationRepository: null), throwsAssertionError);
-    });
-
-    testWidgets('renders AppView', (tester) async {
-      await tester.pumpWidget(
-        App(authenticationRepository: authenticationRepository),
-      );
-      expect(find.byType(AppView), findsOneWidget);
-    });
-  });
-
-  group('AppView', () {
     AuthenticationBloc authenticationBloc;
     AuthenticationRepository authenticationRepository;
+    TreeRepository treeRepository;
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
       authenticationRepository = MockAuthenticationRepository();
+      treeRepository = MockTreeRepository();
+
+      final treeItem = TreeItemDTO(id: "id_1", treeName: "Test tree");
+      when(treeRepository.getMyTrees())
+          .thenAnswer((inv) => Future.value(BaseQueryResult([treeItem])));
     });
 
     testWidgets('renders SplashPage by default', (tester) async {
       await tester.pumpWidget(
-        BlocProvider.value(value: authenticationBloc, child: AppView()),
+        BlocProvider.value(value: authenticationBloc, child: App()),
       );
       await tester.pumpAndSettle();
       expect(find.byType(SplashPage), findsOneWidget);
@@ -78,7 +66,7 @@ void main() {
           value: authenticationRepository,
           child: BlocProvider.value(
             value: authenticationBloc,
-            child: AppView(),
+            child: App(),
           ),
         ),
       );
@@ -92,15 +80,22 @@ void main() {
         authenticationBloc,
         Stream.value(AuthenticationState.authenticated(MockUser())),
       );
-      await tester.pumpWidget(
-        RepositoryProvider.value(
-          value: authenticationRepository,
-          child: BlocProvider.value(
-            value: authenticationBloc,
-            child: AppView(),
+
+      await tester.pumpWidget(MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider.value(
+            value: authenticationRepository,
           ),
+          RepositoryProvider.value(
+            value: treeRepository,
+          )
+        ],
+        child: BlocProvider.value(
+          value: authenticationBloc,
+          child: App(),
         ),
-      );
+      ));
+
       await tester.pumpAndSettle();
       expect(find.byType(HomePage), findsOneWidget);
     });

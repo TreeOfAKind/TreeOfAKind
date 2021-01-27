@@ -3,9 +3,9 @@ using MediatR;
 
 namespace TreeOfAKind.Application.Configuration.Commands
 {
-    public interface ICommand : IRequest
+    public interface ICommand : ICommand<Unit>
     {
-        Guid Id { get; }
+        
     }
 
     public interface ICommand<out TResult> : IRequest<TResult>

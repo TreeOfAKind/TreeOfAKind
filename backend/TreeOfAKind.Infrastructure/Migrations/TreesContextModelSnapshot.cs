@@ -15,24 +15,27 @@ namespace TreeOfAKind.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.1");
 
             modelBuilder.Entity("TreeOfAKind.Domain.Trees.Tree", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("_name")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("Name")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Photo")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trees","trees");
+                    b.ToTable("Trees", "trees");
                 });
 
             modelBuilder.Entity("TreeOfAKind.Domain.UserProfiles.UserProfile", b =>
@@ -40,28 +43,32 @@ namespace TreeOfAKind.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AuthUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
-
                     b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
+
+                    b.Property<string>("ContactEmailAddress")
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("UserAuthId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthUserId")
+                    b.HasIndex("UserAuthId")
                         .IsUnique();
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("UserProfiles", "trees");
                 });
 
             modelBuilder.Entity("TreeOfAKind.Infrastructure.Processing.InternalCommands.InternalCommand", b =>
@@ -76,12 +83,12 @@ namespace TreeOfAKind.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Type")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("InternalCommands","app");
+                    b.ToTable("InternalCommands", "app");
                 });
 
             modelBuilder.Entity("TreeOfAKind.Infrastructure.Processing.Outbox.OutboxMessage", b =>
@@ -90,8 +97,8 @@ namespace TreeOfAKind.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Data")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime>("OccurredOn")
                         .HasColumnType("datetime2");
@@ -104,7 +111,199 @@ namespace TreeOfAKind.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OutboxMessages","app");
+                    b.ToTable("OutboxMessages", "app");
+                });
+
+            modelBuilder.Entity("TreeOfAKind.Domain.Trees.Tree", b =>
+                {
+                    b.OwnsMany("TreeOfAKind.Domain.Trees.People.Person", "People", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Biography")
+                                .IsRequired()
+                                .HasMaxLength(10000)
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime?>("BirthDate")
+                                .HasColumnType("date");
+
+                            b1.Property<DateTime?>("DeathDate")
+                                .HasColumnType("date");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("nvarchar(255)");
+
+                            b1.Property<string>("Gender")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<Guid>("TreeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("TreeId");
+
+                            b1.ToTable("People", "trees");
+
+                            b1.WithOwner("Tree")
+                                .HasForeignKey("TreeId");
+
+                            b1.OwnsMany("TreeOfAKind.Domain.Trees.People.File", "Files", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("FileUri")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<string>("MimeType")
+                                        .IsRequired()
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<Guid>("OwnerId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("OwnerId");
+
+                                    b2.ToTable("PersonsFiles", "trees");
+
+                                    b2.WithOwner("Owner")
+                                        .HasForeignKey("OwnerId");
+
+                                    b2.Navigation("Owner");
+                                });
+
+                            b1.OwnsOne("TreeOfAKind.Domain.Trees.People.File", "MainPhoto", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("FileUri")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<string>("MimeType")
+                                        .IsRequired()
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasMaxLength(255)
+                                        .HasColumnType("nvarchar(255)");
+
+                                    b2.Property<Guid>("OwnerId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("OwnerId")
+                                        .IsUnique();
+
+                                    b2.ToTable("PersonsMainPhotos", "trees");
+
+                                    b2.WithOwner("Owner")
+                                        .HasForeignKey("OwnerId");
+
+                                    b2.Navigation("Owner");
+                                });
+
+                            b1.Navigation("Files");
+
+                            b1.Navigation("MainPhoto");
+
+                            b1.Navigation("Tree");
+                        });
+
+                    b.OwnsOne("TreeOfAKind.Domain.Trees.TreeRelations", "TreeRelations", b1 =>
+                        {
+                            b1.Property<Guid>("TreeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("TreeId");
+
+                            b1.ToTable("Trees");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TreeId");
+
+                            b1.OwnsMany("TreeOfAKind.Domain.Trees.Relation", "Relations", b2 =>
+                                {
+                                    b2.Property<Guid>("From")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<Guid>("To")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("RelationType")
+                                        .HasMaxLength(128)
+                                        .HasColumnType("nvarchar(128)");
+
+                                    b2.Property<Guid>("TreeId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.HasKey("From", "To", "RelationType");
+
+                                    b2.HasIndex("TreeId");
+
+                                    b2.ToTable("TreeRelations", "trees");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("TreeId");
+                                });
+
+                            b1.Navigation("Relations");
+                        });
+
+                    b.OwnsMany("TreeOfAKind.Domain.Trees.TreeUserProfile", "TreeOwners", b1 =>
+                        {
+                            b1.Property<Guid>("TreeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("TreeId", "UserId");
+
+                            b1.ToTable("TreeUserProfile", "trees");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TreeId");
+                        });
+
+                    b.Navigation("People");
+
+                    b.Navigation("TreeOwners");
+
+                    b.Navigation("TreeRelations")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

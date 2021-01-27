@@ -2,7 +2,6 @@ name: .NET Core
 
 on:
   push:
-    branches: [ main ]
   pull_request:
   workflow_dispatch:
 
@@ -20,7 +19,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: '5.0.100'
     - name: Install dependencies
       run: dotnet restore
       working-directory: ./backend
@@ -28,5 +27,5 @@ jobs:
       run: dotnet build --configuration Release --no-restore
       working-directory: ./backend
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test ./Tests/TreeOfAKind.UnitTests/TreeOfAKind.UnitTests.csproj --no-restore --verbosity normal
       working-directory: ./backend

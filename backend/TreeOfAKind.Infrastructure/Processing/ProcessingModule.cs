@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using MediatR;
-using TreeOfAKind.Application.Configuration.Commands;
 using TreeOfAKind.Application.Configuration.DomainEvents;
 using TreeOfAKind.Application.Configuration.Processing;
 using TreeOfAKind.Infrastructure.Logging;
@@ -20,16 +19,12 @@ namespace TreeOfAKind.Infrastructure.Processing
                 .AsClosedTypesOf(typeof(IDomainEventNotification<>)).InstancePerDependency();
 
             builder.RegisterGenericDecorator(
-                typeof(DomainEventsDispatcherNotificationHandlerDecorator<>), 
+                typeof(DomainEventsDispatcherNotificationHandlerDecorator<>),
                 typeof(INotificationHandler<>));
 
             builder.RegisterGenericDecorator(
-                typeof(UnitOfWorkCommandHandlerDecorator<>),
-                typeof(ICommandHandler<>));
-
-            builder.RegisterGenericDecorator(
                 typeof(UnitOfWorkCommandHandlerWithResultDecorator<,>),
-                typeof(ICommandHandler<,>));
+                typeof(IRequestHandler<,>));
 
             builder.RegisterType<CommandsDispatcher>()
                 .As<ICommandsDispatcher>()
@@ -38,14 +33,6 @@ namespace TreeOfAKind.Infrastructure.Processing
             builder.RegisterType<CommandsScheduler>()
                 .As<ICommandsScheduler>()
                 .InstancePerLifetimeScope();
-
-            builder.RegisterGenericDecorator(
-                typeof(LoggingCommandHandlerDecorator<>),
-                typeof(ICommandHandler<>));
-
-            builder.RegisterGenericDecorator(
-                typeof(LoggingCommandHandlerWithResultDecorator<,>),
-                typeof(ICommandHandler<,>));
         }
     }
 }

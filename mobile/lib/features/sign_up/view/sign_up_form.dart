@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:tree_of_a_kind/features/common/loading_indicator.dart';
 import 'package:tree_of_a_kind/features/sign_up/sign_up.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -43,7 +44,7 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('signUpForm_emailInput_textField'),
-          onChanged: (email) => context.bloc<SignUpCubit>().emailChanged(email),
+          onChanged: (email) => context.read<SignUpCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'email',
@@ -65,7 +66,7 @@ class _PasswordInput extends StatelessWidget {
         return TextField(
           key: const Key('signUpForm_passwordInput_textField'),
           onChanged: (password) =>
-              context.bloc<SignUpCubit>().passwordChanged(password),
+              context.read<SignUpCubit>().passwordChanged(password),
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'password',
@@ -89,7 +90,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
         return TextField(
           key: const Key('signUpForm_confirmedPasswordInput_textField'),
           onChanged: (confirmPassword) => context
-              .bloc<SignUpCubit>()
+              .read<SignUpCubit>()
               .confirmedPasswordChanged(confirmPassword),
           obscureText: true,
           decoration: InputDecoration(
@@ -112,7 +113,7 @@ class _SignUpButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
+            ? const LoadingIndicator()
             : RaisedButton(
                 key: const Key('signUpForm_continue_raisedButton'),
                 child: const Text('SIGN UP'),
@@ -121,7 +122,7 @@ class _SignUpButton extends StatelessWidget {
                 ),
                 color: Colors.orangeAccent,
                 onPressed: state.status.isValidated
-                    ? () => context.bloc<SignUpCubit>().signUpFormSubmitted()
+                    ? () => context.read<SignUpCubit>().signUpFormSubmitted()
                     : null,
               );
       },

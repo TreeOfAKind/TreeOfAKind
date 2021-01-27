@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3">
+    <div class="col mb-4" *ngFor="let tree of treesList let treeIndex = index" [attr.data-index]="treeIndex">
+      <a (click)="navigateToTree(tree)" class="link-unstyled clickable-link">
+        <div class="card">
+          <img class="card-img-top" [src]="tree.photoUri" alt="Card image cap" *ngIf="tree.photoUri">
+          <img class="card-img-top" src="../../../assets/nature-24px.svg" alt="Card image cap" *ngIf="!tree.photoUri">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ tree.treeName }}</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col mb-4">
+      <a class="link-unstyled">
+        <div class="card">
+          <div class="card-body forms">
+            <app-tree-create (submitted)="onModelChange()"></app-tree-create>
+            <div class="d-flex justify-content-around my-5">
+              <a class="btn btn-primary" routerLink="import">Import<br>from file</a>
+              <a class="btn btn-primary" routerLink="tree-merge">Merge<br>trees</a>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
