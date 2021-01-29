@@ -43,9 +43,9 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
                 .SelectMany(t => t.TreeOwners, (t, profile) => new {tree = t, profileId = profile.UserId})
                 .Join(_treesContext.Users, arg => arg.profileId, profile => profile.Id,
                     (arg, userProfile) => new {arg.tree, userProfile})
-                .FirstOrDefaultAsync(cancellationToken);
+                .ToListAsync(cancellationToken);
 
-            var tree = trees?.tree;
+            var tree = trees.FirstOrDefault()?.tree;
 
             return tree is null ? null : new TreeDto(tree, trees.Select(t => t.userProfile));
         }
