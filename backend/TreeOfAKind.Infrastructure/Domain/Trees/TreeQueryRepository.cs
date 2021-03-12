@@ -38,6 +38,7 @@ namespace TreeOfAKind.Infrastructure.Domain.Trees
         public async Task<TreeDto> GetTree(TreeId treeId, CancellationToken cancellationToken = default)
         {
             var trees = await _treesContext.Trees
+                .AsSplitQuery()
                 .Where(t => t.Id == treeId)
                 .SelectMany(t => t.TreeOwners, (t, profile) => new {tree = t, profileId = profile.UserId})
                 .Join(_treesContext.Users, arg => arg.profileId, profile => profile.Id,
