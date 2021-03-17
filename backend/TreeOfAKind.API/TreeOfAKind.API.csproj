@@ -35,7 +35,7 @@
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.1" />
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="FluentValidation" Version="9.3.0" />
-    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.1.1" />
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.2.3" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MicroElements.Swashbuckle.NodaTime" Version="4.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.16.0" />
