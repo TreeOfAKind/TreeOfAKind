@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.78" />
-    <PackageReference Include="FluentValidation" Version="9.3.0" />
+    <PackageReference Include="FluentValidation" Version="10.0.2" />
     <PackageReference Include="Gedcomx.Model" Version="1.0.6144.20322">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
