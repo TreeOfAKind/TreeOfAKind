@@ -22,7 +22,7 @@
     <PackageReference Include="Gedcomx.Model" Version="1.0.6144.20322">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NodaTime" Version="3.0.4" />
   </ItemGroup>
 
