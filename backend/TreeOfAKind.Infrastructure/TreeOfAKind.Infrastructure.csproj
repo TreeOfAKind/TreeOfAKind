@@ -24,7 +24,7 @@
     <PackageReference Include="Dapper" Version="2.0.78" />
     <PackageReference Include="FirebaseAdmin" Version="2.0.0" />
     <PackageReference Include="MediaTypeMap.Core" Version="2.3.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.8" />
